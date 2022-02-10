@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 using Photon.Pun;
 using Photon.Realtime;
@@ -13,10 +15,17 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     [SerializeField]
     GameObject searchingPanel;
 
-    private void Start()
+    [SerializeField]
+    GameObject hostingBtn;
+
+    [SerializeField]
+    InputField inputField;
+
+    private void Awake()
     {
         searchingPanel.SetActive(false);
         findMatchBtn.SetActive(false);
+        hostingBtn.SetActive(false);
 
         PhotonNetwork.ConnectUsingSettings();
     }
@@ -27,41 +36,58 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         PhotonNetwork.AutomaticallySyncScene = true;
 
         findMatchBtn.SetActive(true);
+        hostingBtn.SetActive(true);
+    }
+
+    public override void OnJoinRoomFailed(short returnCode, string message)
+    {
+        Debug.Log("Could not find Room: "+inputField.text);
+        //Debug.Log("Trying to join a random room instead");
+        //PhotonNetwork.JoinRandomRoom();
+
+        StopSearch();
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
-        Debug.Log("Could not find a Room - Creating a Room");
-        MakeRoom();
+        Debug.Log("Could not find Room");
+
+        StopSearch();
     }
 
-    void MakeRoom()
+    public void MakeRoom()
     {
-        int randomRoomint = Random.Range(0, 5000);
-        string randomRoomName = "RoomName_" + randomRoomint;
+        string roomName = inputField.text;
+
+        if (roomName.Length < 2)
+        { 
+            roomName = Random.Range(0, 9).ToString() + Random.Range(0, 9).ToString() + Random.Range(0, 9).ToString() + Random.Range(0, 9).ToString();
+        }
 
         RoomOptions roomOptions = new RoomOptions() { IsVisible = true, IsOpen = true, MaxPlayers = 2 };
 
-        PhotonNetwork.CreateRoom(randomRoomName, roomOptions);
-        Debug.Log("Created room: " + randomRoomName + ". Wating for another player.");
+        PhotonNetwork.CreateRoom(roomName, roomOptions);
+        Debug.Log("Created room: " + roomName + ". Wating for another player.");
+        //SceneManager.LoadScene(2);
     }
 
-    public override void OnPlayerEnteredRoom(Player newPlayer)
+    public override void OnCreatedRoom()
     {
-        if (PhotonNetwork.CurrentRoom.PlayerCount == 2 && PhotonNetwork.IsMasterClient)
-        {
-            Debug.Log(PhotonNetwork.CurrentRoom.PlayerCount + "/2 Starting Game");
-            PhotonNetwork.LoadLevel(1);
-        }
+        PlayerInfo.ID = 1;
+        SceneManager.LoadScene(2);
     }
 
     public void FindMatch()
     {
         searchingPanel.SetActive(true);
         findMatchBtn.SetActive(false);
+        hostingBtn.SetActive(false);
 
         //Try to join a room
-        PhotonNetwork.JoinRandomRoom();
+        PhotonNetwork.JoinRoom(inputField.text);
+
+        PlayerInfo.ID = PhotonNetwork.PlayerList.Length + 2;
+
         Debug.Log("Searching for a Game");
     }
 
@@ -69,8 +95,9 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         searchingPanel.SetActive(false);
         findMatchBtn.SetActive(true);
+        hostingBtn.SetActive(true);
 
-        PhotonNetwork.LeaveRoom();
+        if (PhotonNetwork.InRoom) PhotonNetwork.LeaveRoom();
         Debug.Log("Stopped Connecting");
     }
 }

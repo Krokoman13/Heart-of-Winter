@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/SampleScene.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1
-    path: Assets/Scenes/MainLevel.unity
+    path: Assets/Scenes/Text messenger.unity
     guid: 2de1384d557d1f448826ae067107d215
+  - enabled: 1
+    path: Assets/Scenes/Hero Selection/HeroSelection.unity
+    guid: 6ca38a461a25ff34ca116b9152c5d455
   m_configObjects: {}
