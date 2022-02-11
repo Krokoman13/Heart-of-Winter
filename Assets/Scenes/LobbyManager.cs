@@ -64,11 +64,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             roomName = Random.Range(0, 9).ToString() + Random.Range(0, 9).ToString() + Random.Range(0, 9).ToString() + Random.Range(0, 9).ToString();
         }
 
-        RoomOptions roomOptions = new RoomOptions() { IsVisible = true, IsOpen = true, MaxPlayers = 2 };
+        RoomOptions roomOptions = new RoomOptions() { IsVisible = true, IsOpen = true, MaxPlayers = 3 };
 
         PhotonNetwork.CreateRoom(roomName, roomOptions);
-        Debug.Log("Created room: " + roomName + ". Wating for another player.");
-        //SceneManager.LoadScene(2);
+        Debug.Log("Created room: " + roomName + ". Waiting for another player.");
     }
 
     public override void OnCreatedRoom()

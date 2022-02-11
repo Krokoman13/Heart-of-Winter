@@ -23,6 +23,8 @@ namespace HeroSelection
 
         private void Start()
         {
+            continueButton.gameObject.SetActive(false);
+
             for (int i = 0; i < characterButtonsParent.transform.childCount; i++)
             {
                 Transform child = characterButtonsParent.transform.GetChild(i);
@@ -70,6 +72,8 @@ namespace HeroSelection
                 {
                     EnableButton(selectedIt);
                 }
+
+                PlayerInfo.character = button.name;
 
                 selectedIt = buttonIt;
             }
@@ -119,7 +123,7 @@ namespace HeroSelection
 
         private void activateContinueButton()
         {
-            continueButton.gameObject.SetActive(false);
+            continueButton.gameObject.SetActive(true);
             continueButton.onClick.AddListener(() => SceneManager.LoadScene(1));
         }
     }
