@@ -28,6 +28,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         hostingBtn.SetActive(false);
 
         PhotonNetwork.ConnectUsingSettings();
+        DontDestroyOnLoad(gameObject);
     }
 
     public override void OnConnectedToMaster()
@@ -68,6 +69,13 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
         PhotonNetwork.CreateRoom(roomName, roomOptions);
         Debug.Log("Created room: " + roomName + ". Waiting for another player.");
+    }
+
+    public override void OnJoinedRoom()
+    {
+        PlayerInfo.ID = PhotonNetwork.PlayerList.Length;
+        Debug.Log("Player: " + PlayerInfo.ID);
+        Destroy(gameObject);
     }
 
     public override void OnCreatedRoom()
