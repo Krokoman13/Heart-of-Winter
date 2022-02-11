@@ -4,7 +4,9 @@ using UnityEngine;
 
 using Photon.Pun;
 
-namespace HeroSelection
+using HeartOfWinter.PlayerInformation;
+
+namespace HeartOfWinter.Heroselection
 {
     public class PlayerMngr : MonoBehaviourPun
     {

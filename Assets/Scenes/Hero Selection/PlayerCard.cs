@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace HeroSelection
+namespace HeartOfWinter.Heroselection
 {
     public class PlayerCard : MonoBehaviour
     {

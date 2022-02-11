@@ -307,7 +307,7 @@ GameObject:
   - component: {fileID: 453629445}
   - component: {fileID: 453629446}
   m_Layer: 0
-  m_Name: Sorccerer
+  m_Name: Sorceress
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -392,6 +392,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 50
   initiative: 0
+  heroName: 0
 --- !u!1 &455818381
 GameObject:
   m_ObjectHideFlags: 0
@@ -646,6 +647,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 874988793}
+  - component: {fileID: 874988794}
   - component: {fileID: 874988792}
   m_Layer: 0
   m_Name: HeroSpawner
@@ -666,6 +668,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 159673f9672c02f4688a4c0f42aa3850, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playfield: {fileID: 1739332036}
+  heroParent: {fileID: 1341512054}
 --- !u!4 &874988793
 Transform:
   m_ObjectHideFlags: 0
@@ -680,6 +684,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &874988794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 874988791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 1
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &913991610
 GameObject:
   m_ObjectHideFlags: 0

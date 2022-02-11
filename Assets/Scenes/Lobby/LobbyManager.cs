@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 using Photon.Pun;
 using Photon.Realtime;
 
+using HeartOfWinter.PlayerInformation;
+
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
     [SerializeField]

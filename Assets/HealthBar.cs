@@ -19,7 +19,11 @@ public class HealthBar : MonoBehaviour
     {
         value = Mathf.Clamp(pValue, 0.0f, 1.0f);
         bar.transform.localScale = new Vector3 (value, 1, 1);
-        bar.transform.localPosition = new Vector3((spriteWidth/2) * (value - 1), 0, 0);
+
+        float offSetX = (spriteWidth / 2) * (value - 1);
+
+        Debug.Log(offSetX);
+        bar.transform.localPosition = new Vector3(offSetX, 0, 0);
     }
 /*
     private void OnValidate()

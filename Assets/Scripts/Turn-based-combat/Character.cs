@@ -10,7 +10,7 @@ namespace HeartOfWinter.Characters
     {
         private HealthBar _healthBar;
         private float _health;
-        public float maxHealth;
+        public float maxHealth = 1.0f;
         public float health
         {
             get { return _health; }
