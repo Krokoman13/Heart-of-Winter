@@ -8,9 +8,9 @@ namespace HeartOfWinter.Characters
 {
     public class Character : MonoBehaviour
     {
+        private HealthBar _healthBar;
         private float _health;
         public float maxHealth;
-
         public float health
         {
             get { return _health; }
@@ -18,16 +18,17 @@ namespace HeartOfWinter.Characters
             {
                 if (value < 0)
                 {
-                    _health = 0;
+                    health = 0;
                     return;
                 }
 
-                if (value > maxHealth)
+                else if (value > maxHealth)
                 {
-                    _health = maxHealth;
+                    health = maxHealth;
                     return;
                 }
 
+                _healthBar.setValue(value/maxHealth);
                 _health = value;
             }
         }
@@ -40,6 +41,14 @@ namespace HeartOfWinter.Characters
         public int initiative;
 
         Playfield playfield;
+
+        virtual protected void Awake()
+        {
+            GameObject healthbarGameobject = Instantiate<GameObject>(Resources.Load<GameObject>("Healthbar"), transform);
+            _healthBar = healthbarGameobject.GetComponent<HealthBar>();
+
+            health = maxHealth;
+        }
 
         public void SetPlayField(Playfield pPlayfield)
         {

@@ -2,17 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MovesSelector : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+using HeartOfWinter.Moves;
 
-    // Update is called once per frame
-    void Update()
+namespace HeartOfWinter
+{
+    public class MovesSelector : MonoBehaviour
     {
-        
+        public bool IsDone()
+        {
+            return false;
+        }
     }
 }
