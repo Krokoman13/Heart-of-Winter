@@ -30,12 +30,13 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         hostingBtn.SetActive(false);
 
         PhotonNetwork.ConnectUsingSettings();
+        //DontDestroyOnLoad(gameObject);
     }
 
     public override void OnConnectedToMaster()
     {
         Debug.Log("Established conntection to Photon: " + PhotonNetwork.CloudRegion + "Server");
-        PhotonNetwork.AutomaticallySyncScene = true;
+        //PhotonNetwork.AutomaticallySyncScene = true;
 
         findMatchBtn.SetActive(true);
         hostingBtn.SetActive(true);
@@ -66,17 +67,27 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             roomName = Random.Range(0, 9).ToString() + Random.Range(0, 9).ToString() + Random.Range(0, 9).ToString() + Random.Range(0, 9).ToString();
         }
 
-        RoomOptions roomOptions = new RoomOptions() { IsVisible = true, IsOpen = true, MaxPlayers = 2 };
+        RoomOptions roomOptions = new RoomOptions() { IsVisible = true, IsOpen = true, MaxPlayers = 3 };
 
         PhotonNetwork.CreateRoom(roomName, roomOptions);
-        Debug.Log("Created room: " + roomName + ". Wating for another player.");
-        //SceneManager.LoadScene(2);
+        Debug.Log("Created room: " + roomName + ". Waiting for another player.");
+    }
+
+    public override void OnJoinedRoom()
+    {
+        PlayerInfo.ID = PhotonNetwork.PlayerList.Length;
+        /*        Debug.Log("Player: " + PlayerInfo.ID);
+                Destroy(gameObject);*/
+
+        PhotonNetwork.AutomaticallySyncScene = true;
+
+        SceneManager.LoadScene(1);
     }
 
     public override void OnCreatedRoom()
     {
         PlayerInfo.ID = 1;
-        SceneManager.LoadScene(2);
+        SceneManager.LoadScene(1);
     }
 
     public void FindMatch()
@@ -85,12 +96,17 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         findMatchBtn.SetActive(false);
         hostingBtn.SetActive(false);
 
+        Debug.Log("Searching for a Game");
+
+        if (inputField.text == "")
+        {
+            PhotonNetwork.JoinRandomRoom();
+            return;
+        }
+
+
         //Try to join a room
         PhotonNetwork.JoinRoom(inputField.text);
-
-        PlayerInfo.ID = PhotonNetwork.PlayerList.Length + 2;
-
-        Debug.Log("Searching for a Game");
     }
 
     public void StopSearch()

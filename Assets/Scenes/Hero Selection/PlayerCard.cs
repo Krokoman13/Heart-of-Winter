@@ -45,6 +45,11 @@ namespace HeartOfWinter.Heroselection
             characterText.text = character;
         }
 
+        public bool HasCharacter()
+        {
+            return characterText.text != "..";
+        }
+
         public bool IsPlayer(string player)
         {
             return playerText.text == player;

@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 using Photon.Pun;
 
 using HeartOfWinter.PlayerInformation;
+using HeartOfWinter.Characters.HeroCharacters;
 
 namespace HeartOfWinter.Heroselection
 { 
@@ -20,8 +22,12 @@ namespace HeartOfWinter.Heroselection
 
         int selectedIt = -1;
 
+        [SerializeField] Button continueButton;
+
         private void Start()
         {
+            continueButton.gameObject.SetActive(false);
+
             for (int i = 0; i < characterButtonsParent.transform.childCount; i++)
             {
                 Transform child = characterButtonsParent.transform.GetChild(i);
@@ -51,6 +57,7 @@ namespace HeartOfWinter.Heroselection
             if (PhotonNetwork.IsMasterClient)
             {
                 photonView.RPC(nameof(heroSelected), RpcTarget.AllBuffered, playerID, buttonIt);
+                if (playerMngr.AllPlayersHaveSelected()) activateContinueButton();
                 return;
             }
 
@@ -68,6 +75,8 @@ namespace HeartOfWinter.Heroselection
                 {
                     EnableButton(selectedIt);
                 }
+
+                PlayerInfo.character = (Hero)buttonIt;
 
                 selectedIt = buttonIt;
             }
@@ -113,6 +122,12 @@ namespace HeartOfWinter.Heroselection
 
             Image image = button.gameObject.GetComponent<Image>();
             image.color = new Color(123, 123, 123);
+        }
+
+        private void activateContinueButton()
+        {
+            continueButton.gameObject.SetActive(true);
+            continueButton.onClick.AddListener(() => SceneManager.LoadScene(2));
         }
     }
 }

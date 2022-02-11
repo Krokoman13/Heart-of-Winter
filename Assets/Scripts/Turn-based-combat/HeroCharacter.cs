@@ -8,7 +8,7 @@ namespace HeartOfWinter.Characters.HeroCharacters
 
     public class HeroCharacter : Character
     {
-        bool isMine = true; // < Need to change this
+        bool isMine = false;
 
         MovesSelector movesSelector;
 
@@ -24,9 +24,8 @@ namespace HeartOfWinter.Characters.HeroCharacters
             isMine = true;
         }
 
-        protected override void Awake()
+        protected void Start()
         {
-            base.Awake();
             if (isMine) gameObject.AddComponent<BoxCollider2D>();
         }
     }
