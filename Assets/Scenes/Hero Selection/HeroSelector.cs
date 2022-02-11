@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 using Photon.Pun;
 
@@ -17,6 +18,8 @@ namespace HeroSelection
         List<Button> buttons = new List<Button>();
 
         int selectedIt = -1;
+
+        [SerializeField] Button continueButton;
 
         private void Start()
         {
@@ -49,6 +52,7 @@ namespace HeroSelection
             if (PhotonNetwork.IsMasterClient)
             {
                 photonView.RPC(nameof(heroSelected), RpcTarget.AllBuffered, playerID, buttonIt);
+                if (playerMngr.AllPlayersHaveSelected()) activateContinueButton();
                 return;
             }
 
@@ -111,6 +115,12 @@ namespace HeroSelection
 
             Image image = button.gameObject.GetComponent<Image>();
             image.color = new Color(123, 123, 123);
+        }
+
+        private void activateContinueButton()
+        {
+            continueButton.gameObject.SetActive(false);
+            continueButton.onClick.AddListener(() => SceneManager.LoadScene(1));
         }
     }
 }

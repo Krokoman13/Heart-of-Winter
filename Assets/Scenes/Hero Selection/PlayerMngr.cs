@@ -57,6 +57,12 @@ namespace HeroSelection
         {
             foreach (PlayerCard playerCard in playerCards)
             {
+                if (playerCard.name == player)
+                {
+                    playerCard.SetPlayer(player);
+                    return;
+                }
+
                 if (playerCard.gameObject.activeSelf) continue;
 
                 playerCard.SetPlayer(player);
@@ -97,6 +103,19 @@ namespace HeroSelection
             if (playerID > 0) playerID--;
 
             playerCards[playerID].SetCharacter(character);
+        }
+
+        public bool AllPlayersHaveSelected()
+        {
+            foreach (PlayerCard playerCard in playerCards)
+            {
+                if (!playerCard.HasCharacter())
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }
