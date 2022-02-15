@@ -25,6 +25,8 @@ namespace HeartOfWinter.Moves
         {
             get { return _amountOfTargets; }
         }
+        public bool targetsNPCs = false;
+        public bool targetsPCs = false;
 
 /*        public Move(Character pCaster, float pPower, Texture2D pIcon)
         {
@@ -38,7 +40,6 @@ namespace HeartOfWinter.Moves
             caster = pCaster;
             power = pPower;
             iconName = pIconName;
-
         }
 
         public void SetTargets(IEnumerable<Character> pTargets)

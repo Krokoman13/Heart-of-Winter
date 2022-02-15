@@ -25,10 +25,5 @@ namespace HeartOfWinter.Characters.HeroCharacters
         {
             isMine = true;
         }
-
-        protected void Start()
-        {
-            if (isMine) gameObject.AddComponent<BoxCollider2D>();
-        }
     }
 }

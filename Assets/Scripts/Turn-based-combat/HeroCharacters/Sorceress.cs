@@ -15,7 +15,7 @@ namespace HeartOfWinter.Characters.HeroCharacters
             {   
                 new StandardAttackMove(this, 1, "PaperSwordAttack"), 
                 new StandardAttackMove(this, 2, "RockSwordAttack", 2), 
-                new StandardAttackMove(this, 5, "ScissorsSwordAttack") 
+                new StandardAttackMove(this, 5, "ScissorsSwordAttack", 3) 
             };
         }
     }
