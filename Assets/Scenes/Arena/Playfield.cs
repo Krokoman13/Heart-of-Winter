@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using HeartOfWinter.Characters;
+using HeartOfWinter.Characters.HeroCharacters;
 
 namespace HeartOfWinter.Arena
 {
@@ -18,7 +19,11 @@ namespace HeartOfWinter.Arena
         List<Transform> NPCPos;
 
         List<Character> NPCs;
-        List<Character> PCs;
+        List<HeroCharacter> PCs;
+
+        HeroCharacter myCharacter;
+        Queue<Character> targetsForMyCharacter;
+        [SerializeField] MovesDisplayer myCharacterMoves;
 
         void Awake()
         {
@@ -35,7 +40,7 @@ namespace HeartOfWinter.Arena
             }
 
             NPCs = new List<Character>();
-            PCs = new List<Character>();
+            PCs = new List<HeroCharacter>();
         }
 
         bool needToArrange = false;
@@ -52,11 +57,17 @@ namespace HeartOfWinter.Arena
             needToArrange = true;
         }
 
-        public void AddPC(Character character)
+        public void AddPC(HeroCharacter character)
         {
             PCs.Add(character);
             character.SetPlayField(this);
             needToArrange = true;
+
+            if (character.heroName == PlayerInformation.PlayerInfo.character)
+            {
+                myCharacter = character;
+                myCharacterMoves.SetCharacter(myCharacter);
+            }
         }
 
         void arrange()

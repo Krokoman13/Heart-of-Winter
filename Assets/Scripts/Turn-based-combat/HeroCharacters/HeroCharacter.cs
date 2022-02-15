@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using HeartOfWinter.Moves;
+
 namespace HeartOfWinter.Characters.HeroCharacters
 {
     public enum Hero { Sorceress = 0, Priest = 1, ShadowWeaver = 2, Other = 3, NULL = default };

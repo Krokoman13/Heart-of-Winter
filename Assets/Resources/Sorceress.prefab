@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6861016904350469844}
   - component: {fileID: 6861016904350469845}
-  - component: {fileID: 6861016904350469846}
+  - component: {fileID: 7984364814962506036}
   m_Layer: 0
   m_Name: Sorceress
   m_TagString: Untagged
@@ -83,7 +83,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &6861016904350469846
+--- !u!114 &7984364814962506036
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -92,9 +92,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 6861016904350469843}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 12c1542db2753284490448d4e82d5049, type: 3}
+  m_Script: {fileID: 11500000, guid: 5990c21215e733848b9066bd45c2be52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 50
+  maxHealth: 1
   initiative: 0
   heroName: 0

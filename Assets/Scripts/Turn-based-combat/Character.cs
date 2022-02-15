@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using HeartOfWinter.Arena;
+using HeartOfWinter.Moves;
 
 namespace HeartOfWinter.Characters
 {
@@ -14,7 +15,7 @@ namespace HeartOfWinter.Characters
         public float health
         {
             get { return _health; }
-            set 
+            protected set 
             {
                 if (value < 0)
                 {
@@ -42,12 +43,22 @@ namespace HeartOfWinter.Characters
 
         Playfield playfield;
 
+        public List<Move> knownMoves;
+        public Move currentMove = null;
+
+
         virtual protected void Awake()
         {
             GameObject healthbarGameobject = Instantiate<GameObject>(Resources.Load<GameObject>("Healthbar"), transform);
             _healthBar = healthbarGameobject.GetComponent<HealthBar>();
 
             health = maxHealth;
+        }
+
+        public float RemoveHealth(float amount)
+        {
+            health = health - amount;
+            return amount;
         }
 
         public void SetPlayField(Playfield pPlayfield)
