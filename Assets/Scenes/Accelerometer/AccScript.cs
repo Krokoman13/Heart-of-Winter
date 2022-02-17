@@ -11,18 +11,18 @@ public class AccScript : MonoBehaviour
 
     public float timeRemaining = 10;
 
-    public bool timeRunning = true;
+    public bool timeRunning = false;
 
     public bool shakeInTime = false;
 
+    public float timestamp = 0;
 
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(Input.acceleration);
         Vector3 acc = Input.acceleration;
 
-
+        Debug.Log(timeRunning);
 
         if (timeRunning == true)
         {
@@ -49,5 +49,21 @@ public class AccScript : MonoBehaviour
                 pnl.text = "" + Mathf.FloorToInt(timeRemaining);
             }
         }
+        else
+        {
+            Debug.Log("LOL");
+        }
+
+        if (shakeInTime == true)
+        {
+            Debug.Log("Send " + timestamp + " to host");
+        }
+    }
+
+    public void ClickShakeButton()
+    {
+        timeRunning = true;
+        timeRemaining = 10;
+        shakeInTime = false;
     }
 }
