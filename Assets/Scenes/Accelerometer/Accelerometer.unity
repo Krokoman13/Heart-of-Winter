@@ -469,8 +469,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   btn: {fileID: 860193338}
   pnl: {fileID: 1921961808}
-  timeRemaining: 10
-  timeRunning: 1
+  timeRemaining: 0
+  timeRunning: 0
   shakeInTime: 0
   timestamp: 0
 --- !u!114 &835551534
