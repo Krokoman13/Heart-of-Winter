@@ -12,18 +12,16 @@ namespace HeartOfWinter.Characters.HeroCharacters
     {
         bool isMine = false;
 
-        MovesSelector movesSelector;
-
         public Hero heroName;
-
-        public void SetMovesSelector(MovesSelector pMovesSelector)
-        {
-            movesSelector = pMovesSelector;
-        }
 
         public void setMine()
         {
             isMine = true;
+        }
+
+        protected override Transform findParent()
+        {
+            return GameObject.FindGameObjectWithTag("HeroParent").transform;
         }
     }
 }

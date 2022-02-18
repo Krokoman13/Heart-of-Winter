@@ -12,7 +12,6 @@ namespace HeartOfWinter
 {
     public class HeroSpawner : MonoBehaviourPun
     {
-        [SerializeField]
         Playfield playfield;
 
         [SerializeField]
@@ -20,28 +19,10 @@ namespace HeartOfWinter
 
         void Start()
         {
-            Spawn(PlayerInfo.character.ToString());
+            playfield = GetComponent<Playfield>();
+            spawn(PlayerInfo.character.ToString());
         }
 
-        [PunRPC]
-        void Spawn(string heroPrefab)
-        {
-            if (!PhotonNetwork.IsConnected)
-            {
-                spawn(heroPrefab);
-                return;
-            }
-
-            if (PhotonNetwork.IsMasterClient)
-            {
-                photonView.RPC(nameof(spawn), RpcTarget.AllBuffered, heroPrefab);
-                return;
-            }
-
-            photonView.RPC(nameof(Spawn), RpcTarget.MasterClient, heroPrefab);
-        }
-
-        [PunRPC]
         void spawn(string heroPrefabName)
         {
             GameObject copyOfHero;
@@ -52,16 +33,13 @@ namespace HeartOfWinter
             }
             else
             {
-                copyOfHero = Instantiate<GameObject>(Resources.Load<GameObject>(heroPrefabName + " Variant"), heroParent);
+                //copyOfHero = Instantiate<GameObject>(Resources.Load<GameObject>(heroPrefabName + " Variant"), heroParent);
+                copyOfHero = PhotonNetwork.Instantiate(heroPrefabName + " Variant", Vector3.zero, Quaternion.Euler(Vector3.zero));
+                //copyOfHero.transform.SetParent(heroParent);
             }
 
-            HeroCharacter hero = copyOfHero.GetComponent<HeroCharacter>();
-            playfield.AddPC(hero);
-
-            if (hero.heroName == PlayerInfo.character)
-            {
-                hero.setMine();
-            }
+            //HeroCharacter hero = copyOfHero.GetComponent<HeroCharacter>();
+            playfield.NeedsToArrange();
         }
     }
 }

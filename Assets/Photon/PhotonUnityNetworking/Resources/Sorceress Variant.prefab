@@ -9,7 +9,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6861016904350469843, guid: 7882b0c109ee8b249acb6faf05e5cf7c, type: 3}
       propertyPath: m_Name
-      value: Sorceress
+      value: Sorceress Variant
       objectReference: {fileID: 0}
     - target: {fileID: 6861016904350469844, guid: 7882b0c109ee8b249acb6faf05e5cf7c, type: 3}
       propertyPath: m_RootOrder

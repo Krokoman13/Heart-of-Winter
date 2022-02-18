@@ -10,11 +10,11 @@ using HeartOfWinter.Characters;
 using HeartOfWinter.Characters.HeroCharacters;
 using HeartOfWinter.Characters.MonsterCharacters;
 using HeartOfWinter.Moves;
-
+using System;
 
 namespace HeartOfWinter.Arena
 {
-    public class Playfield : MonoBehaviour
+    public class Playfield : MonoBehaviourPun
     {
         [SerializeField] GameObject playerPosParent;
 
@@ -23,12 +23,14 @@ namespace HeartOfWinter.Arena
         List<Transform> PCPos;
         List<Transform> NPCPos;
 
-        [SerializeField ]List<Character> _NPCs;
+        [SerializeField] Transform NPCParent;
+        List<Character> _NPCs;
         public List<Character> NPCs
         {
             get { return _NPCs; }
         }
 
+        [SerializeField] Transform PCParent;
         List<Character> _PCs;
         public List<Character> PCs
         {
@@ -39,13 +41,41 @@ namespace HeartOfWinter.Arena
         Queue<Character> targetsForMyCharacter;
         [SerializeField] MovesDisplayer myCharacterMoves;
         Move _myCurrentMove;
-        
-        bool needToArrange = false;
+
+        private bool needToArrange = false;
+
+        [PunRPC]
+        public void NeedsToArrange()
+        {
+            if (!PhotonNetwork.IsConnected)
+            {
+                needsToArrange();
+                return;
+            }
+
+            if (PhotonNetwork.IsMasterClient)
+            {
+                photonView.RPC(nameof(needsToArrange), RpcTarget.All);
+                return;
+            }
+
+            photonView.RPC(nameof(NeedsToArrange), RpcTarget.MasterClient);
+        }
+
+        [PunRPC]
+        private void needsToArrange()
+        {
+            needToArrange = true;
+        }
 
         [SerializeField] Button readyButton;
 
-        private enum states { spawnMonsters, selectMove, getMonsterMoves, resolveMoves, checkWinLoseState}
-        states state = states.selectMove;
+        private enum states { wait, spawnMonsters, selectMove, getMonsterMoves, resolveMoves, endRound}
+        states state = states.wait;
+
+        List<Character> sortedOnInitiative = null;
+
+        MonsterSpawner monsterSpawner;
 
         void Awake()
         {
@@ -61,14 +91,33 @@ namespace HeartOfWinter.Arena
                 PCPos.Add(transform);
             }
 
-            if (_NPCs == null) _NPCs = new List<Character>();
+            _NPCs = new List<Character>();
             _PCs = new List<Character>();
 
             readyButton.gameObject.SetActive(false);
-            readyButton.onClick.AddListener(() => state = states.getMonsterMoves);
+            readyButton.onClick.AddListener(() => SwitchState(states.getMonsterMoves));
+            readyButton.onClick.AddListener(() => stopOutlining(_NPCs));
+            readyButton.onClick.AddListener(() => stopOutlining(_PCs));
+            readyButton.onClick.AddListener(() => readyButton.gameObject.SetActive(false));
+            readyButton.onClick.AddListener(() => myCharacter.SetMove(_myCurrentMove)); 
+            readyButton.onClick.AddListener(() => myCharacter.AddTargetsToCurrentMove(targetsForMyCharacter));
+            readyButton.onClick.AddListener(() => targetsForMyCharacter.Clear());
+
+            monsterSpawner = GetComponent<MonsterSpawner>();
         }
 
-        
+        private void Start()
+        {
+            SwitchState(states.selectMove);
+
+            if (PhotonNetwork.IsMasterClient || !PhotonNetwork.IsConnected)
+            {
+                state = states.spawnMonsters;
+                return;
+            }
+
+            Destroy(monsterSpawner);
+        }
 
         private void Update()
         {
@@ -76,14 +125,22 @@ namespace HeartOfWinter.Arena
 
             switch (state)
             {
+                case states.wait:
+                    return;
+
                 case states.spawnMonsters:
+                    monsterSpawner.SpawnNextWave();
+                    SwitchState(states.selectMove);
                     return;
 
                 case states.selectMove:
-                    if (myCharacter.currentMove != _myCurrentMove)
+                    if (myCharacter.IsStunned())
                     {
-                        SelectNewMove();
+                        SwitchState(states.getMonsterMoves);
+                        return;
                     }
+
+                    readyButton.gameObject.SetActive(false);
 
                     if (_myCurrentMove == null) return;
 
@@ -104,34 +161,118 @@ namespace HeartOfWinter.Arena
                         readyButton.gameObject.SetActive(true);
                         return;
                     }
-
                     return;
 
-                case states.getMonsterMoves:
+                case states.getMonsterMoves: 
+                    state = state = states.resolveMoves;
+
                     if (PhotonNetwork.IsConnected && !PhotonNetwork.IsMasterClient)
                     {
-                        state = states.resolveMoves;
+                        return;
                     }
 
                     foreach (MonsterCharacter monster in _NPCs)
                     {
                         monster.SelectRandomMove();
                     }
-
                     return;
 
                 case states.resolveMoves:
+                    if (PhotonNetwork.IsConnected && !PhotonNetwork.IsMasterClient)
+                    {
+                        switchState(states.selectMove);
+                        return;
+                    }
+
+                    if (sortedOnInitiative == null)
+                    {
+                        List<Character> allCharacters = new List<Character>(PCs);
+                        allCharacters.AddRange(NPCs);
+                        sortedOnInitiative = sortOnInitiative(allCharacters);
+                        return;
+                    }
+
+                    Character currentChar = sortedOnInitiative.Last();
+                    Move currentMove = currentChar.GetMove();
+
+                    if (currentMove != null)
+                    {
+                        currentChar.MoveStep();
+
+                        if (!currentMove.ready) return;
+                        Debug.Log(currentMove.iconName);
+
+                        currentMove.Execute();
+                    }
+
+                    sortedOnInitiative.RemoveAt(sortedOnInitiative.Count -1);
+
+                    if (sortedOnInitiative.Count > 0) return;
+
+                    sortedOnInitiative = null;
+                    switchState(states.endRound);
                     return;
 
-                case states.checkWinLoseState:
+                case states.endRound:
+                    foreach (Character character in PCs)
+                    {
+                        character.HandleCooldown();
+                    }
+
+                    switchState(states.selectMove);
                     return;
             }
-
         }
 
-        private void SelectNewMove()
+        int amountPlayersDone = 0;
+
+        private void SwitchState(states newState)
         {
-            _myCurrentMove = myCharacter.currentMove;
+            if (PhotonNetwork.IsConnected)
+            {
+                state = states.wait;
+
+                if (!PhotonNetwork.IsMasterClient)
+                {
+                    photonView.RPC(nameof(switchState), RpcTarget.MasterClient, newState);
+                    return;
+                }
+
+                amountPlayersDone++;
+
+                if (amountPlayersDone >= PCs.Count)
+                {
+                    photonView.RPC(nameof(switchState), RpcTarget.All, newState);
+                    amountPlayersDone = 0;
+                    return;
+                }
+
+                return;
+            }
+
+            switchState(newState);
+            return;
+        }
+
+        [PunRPC]
+        private void switchState(states newState)
+        {
+            state = newState;
+        }
+
+        private List<Character> sortOnInitiative(List<Character> allCharacters)
+        {
+            allCharacters.Sort((x, y) => x.initiative <= y.initiative ? -1 : 1);
+            return allCharacters;
+        }
+
+        public void SelectNewMove(Move newMove)
+        {
+            if (myCharacter.IsStunned()) return;
+            if (state != states.selectMove) return;
+            if (newMove.IsOnCooldown()) return;
+
+            _myCurrentMove = newMove;
 
             if (_myCurrentMove == null)
             {
@@ -156,8 +297,6 @@ namespace HeartOfWinter.Arena
                 if (_myCurrentMove.amountOfTargets >= _PCs.Count) selectAll(_PCs);
                 return;
             }
-
-            readyButton.gameObject.SetActive(false);
         }
 
         private void selectAll(List<Character> characters)
@@ -184,18 +323,21 @@ namespace HeartOfWinter.Arena
             }
         }
 
-        public void AddNPC(Character character)
+        private void addNPC(MonsterCharacter character)
         {
+            if (_NPCs.Contains(character)) return;
             _NPCs.Add(character);
             character.SetPlayField(this);
-            needToArrange = true;
         }
 
-        public void AddPC(HeroCharacter character)
+        private void addPC(HeroCharacter character)
         {
+            if (_PCs.Contains(character)) return;
+
             _PCs.Add(character);
             character.SetPlayField(this);
-            needToArrange = true;
+
+            if (myCharacter != null) return;
 
             if (character.heroName == PlayerInformation.PlayerInfo.character)
             {
@@ -206,18 +348,22 @@ namespace HeartOfWinter.Arena
 
         void arrange()
         {
-            for (int i = 0; i < _NPCs.Count; i++)
-            {
-                Character NPC = _NPCs[i];
+            int i = 0;
 
-                NPC.transform.position = NPCPos[i].transform.position;
+            foreach (Transform NPC in NPCParent)
+            {
+                addNPC(NPC.GetComponent<MonsterCharacter>());
+                NPC.position = NPCPos[i].position;
+                i++;
             }
 
-            for (int i = 0; i < _PCs.Count; i++)
-            {
-                Character PC = _PCs[i];
+            i = 0;
 
-                PC.transform.position = PCPos[i].transform.position;
+            foreach (Transform PC in PCParent)
+            {
+                addPC(PC.GetComponent<HeroCharacter>());
+                PC.position = PCPos[i].position;
+                i++;
             }
 
             needToArrange = false;
@@ -225,8 +371,6 @@ namespace HeartOfWinter.Arena
 
         bool PCsDone()
         {
-
-
             return true;
         }
 
@@ -259,7 +403,7 @@ namespace HeartOfWinter.Arena
             character.selected = true;
             targetsForMyCharacter.Enqueue(character);
 
-            if (myCharacter.currentMove.amountOfTargets < targetsForMyCharacter.Count)
+            if (_myCurrentMove.amountOfTargets < targetsForMyCharacter.Count)
             {
                 Character removed = targetsForMyCharacter.Dequeue();
                 removed.selected = false;

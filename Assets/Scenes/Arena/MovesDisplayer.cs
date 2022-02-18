@@ -12,6 +12,7 @@ namespace HeartOfWinter.Arena
     {        
         HeroCharacter myCharacter;
         [SerializeField] RectTransform ultimatePanel;
+        [SerializeField] Playfield playfield;
 
         public void SetCharacter(HeroCharacter character)
         {
@@ -54,7 +55,9 @@ namespace HeartOfWinter.Arena
             //uiButton.GetComponent<Image>().sprite.texture = move.icon;
             uiButton.transform.SetParent(parent, false);
 
-            uiButton.GetComponent<Button>().onClick.AddListener(() => myCharacter.currentMove = move);
+            uiButton.transform.GetChild(0).gameObject.SetActive(false);
+
+            uiButton.GetComponent<Button>().onClick.AddListener(() => playfield.SelectNewMove(move));
         }
     }
 }

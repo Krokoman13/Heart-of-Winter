@@ -50,6 +50,20 @@ MonoBehaviour:
   - RemovePlayer
   - spawn
   - Spawn
+  - ExecuteMove
+  - switchState
+  - addNPC
+  - moveStep
+  - MoveStep
+  - removeHealth
+  - RemoveHealth
+  - needsToArrange
+  - NeedsToArrange
+  - doEnable
+  - setMove
+  - SetMove
+  - setMoveIt
+  - SetMoveIt
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
