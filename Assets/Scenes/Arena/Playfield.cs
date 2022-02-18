@@ -276,15 +276,14 @@ namespace HeartOfWinter.Arena
 
             _myCurrentMove = newMove;
 
+            stopOutlining(_NPCs);
+            stopOutlining(_PCs);
+            targetsForMyCharacter = new Queue<Character>();
+
             if (_myCurrentMove == null)
             {
-                stopOutlining(_NPCs);
-                stopOutlining(_PCs);
-                targetsForMyCharacter.Clear();
                 return;
             }
-
-            targetsForMyCharacter = new Queue<Character>();
 
             if (_myCurrentMove.targetsNPCs)
             {

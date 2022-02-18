@@ -35,7 +35,8 @@ namespace HeartOfWinter.Moves
 
         protected void SetCooldown(int cooldownTime)
         {
-            _cooldownTimer = _cooldownSpend = cooldownTime;
+            _cooldownTimer = cooldownTime;
+            _cooldownSpend = cooldownTime + 1;
         }
 
         public bool IsOnCooldown()
