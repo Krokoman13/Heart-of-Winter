@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using HeartOfWinter.Moves;
+using HeartOfWinter.Moves.Sorcceress;
 
 namespace HeartOfWinter.Characters.HeroCharacters
 {
@@ -10,12 +11,15 @@ namespace HeartOfWinter.Characters.HeroCharacters
     {
         public Sorceress()
         {
+            maxHealth = 30;
+            initiative = 10;
             heroName = Hero.Sorceress;
-            knownMoves = new List<Move>() 
-            {   
-                new StandardAttackMove(this, 1, "PaperSwordAttack"), 
-                new StandardAttackMove(this, 2, "RockSwordAttack", 2), 
-                new StandardAttackMove(this, 5, "ScissorsSwordAttack") 
+
+            knownMoves = new List<Move>()
+            {
+                new IceLance(this, 7),
+                new ColdSnap(this, 3, 8),
+                new Blizzard(this, 5) 
             };
         }
     }

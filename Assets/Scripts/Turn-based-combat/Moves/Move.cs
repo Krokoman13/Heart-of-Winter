@@ -11,7 +11,7 @@ namespace HeartOfWinter.Moves
 {
     abstract public class Move
     {
-        Character caster;
+        protected Character caster;
         protected List<Character> targets;
 
         public string iconName;
@@ -25,20 +25,37 @@ namespace HeartOfWinter.Moves
         {
             get { return _amountOfTargets; }
         }
+        public bool targetsNPCs = false;
+        public bool targetsPCs = false;
 
-/*        public Move(Character pCaster, float pPower, Texture2D pIcon)
+        public bool ready = false;
+
+        protected int _cooldownTimer = 0;
+        private int _cooldownSpend = 1;
+
+        public bool IsOnCooldown()
         {
-            caster = pCaster;
-            power = pPower;
-            icon = pIcon;
-        }*/
+            if (_cooldownTimer < 1) return false;
+            return _cooldownSpend <= _cooldownTimer;
+        }
+
+        public void CooldownTimerTick()
+        {
+            _cooldownSpend++;
+        }
 
         public Move(Character pCaster, float pPower, string pIconName)
         {
             caster = pCaster;
             power = pPower;
             iconName = pIconName;
+        }
 
+        public void AddTarget(Character target)
+        {
+            if (targets == null) targets = new List<Character>();
+
+            targets.Add(target);
         }
 
         public void SetTargets(IEnumerable<Character> pTargets)
@@ -50,7 +67,20 @@ namespace HeartOfWinter.Moves
         {
             execute();
             targets = null;
-            caster.currentMove = null;
+            caster.SetMove(null);
+            ready = false;
+            _cooldownSpend = 0;
+        }
+
+        public void Step()
+        {
+            if (ready) return;
+            step();
+        }
+
+        protected virtual void step()
+        {
+            ready = true;
         }
 
         abstract protected void execute();

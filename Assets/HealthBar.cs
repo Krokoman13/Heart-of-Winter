@@ -22,7 +22,6 @@ public class HealthBar : MonoBehaviour
 
         float offSetX = (spriteWidth / 2) * (value - 1);
 
-        Debug.Log(offSetX);
         bar.transform.localPosition = new Vector3(offSetX, 0, 0);
     }
 /*
