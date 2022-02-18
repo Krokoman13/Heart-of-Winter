@@ -19,7 +19,7 @@ MonoBehaviour:
     AppIdVoice: 
     AppVersion: 
     UseNameServer: 1
-    FixedRegion: 
+    FixedRegion: eu
     Server: 
     Port: 0
     ProxyServer: 
@@ -48,6 +48,27 @@ MonoBehaviour:
   - HeroSelected
   - EnableButton
   - RemovePlayer
+  - spawn
+  - Spawn
+  - ExecuteMove
+  - switchState
+  - addNPC
+  - moveStep
+  - MoveStep
+  - removeHealth
+  - RemoveHealth
+  - needsToArrange
+  - NeedsToArrange
+  - doEnable
+  - setMove
+  - SetMove
+  - setMoveIt
+  - SetMoveIt
+  - addTargetToCurrentMove
+  - AddTargetToCurrentMove
+  - getStunned
+  - GetStunned
+  - ModifyHealth
   DisableAutoOpenWizard: 1
-  ShowSettings: 0
+  ShowSettings: 1
   DevRegionSetOnce: 1

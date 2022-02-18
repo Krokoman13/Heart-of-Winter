@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace HeroSelection
+namespace HeartOfWinter.Heroselection
 {
     public class PlayerCard : MonoBehaviour
     {
@@ -43,6 +43,11 @@ namespace HeroSelection
             }
 
             characterText.text = character;
+        }
+
+        public bool HasCharacter()
+        {
+            return characterText.text != "..";
         }
 
         public bool IsPlayer(string player)

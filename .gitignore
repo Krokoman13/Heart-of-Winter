@@ -58,3 +58,7 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
+# ParrelSync
+ParrelSync/
+Heart-of-Winter_clone_0/
+ParrelSync.meta

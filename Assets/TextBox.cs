@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 
+using HeartOfWinter.PlayerInformation;
+
 public class TextBox : MonoBehaviourPun
 {
     [SerializeField]
@@ -24,14 +26,7 @@ public class TextBox : MonoBehaviourPun
 
     public void ReadStringInput(string s)
     {
-        int player = 1;
-
-        if (!PhotonNetwork.IsMasterClient)
-        {
-            player = 2;
-        }
-
-        photonView.RPC(nameof(addLIne), RpcTarget.All, "Player " + player + ": " + s);
+        photonView.RPC(nameof(addLIne), RpcTarget.All, PlayerInfo.character + ": " + s);
     }
 
     [PunRPC]

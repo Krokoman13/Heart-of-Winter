@@ -6,6 +6,8 @@ using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
 
+using HeartOfWinter.PlayerInformation;
+
 public class SetupUIInfo : MonoBehaviourPun
 {
     [SerializeField]
