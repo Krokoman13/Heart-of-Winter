@@ -134,6 +134,7 @@ namespace HeartOfWinter.Arena
                     return;
 
                 case states.selectMove:
+                    if (myCharacter == null) return;
                     if (myCharacter.IsStunned())
                     {
                         SwitchState(states.getMonsterMoves);

@@ -23,6 +23,7 @@ namespace HeartOfWinter
             spawn(PlayerInfo.character.ToString());
         }
 
+        [PunRPC]
         void spawn(string heroPrefabName)
         {
             GameObject copyOfHero;
@@ -30,16 +31,22 @@ namespace HeartOfWinter
             if (!PhotonNetwork.IsConnected)
             {
                 copyOfHero = Instantiate<GameObject>(Resources.Load<GameObject>(heroPrefabName), heroParent);
+                playfield.NeedsToArrange();
             }
-            else
+            else if (PhotonNetwork.IsMasterClient)
             {
                 //copyOfHero = Instantiate<GameObject>(Resources.Load<GameObject>(heroPrefabName + " Variant"), heroParent);
                 copyOfHero = PhotonNetwork.Instantiate(heroPrefabName + " Variant", Vector3.zero, Quaternion.Euler(Vector3.zero));
+                playfield.NeedsToArrange();
                 //copyOfHero.transform.SetParent(heroParent);
+            }
+            else
+            {
+                photonView.RPC(nameof(spawn), RpcTarget.MasterClient, heroPrefabName);
             }
 
             //HeroCharacter hero = copyOfHero.GetComponent<HeroCharacter>();
-            playfield.NeedsToArrange();
+            
         }
     }
 }
