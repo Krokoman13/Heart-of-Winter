@@ -43,6 +43,10 @@ namespace HeartOfWinter.Characters
             get { return health > 0.5f; }
         }
 
+        public float damageModifier = 1.0f;
+        public int damageModifierDuration;
+
+
         SpriteRenderer outlineRenderer;
         GameObject outlineChild;
 
@@ -129,11 +133,13 @@ namespace HeartOfWinter.Characters
 
             health = maxHealth;
 
-            gameObject.AddComponent<BoxCollider2D>();
+            BoxCollider2D box = gameObject.AddComponent<BoxCollider2D>();
+            box.size = new Vector2(2, 4);
 
             outlineChild = new GameObject();
             outlineChild.transform.SetParent(transform);
             outlineChild.transform.localPosition = new Vector3();
+            outlineChild.transform.localScale = new Vector3(1,1,1);
             outlineRenderer = outlineChild.AddComponent<SpriteRenderer>();
             outlineRenderer.sprite = Resources.Load<Sprite>("Outline");
             outlineChild.SetActive(false);
@@ -281,6 +287,16 @@ namespace HeartOfWinter.Characters
             {
                 if (move.IsOnCooldown()) move.CooldownTimerTick();
             }
+
+            if (damageModifier == 1.0f) return;
+
+            if (damageModifierDuration > 0)
+            { 
+                damageModifierDuration--;
+                return;
+            }
+
+            damageModifier = 1.0f;
         }
     }
 }

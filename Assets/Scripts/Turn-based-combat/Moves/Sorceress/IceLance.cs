@@ -8,7 +8,7 @@ namespace HeartOfWinter.Moves.Sorcceress
 {
     public class IceLance : StandardAttackMove
     {
-        public IceLance(Character caster, float power) : base(caster, power, "IceLance", 1)
+        public IceLance(Character caster, float power) : base(caster, power, "Ice Lance", 1)
         {
         }
 

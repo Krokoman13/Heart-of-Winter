@@ -71,7 +71,7 @@ namespace HeartOfWinter.Arena
         [SerializeField] Button readyButton;
 
         private enum states { wait, spawnMonsters, selectMove, getMonsterMoves, resolveMoves, endRound}
-        states state = states.wait;
+        [SerializeField] states state = states.wait;
 
         List<Character> sortedOnInitiative = null;
 
@@ -226,6 +226,7 @@ namespace HeartOfWinter.Arena
 
         int amountPlayersDone = 0;
 
+        [PunRPC]
         private void SwitchState(states newState)
         {
             if (PhotonNetwork.IsConnected)
@@ -234,7 +235,7 @@ namespace HeartOfWinter.Arena
 
                 if (!PhotonNetwork.IsMasterClient)
                 {
-                    photonView.RPC(nameof(switchState), RpcTarget.MasterClient, newState);
+                    photonView.RPC(nameof(SwitchState), RpcTarget.MasterClient, newState);
                     return;
                 }
 

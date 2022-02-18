@@ -8,34 +8,34 @@ using HeartOfWinter.Characters.MonsterCharacters;
 
 namespace HeartOfWinter.Moves
 {
-    public class StandardAttackMove : Move
+    public class StandardHealMove : Move
     {
-        float movespeed = 0.01f;
+        float movespeed = 0.03f;
         Vector3 startPos = Vector3.zero;
 
-        public StandardAttackMove(Character caster, float power, string iconName, int amountOfTargets = 1) : base(caster, power, iconName)
+        public StandardHealMove(Character caster, float power, string iconName, int amountOfTargets = 1) : base(caster, power, iconName)
         {
             _amountOfTargets = amountOfTargets;
 
             if (caster is HeroCharacter)
             {
-                targetsNPCs = true;
+                targetsPCs = true;
                 return;
             }
 
             if (caster is MonsterCharacter)
             {
-                targetsPCs = true;
+                targetsNPCs = true;
             }
 
-            description = "Deals " + power + " damage to " + (amountOfTargets > 2 ? "all" : amountOfTargets.ToString()) + " enemies";
+            description = "Heals " + power + " health to " + (amountOfTargets > 2 ? "all" : amountOfTargets.ToString()) + " allies";
         }
 
         protected override void execute()
         {
             foreach (Character target in targets)
             {
-                target.ModifyHealth(-power*caster.damageModifier);
+                target.ModifyHealth(+power);
             }
 
             //caster.transform.localPosition = startPos;

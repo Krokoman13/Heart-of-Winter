@@ -10,9 +10,9 @@ namespace HeartOfWinter.Moves.Sorcceress
     {
         float bonusDamage;
 
-        public ColdSnap(Character caster, float power, float pBonusDamage) : base(caster, power, "ColdSnap", 1)
+        public ColdSnap(Character caster, float power, float pBonusDamage) : base(caster, power, "Cold Snap", 1)
         {
-            _cooldownTimer = 1;
+            SetCooldown(1);
             bonusDamage = pBonusDamage;
         }
 
@@ -22,7 +22,7 @@ namespace HeartOfWinter.Moves.Sorcceress
             {
                 if (target.IsStunned())
                 {
-                    target.ModifyHealth(-(power + bonusDamage));
+                    target.ModifyHealth(-(power + bonusDamage) * caster.damageModifier);
                 }
                 
                 target.ModifyHealth(-power);

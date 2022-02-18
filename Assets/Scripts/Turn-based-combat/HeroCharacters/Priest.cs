@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using HeartOfWinter.Moves;
+using HeartOfWinter.Moves.Priest;
 
 namespace HeartOfWinter.Characters.HeroCharacters
 {
@@ -16,9 +17,9 @@ namespace HeartOfWinter.Characters.HeroCharacters
 
             knownMoves = new List<Move>()
             {
-                new StandardAttackMove(this, 1, "PaperSwordAttack"),
-                new StandardAttackMove(this, 2, "RockSwordAttack", 2),
-                new StandardAttackMove(this, 5, "ScissorsSwordAttack", 3)
+                new WarmingGlow(this, 5),
+                new HolyLight(this, 2),
+                new NewDawn(this, 1.5f)
             };
         }
     }

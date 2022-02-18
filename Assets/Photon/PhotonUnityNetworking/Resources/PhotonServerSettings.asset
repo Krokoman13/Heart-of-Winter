@@ -64,6 +64,11 @@ MonoBehaviour:
   - SetMove
   - setMoveIt
   - SetMoveIt
+  - addTargetToCurrentMove
+  - AddTargetToCurrentMove
+  - getStunned
+  - GetStunned
+  - ModifyHealth
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
