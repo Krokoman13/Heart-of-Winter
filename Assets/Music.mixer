@@ -1,5 +1,27 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!244 &-6133287425516162993
+AudioMixerEffectController:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_EffectID: 52c3205356a49954f9e00a30e0e54b72
+  m_EffectName: Flange
+  m_MixLevel: 6573b6bbd582a424c84bf89b90537b42
+  m_Parameters:
+  - m_ParameterName: Drymix
+    m_GUID: 4d62f667442292e409a3b6bf1e4a0e34
+  - m_ParameterName: Wetmix
+    m_GUID: c7e5f44f18eba0b4fad3f839fd5d5884
+  - m_ParameterName: Depth
+    m_GUID: 3f8b94e86cd357b4f8ce067690afd2f1
+  - m_ParameterName: Rate
+    m_GUID: 0b133898818cd284496c9f5220f01508
+  m_SendTarget: {fileID: 0}
+  m_EnableWetMix: 0
+  m_Bypass: 0
 --- !u!241 &24100000
 AudioMixerController:
   m_ObjectHideFlags: 0
@@ -15,7 +37,9 @@ AudioMixerController:
   m_SuspendThreshold: -80
   m_EnableSuspend: 1
   m_UpdateMode: 0
-  m_ExposedParameters: []
+  m_ExposedParameters:
+  - guid: 78729e34d539f474586fd7cba4582f41
+    name: MusicVolume
   m_AudioMixerGroupViews:
   - guids:
     - b7078f7040075a64db558878f0cb6732
@@ -65,4 +89,29 @@ AudioMixerSnapshotController:
   m_AudioMixer: {fileID: 24100000}
   m_SnapshotID: 17b06bc9dd833ef4ab04b50ddd44d3ef
   m_FloatValues: {}
-  m_TransitionOverrides: {}
+  m_TransitionOverrides:
+    78729e34d539f474586fd7cba4582f41: 1
+--- !u!244 &3055776560424516551
+AudioMixerEffectController:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_EffectID: d4b9c7650491f254ba8f323d109250b6
+  m_EffectName: Echo
+  m_MixLevel: acd464dd8d3a31a47ab8f14958e31b80
+  m_Parameters:
+  - m_ParameterName: Delay
+    m_GUID: 32bedb0a8f68df247acd2f76122944e7
+  - m_ParameterName: Decay
+    m_GUID: d8fe9087d38bf5b429d6748c24339423
+  - m_ParameterName: Max channels
+    m_GUID: 1f9b1e86adc7f024094504e192465de8
+  - m_ParameterName: Drymix
+    m_GUID: 646388470123c324fa6d3d103c05f8e1
+  - m_ParameterName: Wetmix
+    m_GUID: 4403f364eac53be4193a4625bf89d250
+  m_SendTarget: {fileID: 0}
+  m_EnableWetMix: 0
+  m_Bypass: 0

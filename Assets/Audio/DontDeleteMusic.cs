@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Audio;
 
 public class DontDeleteMusic : MonoBehaviour
 {
     static DontDeleteMusic instance;
     private AudioSource audioSource;
-
 
     void Awake()
     {
@@ -22,17 +22,13 @@ public class DontDeleteMusic : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         SceneManager.sceneLoaded += OnSceneLoaded;
 
-
-
-
-
     }
+
     // Start is called before the first frame update
     void OnSceneLoaded(Scene scene, LoadSceneMode sceneMode)
     {
         audioSource = GetComponent<AudioSource>();
         
-
 
         // // Create a temporary reference to the current scene.
         // Scene currentScene = SceneManager.GetActiveScene();
@@ -42,7 +38,7 @@ public class DontDeleteMusic : MonoBehaviour
 
         if (scene.name == "Arena")
         {
-            audioSource.Pause();
+            audioSource.Pause();            
         }
 
     }
