@@ -10,7 +10,7 @@ namespace HeartOfWinter.Moves.Priest
     {
         public NewDawn(Character caster, float power) : base(caster, power, "New Dawn")
         {
-            SetCooldown(4);
+            setCooldown(4);
 
             _amountOfTargets = 1;
             targetsPCs = true;

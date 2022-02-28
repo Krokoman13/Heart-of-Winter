@@ -10,7 +10,7 @@ namespace HeartOfWinter.Moves.Sorcceress
     {
         public Blizzard(Character caster, float power) : base(caster, power, "Blizzard", 3)
         {
-            SetCooldown(3);
+            setCooldown(3);
         }
     }
 }
