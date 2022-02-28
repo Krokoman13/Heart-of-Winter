@@ -12,7 +12,7 @@ namespace HeartOfWinter.Moves
     {
         float movespeed = 15f;
 
-        public StandardAttackMove(Character caster, float power, string iconName, int amountOfTargets = 1) : base(caster, power, iconName)
+        public StandardAttackMove(Character caster, float power, string iconName, int amountOfTargets = 1, int cooldown = 0) : base(caster, power, iconName)
         {
             _amountOfTargets = amountOfTargets;
 
@@ -28,6 +28,7 @@ namespace HeartOfWinter.Moves
             }
 
             description = "Deals " + power + " damage to " + (amountOfTargets > 2 ? "all" : amountOfTargets.ToString()) + " enemies";
+            setCooldown(cooldown);
         }
 
         protected override void execute()

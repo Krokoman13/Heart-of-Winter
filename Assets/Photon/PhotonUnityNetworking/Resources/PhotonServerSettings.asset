@@ -70,6 +70,8 @@ MonoBehaviour:
   - GetStunned
   - ModifyHealth
   - SwitchState
+  - resetBody
+  - ResetBody
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

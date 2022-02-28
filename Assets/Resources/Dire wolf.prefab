@@ -150,4 +150,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 25
+  damageModifier: 1
+  damageModifierDuration: 0
   initiative: 7
