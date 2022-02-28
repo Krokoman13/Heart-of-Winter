@@ -46,6 +46,7 @@ namespace HeartOfWinter.Characters
         public float damageModifier = 1.0f;
         public int damageModifierDuration;
 
+        private Vector3 startPos;
 
         SpriteRenderer outlineRenderer;
         GameObject outlineChild;
@@ -143,6 +144,8 @@ namespace HeartOfWinter.Characters
             outlineRenderer = outlineChild.AddComponent<SpriteRenderer>();
             outlineRenderer.sprite = Resources.Load<Sprite>("Outline");
             outlineChild.SetActive(false);
+
+            startPos = transform.GetChild(0).localPosition;
         }
 
         protected abstract Transform findParent();
@@ -170,6 +173,35 @@ namespace HeartOfWinter.Characters
         {
             health = health + amount;
             return amount;
+        }
+
+        [PunRPC]
+        public void ResetBody()
+        {
+            if (!PhotonNetwork.IsConnected)
+            {
+                resetBody();
+                return;
+            }
+
+            if (PhotonNetwork.IsMasterClient)
+            {
+                photonView.RPC(nameof(resetBody), RpcTarget.Others);
+                resetBody();
+                return;
+            }
+
+            photonView.RPC(nameof(ResetBody), RpcTarget.MasterClient);
+        }
+
+        [PunRPC]
+        private void resetBody()
+        {
+            Transform childBody = transform.GetChild(0);
+            childBody.localPosition = startPos;
+
+            SpriteRenderer bodySprite = childBody.GetComponent<SpriteRenderer>();
+            bodySprite.sortingOrder = 0;
         }
 
         public void SetPlayField(Playfield pPlayfield)

@@ -215,3 +215,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playfield: {fileID: 0}
   text: {fileID: 1409983980055620093}
+  moveSprites:
+  - {fileID: 21300000, guid: 5960989f0c37ff649b089f14958e27ac, type: 3}
+  - {fileID: 21300000, guid: 07e9a21757db4aa4b847838db6df38e5, type: 3}
+  - {fileID: 21300000, guid: 97c482600fb6b5a41b8eae074dae4938, type: 3}
+  - {fileID: 21300000, guid: 7eff6d31f69569749adb9ec83391d7c1, type: 3}
+  - {fileID: 21300000, guid: a936126588e09a7428fcd99e802307bb, type: 3}
+  - {fileID: 21300000, guid: 0e2908dee6fa9e94183e8b979b0d0e22, type: 3}
+  - {fileID: 21300000, guid: 64fc10bb7f59e244f8caea1e8434ba27, type: 3}
+  - {fileID: 21300000, guid: 649fa3aa6f4bda5488c3d8ee48d862e6, type: 3}
+  - {fileID: 21300000, guid: fb43f933059381b44903c903f6f90121, type: 3}

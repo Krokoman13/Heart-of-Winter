@@ -81,6 +81,7 @@ namespace HeartOfWinter.Moves
             caster.SetMove(null);
             ready = false;
             _cooldownSpend = 0;
+            caster.ResetBody();
         }
 
         public void Step()

@@ -16,6 +16,8 @@ namespace HeartOfWinter.Arena
         [SerializeField] Playfield playfield;
         [SerializeField] Text text;
 
+        [SerializeField] List<Sprite> moveSprites;
+
         // Start is called before the first frame update
         void Awake()
         {
@@ -27,11 +29,15 @@ namespace HeartOfWinter.Arena
         {
             _myMove = pMove;
 
-            Texture2D tex = new Texture2D(2, 2);
-            var rawData = System.IO.File.ReadAllBytes("Assets/Art/UI/MoveButtons/" + pMove.iconName + ".png");
-            tex.LoadImage(rawData);
-            _myImage.sprite = Sprite.Create(tex, new Rect(0.0f, 0.0f, tex.width, tex.height), new Vector2(0.5f, 0.5f), 100.0f);
-
+            foreach (Sprite sprite in moveSprites)
+            {
+                if (sprite.name == _myMove.iconName)
+                {
+                    _myImage.sprite = sprite;
+                    break;
+                }
+            }
+            
             _myButton.onClick.AddListener(() => playfield.SelectNewMove(pMove));
         }
 
