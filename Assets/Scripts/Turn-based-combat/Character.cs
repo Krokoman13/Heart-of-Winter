@@ -33,7 +33,7 @@ namespace HeartOfWinter.Characters
                     return;
                 }
 
-                _healthBar.setValue(value / maxHealth);
+                _healthBar.SetValue(value , maxHealth);
                 _health = value;
             }
         }
@@ -130,8 +130,8 @@ namespace HeartOfWinter.Characters
 
             GameObject healthbarGameobject = Instantiate<GameObject>(Resources.Load<GameObject>("Healthbar"), transform);
             _healthBar = healthbarGameobject.GetComponent<HealthBar>();
-
             health = maxHealth;
+            _healthBar.SetValue(health, maxHealth);
 
             BoxCollider2D box = gameObject.AddComponent<BoxCollider2D>();
             box.size = new Vector2(2, 4);
