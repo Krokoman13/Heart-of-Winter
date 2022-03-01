@@ -56,7 +56,8 @@ namespace HeartOfWinter.Arena
 
             if (PhotonNetwork.IsMasterClient)
             {
-                photonView.RPC(nameof(needsToArrange), RpcTarget.All);
+                photonView.RPC(nameof(needsToArrange), RpcTarget.Others);
+                needsToArrange();
                 return;
             }
 
@@ -303,7 +304,6 @@ namespace HeartOfWinter.Arena
                 photonView.RPC(nameof(switchState), RpcTarget.Others, newState);
                 switchState(newState);
                     
-                
 
 /*                amountPlayersDone++;
                 
