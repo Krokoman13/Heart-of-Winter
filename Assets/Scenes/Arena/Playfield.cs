@@ -263,6 +263,8 @@ namespace HeartOfWinter.Arena
 
                     if (PCs.Count == 0)
                     {
+                        state = states.wait;
+
                         if (PhotonNetwork.IsConnected)
                         {
                             PhotonNetwork.LoadLevel(12);
