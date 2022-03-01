@@ -5,13 +5,12 @@ using UnityEngine;
 using HeartOfWinter.Characters;
 using HeartOfWinter.Characters.MonsterCharacters;
 
-namespace HeartOfWinter.Moves.ShadowWeaver
+namespace HeartOfWinter.Moves.Wendigo
 {
-    public class VisionOfTheAbyss : StandardAttackMove
+    public class EternalHunger : StandardAttackMove
     {
-        public VisionOfTheAbyss(Character caster, float power) : base(caster, power, "Vision of the Abyss", 3, 4)
+        public EternalHunger(Character caster, float power) : base(caster, power, "Eternal Hunger")
         {
-            setCooldown(4);
         }
 
         protected override void execute()
@@ -19,7 +18,7 @@ namespace HeartOfWinter.Moves.ShadowWeaver
             foreach (Character target in targets)
             {
                 target.ModifyHealth(-power * caster.damageModifier);
-                target.SetStunned();
+                caster.ModifyHealth(7f);
             }
         }
     }

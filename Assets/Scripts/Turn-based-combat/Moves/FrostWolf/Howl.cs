@@ -4,14 +4,12 @@ using UnityEngine;
 
 using HeartOfWinter.Characters;
 
-namespace HeartOfWinter.Moves.ShadowWeaver
+namespace HeartOfWinter.Moves.FrostWolf
 {
-    public class PrepareTheMeat : Move
+    public class Howl : Move
     {
-        public PrepareTheMeat(Character caster, float power) : base(caster, power, "Prepare the Meat")
+        public Howl(Character caster, float power) : base(caster, power, "Howl")
         {
-            setCooldown(1);
-
             _amountOfTargets = 1;
             targetsNPCs = true;
         }
@@ -21,7 +19,7 @@ namespace HeartOfWinter.Moves.ShadowWeaver
             foreach (Character target in targets)
             {
                 target.damageModifier = power;
-                target.damageModifierDuration = 2;
+                target.damageModifierDuration = 1;
             }
         }
     }

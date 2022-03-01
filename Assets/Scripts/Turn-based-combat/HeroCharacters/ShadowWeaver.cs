@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using HeartOfWinter.Moves;
-using HeartOfWinter.Moves.Priest;
+using HeartOfWinter.Moves.ShadowWeaver;
 
 namespace HeartOfWinter.Characters.HeroCharacters
 {
@@ -12,7 +12,7 @@ namespace HeartOfWinter.Characters.HeroCharacters
         public ShadowWeaver()
         {
             maxHealth = 35;
-            initiative = 10;
+            initiative = 8;
             heroName = Hero.ShadowWeaver;
 
             knownMoves = new List<Move>()

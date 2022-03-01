@@ -12,7 +12,7 @@ namespace HeartOfWinter.Characters.HeroCharacters
         public Sorceress()
         {
             maxHealth = 30;
-            initiative = 5;
+            initiative = 6;
             heroName = Hero.Sorceress;
 
             knownMoves = new List<Move>()

@@ -5,7 +5,7 @@ using UnityEngine;
 using HeartOfWinter.Characters;
 using HeartOfWinter.Characters.MonsterCharacters;
 
-namespace HeartOfWinter.Moves.Priest
+namespace HeartOfWinter.Moves.ShadowWeaver
 {
     public class Feast : StandardAttackMove
     {
@@ -19,7 +19,7 @@ namespace HeartOfWinter.Moves.Priest
             {
                 target.ModifyHealth(-power * caster.damageModifier);
 
-                if (target is DireWolf) caster.ModifyHealth(4f);
+                if (target.damageModifier < 1.0f) caster.ModifyHealth(4f);
             }
         }
     }

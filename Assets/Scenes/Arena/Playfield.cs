@@ -416,8 +416,22 @@ namespace HeartOfWinter.Arena
 
         void arrange()
         {
-            NPCs.RemoveAll(item => item == null);
-            PCs.RemoveAll(item => item == null);
+            if (NPCs != null && PCs != null)
+            {
+                NPCs.RemoveAll(item => item == null);
+                PCs.RemoveAll(item => item == null);
+
+                foreach (Character NPC in NPCs)
+                {
+                    if (NPC.isDead) killNPC(NPC);
+                }
+
+                foreach (Character PC in PCs)
+                {
+                    if (PC.isDead) killPC(PC);
+                }
+            }
+
             needToArrange = false;
 
             int i = 0;
@@ -437,16 +451,6 @@ namespace HeartOfWinter.Arena
                 PC.position = PCPos[i].position;
                 i++;
             }
-
-            foreach (Character NPC in NPCs)
-            {
-                if (NPC.isDead) killNPC(NPC);
-            }
-
-            foreach (Character PC in PCs)
-            {
-                if (PC.isDead) killPC(PC);
-            }
         }
 
         private void killPC(Character PC)
@@ -456,14 +460,14 @@ namespace HeartOfWinter.Arena
             //PCs.Remove(heroCharacter);
             if (heroCharacter == myCharacter) myCharacterMoves.DisableMoves();
             Destroy(heroCharacter.gameObject);
-            needToArrange = true;
+            NeedsToArrange();
         }
 
         private void killNPC(Character NPC)
         {
             //NPCs.Remove(NPC);
             Destroy(NPC.gameObject);
-            needToArrange = true;
+            NeedsToArrange();
         }
 
         bool PCsDone()

@@ -12,7 +12,7 @@ namespace HeartOfWinter.Characters.HeroCharacters
         public Priest()
         {
             maxHealth = 25;
-            initiative = 6;
+            initiative = 7;
             heroName = Hero.Priest;
 
             knownMoves = new List<Move>()

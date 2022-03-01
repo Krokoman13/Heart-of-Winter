@@ -70,7 +70,7 @@ MonoBehaviour:
   maxHealth: 20
   damageModifier: 1
   damageModifierDuration: 0
-  initiative: 9
+  initiative: 5
 --- !u!1 &6300013753886238253
 GameObject:
   m_ObjectHideFlags: 0

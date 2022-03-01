@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using HeartOfWinter.Moves;
+using HeartOfWinter.Moves.FrostWolf;
 
 namespace HeartOfWinter.Characters.MonsterCharacters
 {
@@ -15,7 +16,7 @@ namespace HeartOfWinter.Characters.MonsterCharacters
 
             knownMoves = new List<Move>()
             {
-                //new StandardBuffMove(this, 30, "Howl", 1)//
+                new Howl(this, 1.3f),
                 new StandardAttackMove(this, 5, "FrostBite", 1)
             };
         }
