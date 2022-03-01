@@ -71,7 +71,7 @@ namespace HeartOfWinter.Arena
 
         [SerializeField] Button readyButton;
 
-        private enum states { wait, spawnMonsters, selectMove, getMonsterMoves, resolveMoves, endRound, checkWinOrLose}
+        private enum states { wait, spawnMonsters, selectMove, getMonsterMoves, shaking, resolveMoves, endRound, checkWinOrLose}
         [SerializeField] states state = states.wait;
 
         List<Character> sortedOnInitiative = null;
@@ -187,7 +187,7 @@ namespace HeartOfWinter.Arena
                     return;
 
                 case states.getMonsterMoves: 
-                    state = states.resolveMoves;
+                    state = states.shaking;
 
                     if (PhotonNetwork.IsConnected && !PhotonNetwork.IsMasterClient)
                     {
@@ -198,6 +198,10 @@ namespace HeartOfWinter.Arena
                     {
                         monster.SelectRandomMove();
                     }
+                    return;
+
+                case states.shaking:
+                    
                     return;
 
                 case states.resolveMoves:
