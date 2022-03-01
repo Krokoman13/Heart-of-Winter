@@ -56,7 +56,8 @@ namespace HeartOfWinter.Arena
 
             if (PhotonNetwork.IsMasterClient)
             {
-                photonView.RPC(nameof(needsToArrange), RpcTarget.All);
+                photonView.RPC(nameof(needsToArrange), RpcTarget.Others);
+                needsToArrange();
                 return;
             }
 
@@ -134,7 +135,7 @@ namespace HeartOfWinter.Arena
 
                 case states.spawnMonsters:
                     monsterSpawner.SpawnNextWave();
-                    SwitchState(states.selectMove);
+                    state = states.selectMove;
                     return;
 
                 case states.selectMove:
@@ -240,6 +241,8 @@ namespace HeartOfWinter.Arena
 
                     sortedOnInitiative.RemoveAt(sortedOnInitiative.Count -1);
 
+                    StartCoroutine(waitFor(1f));
+
                     if (sortedOnInitiative.Count > 0) return;
 
                     sortedOnInitiative = null;
@@ -266,6 +269,8 @@ namespace HeartOfWinter.Arena
 
                     if (PCs.Count == 0)
                     {
+                        state = states.wait;
+
                         if (PhotonNetwork.IsConnected)
                         {
                             PhotonNetwork.LoadLevel(12);
@@ -307,7 +312,6 @@ namespace HeartOfWinter.Arena
                 photonView.RPC(nameof(switchState), RpcTarget.Others, newState);
                 switchState(newState);
                     
-                
 
 /*                amountPlayersDone++;
                 
@@ -420,6 +424,8 @@ namespace HeartOfWinter.Arena
 
         void arrange()
         {
+            needToArrange = false;
+
             if (NPCs != null && PCs != null)
             {
                 NPCs.RemoveAll(item => item == null);
@@ -435,8 +441,6 @@ namespace HeartOfWinter.Arena
                     if (PC.isDead) killPC(PC);
                 }
             }
-
-            needToArrange = false;
 
             int i = 0;
 
@@ -463,7 +467,7 @@ namespace HeartOfWinter.Arena
 
             //PCs.Remove(heroCharacter);
             if (heroCharacter == myCharacter) myCharacterMoves.DisableMoves();
-            Destroy(heroCharacter.gameObject);
+            DestroyImmediate(heroCharacter.gameObject);
             NeedsToArrange();
         }
 
@@ -513,6 +517,14 @@ namespace HeartOfWinter.Arena
                 Character removed = targetsForMyCharacter.Dequeue();
                 removed.selected = false;
             }
+        }
+
+        private IEnumerator waitFor(float seconds)
+        {
+            states backupState = state;
+            state = states.wait;
+            yield return new WaitForSeconds(seconds);
+            state = backupState;
         }
     }
 }

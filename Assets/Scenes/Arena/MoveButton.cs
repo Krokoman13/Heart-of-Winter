@@ -28,19 +28,18 @@ namespace HeartOfWinter.Arena
         public void SetMove(Move pMove)
         {
             _myMove = pMove;
-
+            _myButton.onClick.AddListener(() => playfield.SelectNewMove(_myMove));
+            
             foreach (Sprite sprite in moveSprites)
             {
                 if (sprite.name == _myMove.iconName)
                 {
                     _myImage.sprite = sprite;
-                    break;
+                    return;
                 }
-
-                Debug.LogWarning("Could not find moveIcon: " + _myMove.iconName);
             }
             
-            _myButton.onClick.AddListener(() => playfield.SelectNewMove(pMove));
+            Debug.LogWarning("Could not find moveIcon: " + _myMove.iconName);
         }
 
         public void Update()

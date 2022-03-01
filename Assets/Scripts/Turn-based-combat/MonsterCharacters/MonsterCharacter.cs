@@ -11,8 +11,11 @@ namespace HeartOfWinter.Characters.MonsterCharacters
         {
             if (IsStunned()) return;
 
-            SetMove(knownMoves[Random.Range(0, knownMoves.Count)]);
-
+            do
+            {
+                SetMove(knownMoves[Random.Range(0, knownMoves.Count)]);
+            } while (_currentMove.IsOnCooldown());
+            
             List<Character> targets;
             List<Character> possibleTargets = null;
 
