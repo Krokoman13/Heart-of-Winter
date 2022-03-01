@@ -228,7 +228,10 @@ namespace HeartOfWinter.Arena
                             Debug.Log("Move:" + currentMove.iconName);
 
                             currentMove.Execute();
+                            return;
                         }
+
+                        currentChar.SetStunned(false);
                     }
 
                     sortedOnInitiative.RemoveAt(sortedOnInitiative.Count -1);

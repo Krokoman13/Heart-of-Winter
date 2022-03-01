@@ -312,27 +312,27 @@ namespace HeartOfWinter.Characters
         }
 
         [PunRPC]
-        public void GetStunned()
+        public void SetStunned(bool stunned = true)
         {
             if (!PhotonNetwork.IsConnected)
             {
-                getStunned();
+                setStunned(stunned);
                 return;
             }
 
             if (PhotonNetwork.IsMasterClient)
             {
-                photonView.RPC(nameof(getStunned), RpcTarget.All);
+                photonView.RPC(nameof(setStunned), RpcTarget.All, stunned);
                 return;
             }
 
-            photonView.RPC(nameof(GetStunned), RpcTarget.MasterClient);
+            photonView.RPC(nameof(SetStunned), RpcTarget.MasterClient, stunned);
         }
 
         [PunRPC]
-        protected void getStunned()
+        protected void setStunned(bool stunned)
         {
-            _stunned = true;
+            _stunned = stunned;
         }
 
         public void HandleCooldown()

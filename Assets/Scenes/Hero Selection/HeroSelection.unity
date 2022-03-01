@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0.3731193, g: 0.38073996, b: 0.35872698, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -961,6 +961,7 @@ GameObject:
   - component: {fileID: 544647290}
   - component: {fileID: 544647292}
   - component: {fileID: 544647291}
+  - component: {fileID: 544647293}
   m_Layer: 0
   m_Name: Content
   m_TagString: Untagged
@@ -988,7 +989,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -450.60483, y: 150}
+  m_AnchoredPosition: {x: -441.49966, y: 150}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &544647291
@@ -1031,6 +1032,19 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &544647293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 544647289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d22484a516f9b7e468cfe2fd965e439a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scrollSpeed: 50
 --- !u!1 &546870882
 GameObject:
   m_ObjectHideFlags: 0
@@ -1938,7 +1952,7 @@ GameObject:
   - component: {fileID: 1329110859}
   - component: {fileID: 1329110858}
   m_Layer: 0
-  m_Name: Shadow Weaver
+  m_Name: Shaman
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2872,7 +2886,7 @@ GameObject:
   - component: {fileID: 1925982022}
   - component: {fileID: 1925982021}
   m_Layer: 0
-  m_Name: Shaman
+  m_Name: Shadow Weaver
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

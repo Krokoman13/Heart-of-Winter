@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using HeartOfWinter.Characters;
+using HeartOfWinter.Characters.MonsterCharacters;
 
 namespace HeartOfWinter.Moves.Priest
 {
-    public class HolyLight : StandardAttackMove
+    public class VisionOfTheAbyss : StandardAttackMove
     {
-        public HolyLight(Character caster, float power) : base(caster, power, "Holy Light", 1)
+        public VisionOfTheAbyss(Character caster, float power) : base(caster, power, "Vision of the Abyss", 3, 4)
         {
-            setCooldown(2);
+            setCooldown(4);
         }
 
         protected override void execute()

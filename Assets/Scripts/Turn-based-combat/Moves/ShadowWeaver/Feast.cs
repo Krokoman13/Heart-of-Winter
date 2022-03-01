@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using HeartOfWinter.Characters;
+using HeartOfWinter.Characters.MonsterCharacters;
 
 namespace HeartOfWinter.Moves.Priest
 {
-    public class HolyLight : StandardAttackMove
+    public class Feast : StandardAttackMove
     {
-        public HolyLight(Character caster, float power) : base(caster, power, "Holy Light", 1)
+        public Feast(Character caster, float power) : base(caster, power, "Feast")
         {
-            setCooldown(2);
         }
 
         protected override void execute()
@@ -18,7 +18,8 @@ namespace HeartOfWinter.Moves.Priest
             foreach (Character target in targets)
             {
                 target.ModifyHealth(-power * caster.damageModifier);
-                target.SetStunned();
+
+                if (target is DireWolf) caster.ModifyHealth(4f);
             }
         }
     }
