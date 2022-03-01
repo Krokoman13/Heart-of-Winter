@@ -33,7 +33,7 @@ namespace HeartOfWinter.Moves
         private int _cooldownTimer = 0;
         private int _cooldownSpend = 1;
 
-        protected void SetCooldown(int cooldownTime)
+        protected void setCooldown(int cooldownTime)
         {
             _cooldownTimer = cooldownTime;
             _cooldownSpend = cooldownTime + 1;
@@ -43,6 +43,11 @@ namespace HeartOfWinter.Moves
         {
             if (_cooldownTimer < 1) return false;
             return _cooldownSpend <= _cooldownTimer;
+        }
+
+        public int CooldownLeft()
+        {
+            return _cooldownTimer - _cooldownSpend + 1;
         }
 
         public void CooldownTimerTick()
@@ -76,6 +81,7 @@ namespace HeartOfWinter.Moves
             caster.SetMove(null);
             ready = false;
             _cooldownSpend = 0;
+            caster.ResetBody();
         }
 
         public void Step()

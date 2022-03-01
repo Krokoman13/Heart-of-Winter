@@ -10,10 +10,9 @@ namespace HeartOfWinter.Moves
 {
     public class StandardAttackMove : Move
     {
-        float movespeed = 0.01f;
-        Vector3 startPos = Vector3.zero;
+        float movespeed = 15f;
 
-        public StandardAttackMove(Character caster, float power, string iconName, int amountOfTargets = 1) : base(caster, power, iconName)
+        public StandardAttackMove(Character caster, float power, string iconName, int amountOfTargets = 1, int cooldown = 0) : base(caster, power, iconName)
         {
             _amountOfTargets = amountOfTargets;
 
@@ -29,6 +28,7 @@ namespace HeartOfWinter.Moves
             }
 
             description = "Deals " + power + " damage to " + (amountOfTargets > 2 ? "all" : amountOfTargets.ToString()) + " enemies";
+            setCooldown(cooldown);
         }
 
         protected override void execute()
@@ -46,20 +46,18 @@ namespace HeartOfWinter.Moves
         {
             if (ready) return;
 
-            if (startPos == Vector3.zero)
-            {
-                startPos = caster.transform.localPosition;
-            }
+            Transform casterBody = caster.transform.GetChild(0);
+            SpriteRenderer bodySprite = casterBody.GetComponent<SpriteRenderer>();
+            bodySprite.sortingOrder = 10;
 
-            if (Vector3.Distance(targets[targets.Count - 1].transform.position, caster.transform.position) < 0.1f)
+            if (Mathf.Abs(targets[targets.Count - 1].transform.position.x - casterBody.position.x) < 0.1f)
             {
-                caster.transform.localPosition = startPos;
-                startPos = Vector3.zero;
                 ready = true;
                 return;
             }
 
-            caster.transform.position = Vector3.MoveTowards(caster.transform.position, targets[targets.Count - 1].transform.position, movespeed);
+            float newX = Vector3.MoveTowards(casterBody.position, targets[targets.Count - 1].transform.position, movespeed * Time.deltaTime).x;
+            casterBody.position = new Vector3(newX, casterBody.position.y, casterBody.position.z);
         }
     }
 }

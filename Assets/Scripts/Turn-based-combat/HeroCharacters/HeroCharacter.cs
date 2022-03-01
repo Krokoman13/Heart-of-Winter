@@ -6,11 +6,11 @@ using HeartOfWinter.Moves;
 
 namespace HeartOfWinter.Characters.HeroCharacters
 {
-    public enum Hero { Sorceress = 0, Priest = 1, ShadowWeaver = 2, Other = 3, NULL = default };
+    public enum Hero { Sorceress = 0, Priest = 1, ShadowWeaver = 2, Shaman = 3, NULL = default };
 
     public class HeroCharacter : Character
     {
-        bool isMine = false;
+        public bool isMine = false;
 
         public Hero heroName;
 

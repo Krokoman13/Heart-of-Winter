@@ -5,19 +5,29 @@ using UnityEngine.UI;
 
 using HeartOfWinter.Moves;
 using HeartOfWinter.Characters.HeroCharacters;
+using System;
 
 namespace HeartOfWinter.Arena
 {
     public class MovesDisplayer : MonoBehaviour
     {        
         HeroCharacter myCharacter;
-        [SerializeField] RectTransform ultimatePanel;
-        [SerializeField] Playfield playfield;
+        //[SerializeField] RectTransform ultimatePanel;
+        //[SerializeField] Playfield playfield;
+
+        [SerializeField] List<MoveButton> moveButtons;
 
         public void SetCharacter(HeroCharacter character)
         {
             myCharacter = character;
 
+            for (int i = 0; i < myCharacter.knownMoves.Count; i++)
+            {
+                moveButtons[i].SetMove(myCharacter.knownMoves[i]);
+            }
+
+
+            /*
             float xValue = 0.5f;
             
             Vector2 pos = new Vector2(0, 0.7f);
@@ -32,11 +42,12 @@ namespace HeartOfWinter.Arena
             }
 
             spawnButton(myCharacter.knownMoves[myCharacter.knownMoves.Count - 1], new Vector2(0.45f, 0.45f), new Vector2(0.75f, 0.75f), ultimatePanel);
+            */
         }
 
         private void spawnButton(Move move, Vector2 pos, Vector2 size, Transform parent)
         {
-            DefaultControls.Resources uiResources = new DefaultControls.Resources();
+/*            DefaultControls.Resources uiResources = new DefaultControls.Resources();
             //Set the Button Background Image someBgSprite;
             Texture2D tex = new Texture2D(2, 2);
             var rawData = System.IO.File.ReadAllBytes("Assets/Art/UI/MoveButtons/" + move.iconName + ".png");
@@ -57,7 +68,15 @@ namespace HeartOfWinter.Arena
 
             uiButton.transform.GetChild(0).gameObject.SetActive(false);
 
-            uiButton.GetComponent<Button>().onClick.AddListener(() => playfield.SelectNewMove(move));
+            uiButton.GetComponent<Button>().onClick.AddListener(() => playfield.SelectNewMove(move));*/
+        }
+
+        internal void DisableMoves()
+        {
+            foreach (MoveButton moveButton in moveButtons)
+            {
+                moveButton.gameObject.SetActive(false);
+            }
         }
     }
 }

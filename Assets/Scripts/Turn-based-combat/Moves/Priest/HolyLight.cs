@@ -10,7 +10,7 @@ namespace HeartOfWinter.Moves.Priest
     {
         public HolyLight(Character caster, float power) : base(caster, power, "Holy Light", 1)
         {
-            SetCooldown(2);
+            setCooldown(2);
         }
 
         protected override void execute()
@@ -18,7 +18,7 @@ namespace HeartOfWinter.Moves.Priest
             foreach (Character target in targets)
             {
                 target.ModifyHealth(-power * caster.damageModifier);
-                target.GetStunned();
+                target.SetStunned();
             }
         }
     }

@@ -16,6 +16,9 @@ namespace HeartOfWinter.Characters
         private HealthBar _healthBar;
         private float _health;
         public float maxHealth = 1.0f;
+
+        bool _moving = false;
+
         public float health
         {
             get { return _health; }
@@ -33,19 +36,20 @@ namespace HeartOfWinter.Characters
                     return;
                 }
 
-                _healthBar.setValue(value / maxHealth);
+                _healthBar.SetValue(value , maxHealth);
                 _health = value;
             }
         }
 
         public bool isDead
         {
-            get { return health > 0.5f; }
+            get { return health < 0.5f; }
         }
 
         public float damageModifier = 1.0f;
         public int damageModifierDuration;
 
+        private Vector3 startPos;
 
         SpriteRenderer outlineRenderer;
         GameObject outlineChild;
@@ -130,8 +134,8 @@ namespace HeartOfWinter.Characters
 
             GameObject healthbarGameobject = Instantiate<GameObject>(Resources.Load<GameObject>("Healthbar"), transform);
             _healthBar = healthbarGameobject.GetComponent<HealthBar>();
-
             health = maxHealth;
+            _healthBar.SetValue(health, maxHealth);
 
             BoxCollider2D box = gameObject.AddComponent<BoxCollider2D>();
             box.size = new Vector2(2, 4);
@@ -143,6 +147,23 @@ namespace HeartOfWinter.Characters
             outlineRenderer = outlineChild.AddComponent<SpriteRenderer>();
             outlineRenderer.sprite = Resources.Load<Sprite>("Outline");
             outlineChild.SetActive(false);
+
+            startPos = transform.GetChild(0).localPosition;
+        }
+
+        protected void Update()
+        {
+            if (_moving)
+            {
+                if (_currentMove == null)
+                {
+                    _moving = false;
+                    return;
+                }
+
+                _currentMove.Step();
+                if (_currentMove.ready) _moving = false;
+            }
         }
 
         protected abstract Transform findParent();
@@ -161,15 +182,46 @@ namespace HeartOfWinter.Characters
                 return removeHealth(amount);
             }
 
-            photonView.RPC(nameof(ModifyHealth), RpcTarget.MasterClient, amount);
+            //photonView.RPC(nameof(ModifyHealth), RpcTarget.MasterClient, amount);
             return 0;
         }
 
         [PunRPC]
         protected float removeHealth(float amount)
         {
+            if (isDead) return 0f;
+
             health = health + amount;
             return amount;
+        }
+
+        [PunRPC]
+        public void ResetBody()
+        {
+            if (!PhotonNetwork.IsConnected)
+            {
+                resetBody();
+                return;
+            }
+
+            if (PhotonNetwork.IsMasterClient)
+            {
+                photonView.RPC(nameof(resetBody), RpcTarget.Others);
+                resetBody();
+                return;
+            }
+
+            photonView.RPC(nameof(ResetBody), RpcTarget.MasterClient);
+        }
+
+        [PunRPC]
+        protected void resetBody()
+        {
+            Transform childBody = transform.GetChild(0);
+            childBody.localPosition = startPos;
+
+            SpriteRenderer bodySprite = childBody.GetComponent<SpriteRenderer>();
+            bodySprite.sortingOrder = 0;
         }
 
         public void SetPlayField(Playfield pPlayfield)
@@ -180,6 +232,8 @@ namespace HeartOfWinter.Characters
         [PunRPC]
         public void MoveStep()
         {
+            if (_moving) return;
+
             if (!PhotonNetwork.IsConnected)
             {
                 moveStep();
@@ -188,7 +242,7 @@ namespace HeartOfWinter.Characters
 
             if (PhotonNetwork.IsMasterClient)
             {
-                photonView.RPC(nameof(moveStep), RpcTarget.All);
+                photonView.RPC(nameof(moveStep), RpcTarget.AllBuffered);
                 //moveStep();
                 return;
             }
@@ -200,7 +254,7 @@ namespace HeartOfWinter.Characters
         protected void moveStep()
         {
             if (_currentMove == null || _stunned) return;
-            _currentMove.Step();
+            _moving = true;
         }
 
         public void AddTargetsToCurrentMove(IEnumerable<Character> targets)
@@ -225,6 +279,31 @@ namespace HeartOfWinter.Characters
             {
                 AddTargetToCurrentMove(playfield.PCs.FindIndex(a => a == target), false);
             }
+        }
+
+        [PunRPC]
+        public void MoveExecute()
+        {
+            if (!PhotonNetwork.IsConnected)
+            {
+                moveExecute();
+                return;
+            }
+
+            if (PhotonNetwork.IsMasterClient)
+            {
+                photonView.RPC(nameof(moveExecute), RpcTarget.Others);
+                moveExecute();
+                return;
+            }
+
+            photonView.RPC(nameof(MoveExecute), RpcTarget.MasterClient);
+        }
+
+        [PunRPC]
+        protected void moveExecute()
+        {
+            _currentMove.Execute();
         }
 
         [PunRPC]
@@ -257,31 +336,47 @@ namespace HeartOfWinter.Characters
             return _stunned;
         }
 
-        [PunRPC]
-        public void GetStunned()
+        //[PunRPC]
+        public void SetStunned(bool stunned = true)
         {
             if (!PhotonNetwork.IsConnected)
             {
-                getStunned();
+                setStunned(stunned);
                 return;
             }
 
             if (PhotonNetwork.IsMasterClient)
             {
-                photonView.RPC(nameof(getStunned), RpcTarget.All);
+                photonView.RPC(nameof(setStunned), RpcTarget.All, stunned);
                 return;
             }
 
-            photonView.RPC(nameof(GetStunned), RpcTarget.MasterClient);
+            //photonView.RPC(nameof(SetStunned), RpcTarget.MasterClient, stunned);
         }
 
         [PunRPC]
-        protected void getStunned()
+        protected void setStunned(bool stunned)
         {
-            _stunned = true;
+            _stunned = stunned;
         }
 
         public void HandleCooldown()
+        {
+            if (!PhotonNetwork.IsConnected)
+            {
+                handleCooldown();
+                return;
+            }
+
+            if (PhotonNetwork.IsMasterClient)
+            {
+                photonView.RPC(nameof(handleCooldown), RpcTarget.All);
+                return;
+            }
+        }
+
+        [PunRPC]
+        protected void handleCooldown()
         {
             foreach (Move move in knownMoves)
             {
@@ -291,7 +386,7 @@ namespace HeartOfWinter.Characters
             if (damageModifier == 1.0f) return;
 
             if (damageModifierDuration > 0)
-            { 
+            {
                 damageModifierDuration--;
                 return;
             }

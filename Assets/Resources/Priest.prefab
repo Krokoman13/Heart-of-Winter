@@ -71,7 +71,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 2f18b502fae1ad04382591e0abc44f59, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 62d31243b16225b4db00b34c2a675c74, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -150,5 +150,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 25
-  initiative: 5
+  damageModifier: 1
+  damageModifierDuration: 0
+  initiative: 7
+  isMine: 0
   heroName: 1

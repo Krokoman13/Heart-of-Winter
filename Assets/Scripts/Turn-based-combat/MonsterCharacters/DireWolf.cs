@@ -11,7 +11,7 @@ namespace HeartOfWinter.Characters.MonsterCharacters
         public DireWolf()
         {
             maxHealth = 25;
-            initiative = 7;
+            initiative = 9;
 
             knownMoves = new List<Move>()
             {

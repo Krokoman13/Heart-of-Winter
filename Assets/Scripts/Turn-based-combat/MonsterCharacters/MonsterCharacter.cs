@@ -9,35 +9,41 @@ namespace HeartOfWinter.Characters.MonsterCharacters
     {
         public void SelectRandomMove()
         {
-            _currentMove = knownMoves[Random.Range(0, knownMoves.Count)];
+            if (IsStunned()) return;
 
-            List<Character> targets = new List<Character>();
+            do
+            {
+                SetMove(knownMoves[Random.Range(0, knownMoves.Count)]);
+            } while (_currentMove.IsOnCooldown());
+            
+            List<Character> targets;
             List<Character> possibleTargets = null;
 
             if (_currentMove.targetsNPCs)
             {
-                possibleTargets = new List<Character>(playfield.NPCs);
+                possibleTargets = playfield.NPCs;
             }
 
             if (_currentMove.targetsPCs)
             {
-                possibleTargets = new List<Character>(playfield.PCs);
+                possibleTargets = playfield.PCs;
             }
 
             if (possibleTargets == null) return;
 
-            for (int i = 0; i < _currentMove.amountOfTargets; i++)
+            if (_currentMove.amountOfTargets < 3)
             {
-                if (possibleTargets.Count < 1) break;
+                targets = new List<Character>();
 
                 Character target = possibleTargets[Random.Range(0, possibleTargets.Count)];
                 targets.Add(target);
-
-                if (possibleTargets.Count < 1) break;
-                possibleTargets = new List<Character>(possibleTargets.Where(x => x != target));
+            }
+            else 
+            {
+                targets = possibleTargets;
             }
 
-            _currentMove.SetTargets(targets);
+            AddTargetsToCurrentMove(targets);
         }
 
         protected override Transform findParent()

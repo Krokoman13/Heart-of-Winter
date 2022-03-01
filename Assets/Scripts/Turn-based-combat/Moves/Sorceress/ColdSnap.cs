@@ -12,7 +12,7 @@ namespace HeartOfWinter.Moves.Sorcceress
 
         public ColdSnap(Character caster, float power, float pBonusDamage) : base(caster, power, "Cold Snap", 1)
         {
-            SetCooldown(1);
+            setCooldown(1);
             bonusDamage = pBonusDamage;
         }
 

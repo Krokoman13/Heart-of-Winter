@@ -57,7 +57,7 @@ namespace HeartOfWinter.Heroselection
             if (PhotonNetwork.IsMasterClient)
             {
                 photonView.RPC(nameof(heroSelected), RpcTarget.AllBuffered, playerID, buttonIt);
-                if (playerMngr.AllPlayersHaveSelected()) activateContinueButton();
+                if (playerMngr.AllPlayersHaveSelected() /*&& playerMngr.playerCards.Count == 3*/) activateContinueButton();
                 return;
             }
 

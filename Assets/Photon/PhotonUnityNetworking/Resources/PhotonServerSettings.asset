@@ -70,6 +70,16 @@ MonoBehaviour:
   - GetStunned
   - ModifyHealth
   - SwitchState
+<<<<<<< HEAD
+=======
+  - resetBody
+  - ResetBody
+  - setStunned
+  - SetStunned
+  - MoveExecute
+  - moveExecute
+  - handleCooldown
+>>>>>>> audio
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

@@ -21,7 +21,10 @@ namespace HeartOfWinter.Arena
             get { return _done; }
         }
 
-        [SerializeField] DireWolf direWolfPrefab;
+        [SerializeField] MonsterCharacter direWolfPrefab;
+        [SerializeField] MonsterCharacter draugrPrefab;
+        [SerializeField] MonsterCharacter wendigofPrefab;
+        [SerializeField] MonsterCharacter frostWolfPrefab;
 
         void Awake()
         {
@@ -42,9 +45,21 @@ namespace HeartOfWinter.Arena
             switch (i)
             {
                 case 0:
+                    spawn(wendigofPrefab.gameObject);
+                    spawn(frostWolfPrefab.gameObject);
                     spawn(direWolfPrefab.gameObject);
+                    return;
+
+                case 1:
+                    spawn(draugrPrefab.gameObject);
+                    spawn(wendigofPrefab.gameObject);
+                    spawn(frostWolfPrefab.gameObject);
+                    return;
+
+                case 2:
                     spawn(direWolfPrefab.gameObject);
-                    spawn(direWolfPrefab.gameObject);
+                    spawn(draugrPrefab.gameObject);
+                    spawn(wendigofPrefab.gameObject);
                     return;
 
                 default:
