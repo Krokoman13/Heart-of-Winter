@@ -18,6 +18,8 @@ namespace HeartOfWinter.Characters
         public float maxHealth = 1.0f;
 
         bool _moving = false;
+        bool _shaking = false;
+        bool _floating = false;
 
         public float health
         {
@@ -153,6 +155,24 @@ namespace HeartOfWinter.Characters
 
         protected void Update()
         {
+            if (_shaking)
+            {
+                Vector3 pos = transform.GetChild(0).position;
+                pos.x += Mathf.Sin(Time.time * 30f) * 0.005f;
+                transform.GetChild(0).position = pos;
+
+                return;
+            }
+
+            if (_floating)
+            {
+                Vector3 pos = transform.GetChild(0).position;
+                pos.y += Mathf.Abs(Mathf.Sin(Time.time * 30f)) * 0.005f;
+                transform.GetChild(0).position = pos;
+
+                return;
+            }
+
             if (_moving)
             {
                 if (_currentMove == null)
@@ -163,6 +183,8 @@ namespace HeartOfWinter.Characters
 
                 _currentMove.Step();
                 if (_currentMove.ready) _moving = false;
+
+                return;
             }
         }
 
@@ -173,13 +195,13 @@ namespace HeartOfWinter.Characters
         {
             if (!PhotonNetwork.IsConnected)
             {
-                return removeHealth(amount);
+                return modifyHealth(amount);
             }
 
             if (PhotonNetwork.IsMasterClient)
             {
-                photonView.RPC(nameof(removeHealth), RpcTarget.Others, amount);
-                return removeHealth(amount);
+                photonView.RPC(nameof(modifyHealth), RpcTarget.Others, amount);
+                return modifyHealth(amount);
             }
 
             //photonView.RPC(nameof(ModifyHealth), RpcTarget.MasterClient, amount);
@@ -187,9 +209,18 @@ namespace HeartOfWinter.Characters
         }
 
         [PunRPC]
-        protected float removeHealth(float amount)
+        protected float modifyHealth(float amount)
         {
             if (isDead) return 0f;
+
+            if (amount < 0)
+            {
+                StartCoroutine(shaking(0.25f));
+            }
+            else if (amount > 0)
+            {
+                StartCoroutine(floating(0.25f));
+            }
 
             health = health + amount;
             return amount;
@@ -392,6 +423,21 @@ namespace HeartOfWinter.Characters
             }
 
             damageModifier = 1.0f;
+        }
+
+        private IEnumerator shaking(float duration)
+        {
+            _shaking = true;
+            yield return new WaitForSeconds(duration);
+            _shaking = false;
+            resetBody();
+        }
+        private IEnumerator floating (float duration)
+        {
+            _floating = true;
+            yield return new WaitForSeconds(duration);
+            _floating = false;
+            resetBody();
         }
     }
 }

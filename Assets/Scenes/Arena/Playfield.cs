@@ -135,7 +135,7 @@ namespace HeartOfWinter.Arena
 
                 case states.spawnMonsters:
                     monsterSpawner.SpawnNextWave();
-                    SwitchState(states.selectMove);
+                    state = states.selectMove;
                     return;
 
                 case states.selectMove:
@@ -236,6 +236,8 @@ namespace HeartOfWinter.Arena
                     }
 
                     sortedOnInitiative.RemoveAt(sortedOnInitiative.Count -1);
+
+                    StartCoroutine(waitFor(1f));
 
                     if (sortedOnInitiative.Count > 0) return;
 
@@ -511,6 +513,14 @@ namespace HeartOfWinter.Arena
                 Character removed = targetsForMyCharacter.Dequeue();
                 removed.selected = false;
             }
+        }
+
+        private IEnumerator waitFor(float seconds)
+        {
+            states backupState = state;
+            state = states.wait;
+            yield return new WaitForSeconds(seconds);
+            state = backupState;
         }
     }
 }
