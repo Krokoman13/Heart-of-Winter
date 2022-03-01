@@ -45,11 +45,8 @@ namespace HeartOfWinter.Arena
             switch (i)
             {
                 case 0:
-                    //spawn(wendigofPrefab.gameObject);
-                    //spawn(frostWolfPrefab.gameObject);
-                    //spawn(direWolfPrefab.gameObject);
-                    spawn(direWolfPrefab.gameObject);
-                    spawn(direWolfPrefab.gameObject);
+                    spawn(wendigofPrefab.gameObject);
+                    spawn(frostWolfPrefab.gameObject);
                     spawn(direWolfPrefab.gameObject);
                     return;
 

@@ -22,6 +22,7 @@ public class HealthBar : MonoBehaviour
         textObject.transform.parent = GameObject.FindGameObjectWithTag("UI").transform;
         text = textObject.AddComponent<Text>();
         text.font = Resources.GetBuiltinResource(typeof(Font), "Arial.ttf") as Font;
+        text.transform.localScale = new Vector3(2.5f, 2.5f, 2.5f);
 
         spriteWidth = bar.GetComponent<SpriteRenderer>().sprite.rect.width/100.0f;
     }
@@ -44,7 +45,7 @@ public class HealthBar : MonoBehaviour
 
     private void Update()
     {
-        text.transform.position = cam.WorldToScreenPoint(transform.position) - new Vector3(-30, 40, 0);
+        text.transform.position = cam.WorldToScreenPoint(transform.position) - new Vector3(-75, 105, 0);
     }
 
     private void OnDestroy()
