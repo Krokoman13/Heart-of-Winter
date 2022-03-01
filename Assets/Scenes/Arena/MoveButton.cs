@@ -37,9 +37,9 @@ namespace HeartOfWinter.Arena
                     _myImage.sprite = sprite;
                     return;
                 }
-
-                Debug.LogWarning("Could not find moveIcon: " + _myMove.iconName);
             }
+            
+            Debug.LogWarning("Could not find moveIcon: " + _myMove.iconName);
         }
 
         public void Update()
