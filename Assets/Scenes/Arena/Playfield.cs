@@ -416,6 +416,8 @@ namespace HeartOfWinter.Arena
 
         void arrange()
         {
+            needToArrange = false;
+
             if (NPCs != null && PCs != null)
             {
                 NPCs.RemoveAll(item => item == null);
@@ -431,8 +433,6 @@ namespace HeartOfWinter.Arena
                     if (PC.isDead) killPC(PC);
                 }
             }
-
-            needToArrange = false;
 
             int i = 0;
 
@@ -459,7 +459,7 @@ namespace HeartOfWinter.Arena
 
             //PCs.Remove(heroCharacter);
             if (heroCharacter == myCharacter) myCharacterMoves.DisableMoves();
-            Destroy(heroCharacter.gameObject);
+            DestroyImmediate(heroCharacter.gameObject);
             NeedsToArrange();
         }
 
