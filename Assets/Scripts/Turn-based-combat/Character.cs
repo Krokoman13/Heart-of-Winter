@@ -282,6 +282,31 @@ namespace HeartOfWinter.Characters
         }
 
         [PunRPC]
+        public void MoveExecute()
+        {
+            if (!PhotonNetwork.IsConnected)
+            {
+                moveExecute();
+                return;
+            }
+
+            if (PhotonNetwork.IsMasterClient)
+            {
+                photonView.RPC(nameof(moveExecute), RpcTarget.Others);
+                moveExecute();
+                return;
+            }
+
+            photonView.RPC(nameof(MoveExecute), RpcTarget.MasterClient);
+        }
+
+        [PunRPC]
+        protected void moveExecute()
+        {
+            _currentMove.Execute();
+        }
+
+        [PunRPC]
         public void AddTargetToCurrentMove(int targetIt, bool TargetIsNPC)
         {
             if (!PhotonNetwork.IsConnected)
@@ -311,7 +336,7 @@ namespace HeartOfWinter.Characters
             return _stunned;
         }
 
-        [PunRPC]
+        //[PunRPC]
         public void SetStunned(bool stunned = true)
         {
             if (!PhotonNetwork.IsConnected)
@@ -326,7 +351,7 @@ namespace HeartOfWinter.Characters
                 return;
             }
 
-            photonView.RPC(nameof(SetStunned), RpcTarget.MasterClient, stunned);
+            //photonView.RPC(nameof(SetStunned), RpcTarget.MasterClient, stunned);
         }
 
         [PunRPC]
@@ -337,6 +362,22 @@ namespace HeartOfWinter.Characters
 
         public void HandleCooldown()
         {
+            if (!PhotonNetwork.IsConnected)
+            {
+                handleCooldown();
+                return;
+            }
+
+            if (PhotonNetwork.IsMasterClient)
+            {
+                photonView.RPC(nameof(handleCooldown), RpcTarget.All);
+                return;
+            }
+        }
+
+        [PunRPC]
+        protected void handleCooldown()
+        {
             foreach (Move move in knownMoves)
             {
                 if (move.IsOnCooldown()) move.CooldownTimerTick();
@@ -345,7 +386,7 @@ namespace HeartOfWinter.Characters
             if (damageModifier == 1.0f) return;
 
             if (damageModifierDuration > 0)
-            { 
+            {
                 damageModifierDuration--;
                 return;
             }

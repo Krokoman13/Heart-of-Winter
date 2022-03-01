@@ -74,6 +74,9 @@ MonoBehaviour:
   - ResetBody
   - setStunned
   - SetStunned
+  - MoveExecute
+  - moveExecute
+  - handleCooldown
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

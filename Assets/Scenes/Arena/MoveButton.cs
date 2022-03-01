@@ -36,6 +36,8 @@ namespace HeartOfWinter.Arena
                     _myImage.sprite = sprite;
                     break;
                 }
+
+                Debug.LogWarning("Could not find moveIcon: " + _myMove.iconName);
             }
             
             _myButton.onClick.AddListener(() => playfield.SelectNewMove(pMove));

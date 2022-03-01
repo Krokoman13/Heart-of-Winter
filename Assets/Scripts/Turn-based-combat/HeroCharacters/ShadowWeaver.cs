@@ -12,7 +12,7 @@ namespace HeartOfWinter.Characters.HeroCharacters
         public ShadowWeaver()
         {
             maxHealth = 35;
-            initiative = 8;
+            initiative = 10;
             heroName = Hero.ShadowWeaver;
 
             knownMoves = new List<Move>()

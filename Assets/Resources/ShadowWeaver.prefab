@@ -70,7 +70,7 @@ MonoBehaviour:
   maxHealth: 35
   damageModifier: 1
   damageModifierDuration: 0
-  initiative: 8
+  initiative: 10
   isMine: 0
   heroName: 2
 --- !u!1 &5307664268726932471

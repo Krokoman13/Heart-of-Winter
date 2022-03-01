@@ -8,5 +8,5 @@ public class ButtonManager: MonoBehaviour
     public void ButtonMoveScene(string Scene) 
 	{  
         	SceneManager.LoadScene(Scene);  
-        }   
+    }   
 } 

@@ -29,7 +29,7 @@ public class HealthBar : MonoBehaviour
 
     public void SetValue(float minHealth, float maxHealth)
     {
-        text.text = minHealth.ToString() + '/' + maxHealth.ToString();
+        text.text = maxHealth.ToString() + '/' + Mathf.RoundToInt(minHealth).ToString();
         setValue(minHealth / maxHealth);
     }
 

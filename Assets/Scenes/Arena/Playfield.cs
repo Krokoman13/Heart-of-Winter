@@ -227,7 +227,7 @@ namespace HeartOfWinter.Arena
                             if (!currentMove.ready) return;
                             Debug.Log("Move:" + currentMove.iconName);
 
-                            currentMove.Execute();
+                            currentChar.MoveExecute();
                             return;
                         }
 
@@ -243,11 +243,13 @@ namespace HeartOfWinter.Arena
                     return;
 
                 case states.endRound:
+                    if (PhotonNetwork.IsConnected && !PhotonNetwork.IsMasterClient) return;
+
                     foreach (Character character in PCs)
                     {
                         character.HandleCooldown();
                     }
-                    needToArrange = true;
+                    NeedsToArrange();
                     SwitchState(states.checkWinOrLose);
                     return;
 
