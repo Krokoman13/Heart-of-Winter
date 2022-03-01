@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 using HeartOfWinter.Moves;
 using HeartOfWinter.Characters.HeroCharacters;
+using System;
 
 namespace HeartOfWinter.Arena
 {
@@ -68,6 +69,14 @@ namespace HeartOfWinter.Arena
             uiButton.transform.GetChild(0).gameObject.SetActive(false);
 
             uiButton.GetComponent<Button>().onClick.AddListener(() => playfield.SelectNewMove(move));*/
+        }
+
+        internal void DisableMoves()
+        {
+            foreach (MoveButton moveButton in moveButtons)
+            {
+                moveButton.gameObject.SetActive(false);
+            }
         }
     }
 }

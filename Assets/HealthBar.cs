@@ -46,6 +46,11 @@ public class HealthBar : MonoBehaviour
     {
         text.transform.position = cam.WorldToScreenPoint(transform.position) - new Vector3(-30, 40, 0);
     }
+
+    private void OnDestroy()
+    {
+        Destroy(text);
+    }
     /*
         private void OnValidate()
         {

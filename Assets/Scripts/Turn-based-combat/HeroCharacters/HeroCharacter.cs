@@ -10,7 +10,7 @@ namespace HeartOfWinter.Characters.HeroCharacters
 
     public class HeroCharacter : Character
     {
-        bool isMine = false;
+        public bool isMine = false;
 
         public Hero heroName;
 

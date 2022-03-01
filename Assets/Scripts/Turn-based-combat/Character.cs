@@ -16,6 +16,9 @@ namespace HeartOfWinter.Characters
         private HealthBar _healthBar;
         private float _health;
         public float maxHealth = 1.0f;
+
+        bool _moving = false;
+
         public float health
         {
             get { return _health; }
@@ -40,7 +43,7 @@ namespace HeartOfWinter.Characters
 
         public bool isDead
         {
-            get { return health > 0.5f; }
+            get { return health < 0.5f; }
         }
 
         public float damageModifier = 1.0f;
@@ -148,6 +151,21 @@ namespace HeartOfWinter.Characters
             startPos = transform.GetChild(0).localPosition;
         }
 
+        protected void Update()
+        {
+            if (_moving)
+            {
+                if (_currentMove == null)
+                {
+                    _moving = false;
+                    return;
+                }
+
+                _currentMove.Step();
+                if (_currentMove.ready) _moving = false;
+            }
+        }
+
         protected abstract Transform findParent();
 
         [PunRPC]
@@ -164,13 +182,15 @@ namespace HeartOfWinter.Characters
                 return removeHealth(amount);
             }
 
-            photonView.RPC(nameof(ModifyHealth), RpcTarget.MasterClient, amount);
+            //photonView.RPC(nameof(ModifyHealth), RpcTarget.MasterClient, amount);
             return 0;
         }
 
         [PunRPC]
         protected float removeHealth(float amount)
         {
+            if (isDead) return 0f;
+
             health = health + amount;
             return amount;
         }
@@ -195,7 +215,7 @@ namespace HeartOfWinter.Characters
         }
 
         [PunRPC]
-        private void resetBody()
+        protected void resetBody()
         {
             Transform childBody = transform.GetChild(0);
             childBody.localPosition = startPos;
@@ -212,6 +232,8 @@ namespace HeartOfWinter.Characters
         [PunRPC]
         public void MoveStep()
         {
+            if (_moving) return;
+
             if (!PhotonNetwork.IsConnected)
             {
                 moveStep();
@@ -220,7 +242,7 @@ namespace HeartOfWinter.Characters
 
             if (PhotonNetwork.IsMasterClient)
             {
-                photonView.RPC(nameof(moveStep), RpcTarget.All);
+                photonView.RPC(nameof(moveStep), RpcTarget.AllBuffered);
                 //moveStep();
                 return;
             }
@@ -232,7 +254,7 @@ namespace HeartOfWinter.Characters
         protected void moveStep()
         {
             if (_currentMove == null || _stunned) return;
-            _currentMove.Step();
+            _moving = true;
         }
 
         public void AddTargetsToCurrentMove(IEnumerable<Character> targets)
