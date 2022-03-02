@@ -12,7 +12,7 @@ namespace HeartOfWinter.Moves
     {
         float movespeed = 15f;
 
-        public StandardAttackMove(Character caster, float power, string iconName, int amountOfTargets = 1, int cooldown = 0) : base(caster, power, iconName)
+        public StandardAttackMove(Character caster, float power, float maxPower, string iconName, int amountOfTargets = 1, int cooldown = 0) : base(caster, power, maxPower, iconName)
         {
             _amountOfTargets = amountOfTargets;
 
@@ -31,11 +31,15 @@ namespace HeartOfWinter.Moves
             setCooldown(cooldown);
         }
 
+        public StandardAttackMove(Character caster, float power, string iconName, int amountOfTargets = 1, int cooldown = 0) : this(caster, power, power, iconName, amountOfTargets, cooldown)
+        {
+        }
+
         protected override void execute()
         {
             foreach (Character target in targets)
             {
-                target.ModifyHealth(-power*caster.damageModifier);
+                target.ModifyHealth(-fullPower*caster.damageModifier);
             }
 
             //caster.transform.localPosition = startPos;

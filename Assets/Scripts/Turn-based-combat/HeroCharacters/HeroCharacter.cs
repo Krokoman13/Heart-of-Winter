@@ -23,5 +23,10 @@ namespace HeartOfWinter.Characters.HeroCharacters
         {
             return GameObject.FindGameObjectWithTag("HeroParent").transform;
         }
+
+        public float playfieldShakeModifier
+        {
+            get { return playfield.shakeModifier; }
+        }
     }
 }

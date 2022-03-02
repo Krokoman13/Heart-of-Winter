@@ -10,10 +10,10 @@ namespace HeartOfWinter.Moves.Sorcceress
     {
         float bonusDamage;
 
-        public ColdSnap(Character caster, float power, float pBonusDamage) : base(caster, power, "Cold Snap", 1)
+        public ColdSnap(Character caster) : base(caster, 3, 6, "Cold Snap", 1)
         {
             setCooldown(1);
-            bonusDamage = pBonusDamage;
+            bonusDamage = 8;
         }
 
         protected override void execute()
@@ -22,10 +22,10 @@ namespace HeartOfWinter.Moves.Sorcceress
             {
                 if (target.IsStunned())
                 {
-                    target.ModifyHealth(-(power + bonusDamage) * caster.damageModifier);
+                    target.ModifyHealth(-(fullPower + bonusDamage) * caster.damageModifier);
                 }
                 
-                target.ModifyHealth(-power);
+                target.ModifyHealth(-fullPower);
             }
         }
     }

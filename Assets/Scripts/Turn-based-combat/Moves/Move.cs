@@ -17,7 +17,29 @@ namespace HeartOfWinter.Moves
         public string iconName;
         public string description;
 
-        protected float power;
+        private float _power;
+        
+        protected float maxPower;
+        protected float shakeModifier
+        {
+            get
+            {
+                float powerDiffrence = maxPower - _power;
+
+                float multiplier = 0f;
+
+                if (caster is Characters.HeroCharacters.HeroCharacter)
+                {
+                    multiplier = ((Characters.HeroCharacters.HeroCharacter)caster).playfieldShakeModifier;
+                }
+
+                return powerDiffrence * multiplier;
+            }
+        }
+        protected float fullPower
+        {
+            get { return _power + shakeModifier; }
+        }
 
         protected int _amountOfTargets;
 
@@ -55,11 +77,17 @@ namespace HeartOfWinter.Moves
             _cooldownSpend++;
         }
 
-        public Move(Character pCaster, float pPower, string pIconName)
+        public Move(Character pCaster, float pPower, float pMaxpower, string pIconName)
         {
             caster = pCaster;
-            power = pPower;
+            _power = pPower;
             iconName = pIconName;
+            maxPower = pMaxpower;
+        }
+
+        public Move(Character pCaster, float pPower, string pIconName) : this (pCaster, pPower, pPower, pIconName)
+        {
+            
         }
 
         public void AddTarget(Character target)

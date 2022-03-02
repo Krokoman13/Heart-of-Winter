@@ -8,7 +8,7 @@ namespace HeartOfWinter.Moves.Priest
 {
     public class NewDawn : Move
     {
-        public NewDawn(Character caster, float power) : base(caster, power, "New Dawn")
+        public NewDawn(Character caster) : base(caster, 1.5f, 1.6f, "New Dawn")
         {
             setCooldown(4);
 
@@ -20,7 +20,7 @@ namespace HeartOfWinter.Moves.Priest
         {
             foreach (Character target in targets)
             {
-                target.damageModifier = power;
+                target.damageModifier = fullPower;
                 target.damageModifierDuration = 2;
             }
         }

@@ -8,7 +8,7 @@ namespace HeartOfWinter.Moves.Priest
 {
     public class HolyLight : StandardAttackMove
     {
-        public HolyLight(Character caster, float power) : base(caster, power, "Holy Light", 1)
+        public HolyLight(Character caster) : base(caster, 1, 3, "Holy Light", 1)
         {
             setCooldown(2);
         }
@@ -17,7 +17,7 @@ namespace HeartOfWinter.Moves.Priest
         {
             foreach (Character target in targets)
             {
-                target.ModifyHealth(-power * caster.damageModifier);
+                target.ModifyHealth(-fullPower * caster.damageModifier);
                 target.SetStunned();
             }
         }

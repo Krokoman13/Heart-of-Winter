@@ -17,7 +17,7 @@ namespace HeartOfWinter.Moves.Wendigo
         {
             foreach (Character target in targets)
             {
-                target.ModifyHealth(-power * caster.damageModifier);
+                target.ModifyHealth(-fullPower * caster.damageModifier);
                 caster.ModifyHealth(7f);
             }
         }
