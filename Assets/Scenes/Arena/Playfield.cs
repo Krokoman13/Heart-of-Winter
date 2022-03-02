@@ -11,6 +11,7 @@ using HeartOfWinter.Characters;
 using HeartOfWinter.Characters.HeroCharacters;
 using HeartOfWinter.Characters.MonsterCharacters;
 using HeartOfWinter.Moves;
+
 using System;
 
 namespace HeartOfWinter.Arena
@@ -43,6 +44,9 @@ namespace HeartOfWinter.Arena
         [SerializeField] MovesDisplayer myCharacterMoves;
         Move _myCurrentMove;
 
+        [SerializeField] Timer arenaTimer;
+        [SerializeField] Timer shakeTimer;
+
         private bool needToArrange = false;
 
         [PunRPC]
@@ -72,7 +76,7 @@ namespace HeartOfWinter.Arena
 
         [SerializeField] Button _readyButton;
 
-        private enum states { wait, spawnMonsters, selectMove, getMonsterMoves, shaking, resolveMoves, endRound, checkWinOrLose}
+        private enum states { wait, spawnMonsters, selectMove, getMonsterMoves, shaking, resolveMoves, endRound, checkWinOrLose }
         [SerializeField] states _state = states.wait;
 
         List<Character> _sortedOnInitiative = null;
@@ -82,7 +86,11 @@ namespace HeartOfWinter.Arena
         ShakeCalculator _shakeCalculator;
         bool _shaken = false;
         public float shakeModifier = 0f;
+
         [SerializeField] Text shakemodText;
+        [SerializeField] RectTransform shakePannel;
+        [SerializeField] RectTransform shakeTextBox;
+
 
         void Awake()
         {
@@ -106,7 +114,7 @@ namespace HeartOfWinter.Arena
             _readyButton.onClick.AddListener(() => stopOutlining(_NPCs));
             _readyButton.onClick.AddListener(() => stopOutlining(_PCs));
             _readyButton.onClick.AddListener(() => _readyButton.gameObject.SetActive(false));
-            _readyButton.onClick.AddListener(() => myCharacter.SetMove(_myCurrentMove)); 
+            _readyButton.onClick.AddListener(() => myCharacter.SetMove(_myCurrentMove));
             _readyButton.onClick.AddListener(() => myCharacter.AddTargetsToCurrentMove(targetsForMyCharacter));
             _readyButton.onClick.AddListener(() => targetsForMyCharacter.Clear());
 
@@ -137,6 +145,8 @@ namespace HeartOfWinter.Arena
             switch (_state)
             {
                 case states.wait:
+                    arenaTimer.enabled = false;
+                    //shakeTimer.enabled = false;
                     return;
 
                 case states.spawnMonsters:
@@ -148,20 +158,20 @@ namespace HeartOfWinter.Arena
 
                 case states.selectMove:
                     if (myCharacter == null) return;
-
+                    if (!arenaTimer.enabled && !arenaTimer.done) arenaTimer.StartTimer();
                     _shaken = false;
 
                     if (myCharacter.GetMove() != null)
                     {
                         if (!PhotonNetwork.IsConnected)
                         {
-                            switchState(states.getMonsterMoves);
+                            _state = states.getMonsterMoves;
                             return;
                         }
 
                         if (!PhotonNetwork.IsMasterClient)
                         {
-                            switchState(states.wait);
+                            _state = states.wait;
                             return;
                         }
 
@@ -170,11 +180,23 @@ namespace HeartOfWinter.Arena
                             if (character.GetMove() == null) return;
                         }
 
-                        switchState(states.getMonsterMoves);
+                        _state = states.getMonsterMoves;
                         return;
                     }
 
                     _readyButton.gameObject.SetActive(false);
+
+                    if (arenaTimer.done)
+                    {
+                        myCharacter.SelectRandomMove();
+                        arenaTimer.StartTimer();
+
+                        if (PhotonNetwork.IsConnected && !PhotonNetwork.IsMasterClient)
+                        {
+                            _state = states.wait;
+                            return;
+                        }
+                    }
 
                     if (_myCurrentMove == null) return;
 
@@ -197,49 +219,89 @@ namespace HeartOfWinter.Arena
                     }
                     return;
 
-                case states.getMonsterMoves: 
-                    if (PhotonNetwork.IsConnected) _state = states.shaking;
-                    else _state = states.resolveMoves;
+                case states.getMonsterMoves:
+                    if (PCs.Count > 1)
+                    {
+                        arenaTimer.enabled = false;
+                        SwitchState(states.shaking);
+                    }
+                    else SwitchState(states.resolveMoves);
 
                     if (PhotonNetwork.IsConnected && !PhotonNetwork.IsMasterClient)
                     {
                         return;
                     }
 
-                    foreach (MonsterCharacter monster in _NPCs)
+                    foreach (Character monster in _NPCs)
                     {
                         monster.SelectRandomMove();
                     }
                     return;
 
                 case states.shaking:
+                    shakePannel.gameObject.SetActive(true);
+
+                    if (!shakeTimer.enabled && !shakeTimer.done)
+                    {
+                        shakeTimer.StartTimer();
+                        return;
+                    }
+
                     if (_shaken)
                     {
+                        //shakemodText.color = Color.green;
+
                         if (PhotonNetwork.IsMasterClient)
                         {
                             if (_shakeCalculator.timestampCount == PCs.Count)
                             {
-                                shakeModifier = 1f - (_shakeCalculator.AverageDiffrence() * 5f);
-                                if (shakeModifier < 0f) shakeModifier = 0f;
+                                float mod = _shakeCalculator.AverageDiffrence();
+                                mod -= 0.2f;
+                                //mod = mod * 2f;
+                                mod = 1f - mod;
 
-                                Debug.Log("Modifier: " + shakeModifier);
-                                shakemodText.text = Math.Round(shakeModifier, 2).ToString();
-                                SwitchState(states.resolveMoves);
+                                if (mod < 0f) mod = 0f;
+                                SetShakeModifier(mod);
+
+                                Debug.Log("Modifier: " + mod);
+                                SwitchState(states.resolveMoves, 3f);
+                                return;
+                            }
+
+                            if (shakeTimer.done)
+                            {
+                                SetShakeModifier(0f);
+
+                                Debug.Log("Modifier: " + 0);
+                                SwitchState(states.resolveMoves, 3f);
+                                return;
                             }
                         }
+
+                        shakeTimer.StartTimer();
+                        shakeTimer.enabled = false;
+                        _state = states.wait;
+                        return;
+                    }
+
+                    if (shakeTimer.done)
+                    {
+                        _shaken = true;
                         return;
                     }
 
                     Vector3 acc = Input.acceleration;
 
-                    if (acc.sqrMagnitude >= 4f)
+                    if (acc.sqrMagnitude >= 3f)
                     {
                         MarkShaking();
                     }
-
                     return;
 
                 case states.resolveMoves:
+                    shakePannel.gameObject.SetActive(false);
+                    shakeTextBox.gameObject.SetActive(false);
+
                     if (PhotonNetwork.IsConnected && !PhotonNetwork.IsMasterClient)
                     {
                         _state = states.wait;
@@ -273,17 +335,20 @@ namespace HeartOfWinter.Arena
                         currentChar.SetStunned(false);
                     }
 
-                    _sortedOnInitiative.RemoveAt(_sortedOnInitiative.Count -1);
+                    _sortedOnInitiative.RemoveAt(_sortedOnInitiative.Count - 1);
 
-                    StartCoroutine(waitFor(1f));
-
-                    if (_sortedOnInitiative.Count > 0) return;
+                    if (_sortedOnInitiative.Count > 0)
+                    {
+                        StartCoroutine(waitFor(1f));
+                        return;
+                    }
 
                     _sortedOnInitiative = null;
                     SwitchState(states.endRound);
                     return;
 
                 case states.endRound:
+                    StopAllCoroutines();
                     if (PhotonNetwork.IsConnected && !PhotonNetwork.IsMasterClient) return;
 
                     foreach (Character character in PCs)
@@ -334,6 +399,7 @@ namespace HeartOfWinter.Arena
 
         public void MarkShaking()
         {
+            if (_state != states.shaking) return;
             _shakeCalculator.AddTimestamp();
             _shaken = true;
         }
@@ -341,40 +407,31 @@ namespace HeartOfWinter.Arena
         //[SerializeField] int amountPlayersDone = 0;
 
         [PunRPC]
-        private void SwitchState(states newState)
+        private void SwitchState(states newState, float delay = 0f)
         {
             if (PhotonNetwork.IsConnected)
             {
                 _state = states.wait;
 
                 if (!PhotonNetwork.IsMasterClient) return;
-                
-                photonView.RPC(nameof(switchState), RpcTarget.Others, newState);
-                switchState(newState);
-                    
 
-/*                amountPlayersDone++;
-                
-                if (amountPlayersDone >= _PCs.Count || forced)
-                {
-                    Debug.Log("Amount done: " + _PCs.Count);
-                    photonView.RPC(nameof(switchState), RpcTarget.All, newState);
-                    amountPlayersDone = 0;
-                    return;
-                }
-*/
+                photonView.RPC(nameof(switchState), RpcTarget.Others, newState, delay);
+                switchState(newState, delay);
                 return;
             }
 
-            switchState(newState);
+            switchState(newState, delay);
             return;
         }
 
         [PunRPC]
-        private void switchState(states newState)
+        private void switchState(states newState, float delay)
         {
             Debug.Log("Switching to: " + newState.ToString());
             _state = newState;
+
+            if (delay != 0f) StartCoroutine(waitFor(delay));
+
         }
 
         private List<Character> sortOnInitiative(List<Character> allCharacters)
@@ -565,6 +622,22 @@ namespace HeartOfWinter.Arena
             _state = states.wait;
             yield return new WaitForSeconds(seconds);
             _state = backupState;
+        }
+
+        public void SetShakeModifier(float pShakeMod)
+        {
+            if (PhotonNetwork.IsConnected && !PhotonNetwork.IsMasterClient) return;
+
+            photonView.RPC(nameof(setShakeModifier), RpcTarget.Others, pShakeMod);
+            setShakeModifier(pShakeMod);
+        }
+
+        [PunRPC]
+        private void setShakeModifier(float pShakeMod)
+        {
+            shakeModifier = pShakeMod;
+            shakemodText.text = (Math.Round(shakeModifier, 2) * 10).ToString();
+            shakeTextBox.gameObject.SetActive(true);
         }
     }
 }

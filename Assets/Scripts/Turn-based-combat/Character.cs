@@ -14,7 +14,7 @@ namespace HeartOfWinter.Characters
     public abstract class Character : MonoBehaviourPun
     {
         private HealthBar _healthBar;
-        private float _health;
+        [SerializeField] private float _health;
         public float maxHealth = 1.0f;
 
         bool _moving = false;
@@ -439,5 +439,7 @@ namespace HeartOfWinter.Characters
             _floating = false;
             resetBody();
         }
+
+        public abstract void SelectRandomMove();
     }
 }

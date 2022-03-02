@@ -24,6 +24,40 @@ namespace HeartOfWinter.Characters.HeroCharacters
             return GameObject.FindGameObjectWithTag("HeroParent").transform;
         }
 
+        public override void SelectRandomMove()
+        {
+            SetMove(0);
+
+            List<Character> targets;
+            List<Character> possibleTargets = null;
+
+            if (_currentMove.targetsNPCs)
+            {
+                possibleTargets = playfield.NPCs;
+            }
+
+            if (_currentMove.targetsPCs)
+            {
+                possibleTargets = playfield.PCs;
+            }
+
+            if (possibleTargets == null) return;
+
+            if (_currentMove.amountOfTargets < 3)
+            {
+                targets = new List<Character>();
+
+                Character target = possibleTargets[Random.Range(0, possibleTargets.Count)];
+                targets.Add(target);
+            }
+            else
+            {
+                targets = possibleTargets;
+            }
+
+            AddTargetsToCurrentMove(targets);
+        }
+
         public float playfieldShakeModifier
         {
             get { return playfield.shakeModifier; }

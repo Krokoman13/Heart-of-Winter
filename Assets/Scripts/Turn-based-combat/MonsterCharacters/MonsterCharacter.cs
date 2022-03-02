@@ -7,13 +7,13 @@ namespace HeartOfWinter.Characters.MonsterCharacters
 {
     public class MonsterCharacter : Character
     {
-        public void SelectRandomMove()
+        public override void SelectRandomMove()
         {
             if (IsStunned()) return;
 
             do
             {
-                SetMove(knownMoves[Random.Range(0, knownMoves.Count)]);
+              SetMove(knownMoves[Random.Range(0, knownMoves.Count)]);
             } while (_currentMove.IsOnCooldown());
             
             List<Character> targets;

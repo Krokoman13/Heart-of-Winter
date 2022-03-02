@@ -4,6 +4,8 @@ using UnityEngine;
 
 using Photon.Pun;
 
+using System;
+
 namespace HeartOfWinter.Arena
 {
     public class ShakeCalculator : MonoBehaviourPun
@@ -26,22 +28,29 @@ namespace HeartOfWinter.Arena
 
         public void AddTimestamp()
         {
-            float timestamp = Time.time;
-
             if (PhotonNetwork.IsMasterClient)
             {
-                hostTimestamp = timestamp;
+                photonView.RPC(nameof(setHostTimestamp), RpcTarget.MasterClient);
                 return;
             }
 
-            photonView.RPC(nameof(addTimestamp), RpcTarget.MasterClient, timestamp);
-            
+            photonView.RPC(nameof(addTimestamp), RpcTarget.MasterClient);  
         }
 
         [PunRPC]
-        private void addTimestamp(float timestamp)
+        private void addTimestamp()
         {
+            DateTime currentTime = DateTime.Now;
+            float timestamp = (currentTime.Minute * 60f) + currentTime.Second + (currentTime.Millisecond / 1000f);
             timestamps.Add(timestamp);
+        }
+
+        [PunRPC]
+        private void setHostTimestamp()
+        {
+            DateTime currentTime = DateTime.Now;
+            float timestamp = (currentTime.Minute * 60f) + currentTime.Second + (currentTime.Millisecond / 1000f);
+            hostTimestamp = timestamp;
         }
 
         public float AverageDiffrence() 
