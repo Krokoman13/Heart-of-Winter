@@ -11,7 +11,7 @@ namespace HeartOfWinter.Arena
     public class ShakeCalculator : MonoBehaviourPun
     {
         [SerializeField] List<float> timestamps = new List<float>();
-        [SerializeField] float hostTimestamp = 0;
+        //[SerializeField] float hostTimestamp = 0;
 
         public int timestampCount
         {
@@ -20,7 +20,7 @@ namespace HeartOfWinter.Arena
                 int outp;
 
                 outp = timestamps.Count;
-                if (hostTimestamp != 0) outp++;
+                //if (hostTimestamp != 0) outp++;
 
                 return outp;
             }
@@ -28,11 +28,11 @@ namespace HeartOfWinter.Arena
 
         public void AddTimestamp()
         {
-            if (PhotonNetwork.IsMasterClient)
+/*            if (PhotonNetwork.IsMasterClient)
             {
                 photonView.RPC(nameof(setHostTimestamp), RpcTarget.MasterClient);
                 return;
-            }
+            }*/
 
             photonView.RPC(nameof(addTimestamp), RpcTarget.MasterClient);  
         }
@@ -50,16 +50,16 @@ namespace HeartOfWinter.Arena
         {
             DateTime currentTime = DateTime.Now;
             float timestamp = (currentTime.Minute * 60f) + currentTime.Second + (currentTime.Millisecond / 1000f);
-            hostTimestamp = timestamp;
+            //hostTimestamp = timestamp;
         }
 
         public float AverageDiffrence() 
         {
             float diffrence = 0;
 
-            foreach (float timestamp in timestamps)
+            for (int i = 1; i < timestamps.Count; i++)
             {
-                diffrence += Mathf.Abs(timestamp - hostTimestamp);
+                diffrence += Mathf.Abs(timestamps[i] - timestamps[0]);
             }
 
             diffrence /= timestamps.Count;
@@ -72,7 +72,7 @@ namespace HeartOfWinter.Arena
         public void Clear()
         {
             timestamps = new List<float>();
-            hostTimestamp = 0;
+            //hostTimestamp = 0;
         }
     }
 }

@@ -45,7 +45,6 @@ namespace HeartOfWinter.Arena
         Move _myCurrentMove;
 
         [SerializeField] Timer arenaTimer;
-        [SerializeField] Timer shakeTimer;
 
         private bool needToArrange = false;
 
@@ -132,7 +131,6 @@ namespace HeartOfWinter.Arena
 
             _state = states.selectMove;
             Destroy(_monsterSpawner);
-            shakeTimer.enabled = false;
         }
 
         private void Update()
@@ -147,12 +145,6 @@ namespace HeartOfWinter.Arena
             {
                 case states.wait:
                     arenaTimer.enabled = false;
-
-                    if (shakeTimer.enabled)
-                    {
-                        shakeTimer.StartTimer();
-                        shakeTimer.enabled = false;
-                    }
                     //shakeTimer.enabled = false;
                     return;
 
@@ -248,34 +240,21 @@ namespace HeartOfWinter.Arena
                     return;
 
                 case states.shaking:
-                    shakePannel.gameObject.SetActive(true);
-
-                    if (!shakeTimer.enabled && !shakeTimer.done)
+                    if (!shakePannel.gameObject.activeSelf)
                     {
-                        shakeTimer.StartTimer();
-                        return;
+                        shakePannel.gameObject.SetActive(true);
+                        StartCoroutine(ShakeTimer());
                     }
 
                     if (_shaken)
                     {
-                        if (PhotonNetwork.IsMasterClient && shakeTimer.done)
-                        {
-                            SetShakeModifier(0f);
-
-                            Debug.Log("Modifier: " + 0);
-                            SwitchState(states.resolveMoves, 3f);
-                        }
-
-                        shakeTimer.StartTimer();
-                        shakeTimer.enabled = false;
-
                         if (PhotonNetwork.IsMasterClient)
                         {
                             if (_shakeCalculator.timestampCount == PCs.Count)
                             {
                                 float mod = _shakeCalculator.AverageDiffrence();
                                 mod -= 0.2f;
-                                //mod = mod * 2f;
+                                mod = mod / 2f;
                                 mod = 1f - mod;
 
                                 if (mod < 0f) mod = 0f;
@@ -285,23 +264,6 @@ namespace HeartOfWinter.Arena
                                 SwitchState(states.resolveMoves, 3f);
                                 return;
                             }
-                        }
-
-
-                        return;
-                    }
-
-                    if (shakeTimer.done)
-                    {
-                        _shaken = true;
-
-                        if (!PhotonNetwork.IsMasterClient)
-                        {
-                            _shakeCalculator.Clear();
-
-                            shakeTimer.StartTimer();
-                            shakeTimer.enabled = false;
-                            _state = states.wait;
                         }
 
                         return;
@@ -316,11 +278,7 @@ namespace HeartOfWinter.Arena
                     return;
 
                 case states.resolveMoves:
-                    if (shakeTimer.enabled)
-                    {
-                        shakeTimer.StartTimer();
-                        shakeTimer.enabled = false;
-                    }
+                    StopAllCoroutines();
 
                     shakePannel.gameObject.SetActive(false);
                     shakeTextBox.gameObject.SetActive(false);
@@ -422,7 +380,7 @@ namespace HeartOfWinter.Arena
 
         public void MarkShaking()
         {
-            //if (_state != states.shaking) return;
+            if (_shaken) return;
             _shakeCalculator.AddTimestamp();
             _shaken = true;
         }
@@ -661,6 +619,16 @@ namespace HeartOfWinter.Arena
             shakeModifier = pShakeMod;
             shakemodText.text = (Math.Round(shakeModifier, 2) * 10).ToString();
             shakeTextBox.gameObject.SetActive(true);
+        }
+
+        IEnumerator ShakeTimer()
+        {
+            yield return new WaitForSeconds(10f);
+
+            Debug.Log("Timer ran out!");
+
+            SetShakeModifier(0f);
+            SwitchState(states.resolveMoves, 3f);
         }
     }
 }
