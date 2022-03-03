@@ -290,8 +290,7 @@ namespace HeartOfWinter.Arena
 
                         if (!PhotonNetwork.IsMasterClient)
                         {
-                            timestamps = new List<float>();
-                            hostTimestamp = 0;
+                            _shakeCalculator.Clear();
 
                             shakeTimer.StartTimer();
                             shakeTimer.enabled = false;
