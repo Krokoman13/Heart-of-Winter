@@ -10,7 +10,7 @@ namespace HeartOfWinter.Moves.Priest
     {
         public HolyLight(Character caster) : base(caster, 1, 3, "Holy Light", 1)
         {
-            setCooldown(2);
+            setCooldown(1);
         }
 
         public override string description

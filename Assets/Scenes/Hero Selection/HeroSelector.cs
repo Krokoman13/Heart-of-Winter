@@ -81,7 +81,7 @@ namespace HeartOfWinter.Heroselection
                 selectedIt = buttonIt;
             }
 
-            playerMngr.SetPlayerCharacter(playerID, button.name);
+            playerMngr.SetPlayerCharacter(playerID, buttonIt);
             disableButton(button);
         }
 

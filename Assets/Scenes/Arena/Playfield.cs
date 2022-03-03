@@ -193,6 +193,10 @@ namespace HeartOfWinter.Arena
                         myCharacter.SelectRandomMove();
                         arenaTimer.StartTimer();
 
+                        stopOutlining(_NPCs);
+                        stopOutlining(_PCs);
+                        targetsForMyCharacter = new Queue<Character>();
+
                         if (PhotonNetwork.IsConnected && !PhotonNetwork.IsMasterClient)
                         {
                             _state = states.wait;

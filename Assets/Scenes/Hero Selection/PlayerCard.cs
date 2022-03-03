@@ -4,12 +4,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+using HeartOfWinter.PlayerInformation;
+using HeartOfWinter.Characters.HeroCharacters;
+
 namespace HeartOfWinter.Heroselection
 {
     public class PlayerCard : MonoBehaviour
     {
+        [SerializeField] RectTransform outline;
+
         Text playerText;
         Text characterText;
+
+        [SerializeField] List<GameObject> heroImages;
 
         string _player;
 
@@ -19,30 +26,40 @@ namespace HeartOfWinter.Heroselection
             private set { _player = value; }
         }
 
-        public void SetPlayer(string player, string character = null)
+        public void SetPlayer(string player, int character = 5)
         {
             if (player == null)
             {
                 playerText.text = "...";
                 characterText.text = "...";
                 gameObject.SetActive(false);
+
+                
+
                 return;
             }
 
+            if (player == PlayerInfo.name) outline.gameObject.SetActive(true);
             playerText.text = player;
             gameObject.SetActive(true);
-            SetCharacter(character);
+            SetCharacter(5);
         }
 
-        public void SetCharacter(string character)
+        public void SetCharacter(int character)
         {
-            if (character == null)
+            if (character > 4)
             {
                 characterText.text = "..";
                 return;
             }
 
-            characterText.text = character;
+            foreach (GameObject heroImage in heroImages)
+            {
+                heroImage.SetActive(false);
+            }
+
+            heroImages[character].SetActive(true);
+            characterText.text = ((Hero)character).ToString();
         }
 
         public bool HasCharacter()

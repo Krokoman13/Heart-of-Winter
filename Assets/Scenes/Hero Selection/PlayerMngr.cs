@@ -100,7 +100,7 @@ namespace HeartOfWinter.Heroselection
             Debug.LogError("Could not remove player: " + player);
         }
 
-        public void SetPlayerCharacter(int playerID, string character)
+        public void SetPlayerCharacter(int playerID, int character)
         {
             if (playerID > 0) playerID--;
 
