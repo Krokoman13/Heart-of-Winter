@@ -14,7 +14,7 @@ public class PopupScript : MonoBehaviour
     private void Start()
     {
         cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
-        if (canvas == null) canvas =  GameObject.FindGameObjectWithTag("UI").GetComponent<Canvas>();
+        if (canvas == null) canvas = GameObject.FindGameObjectWithTag("UI").GetComponent<Canvas>();
     }
 
     public void SpawnPopup(string amount, Color color)
@@ -23,12 +23,12 @@ public class PopupScript : MonoBehaviour
         StartCoroutine(cooldown());
 
         Transform p = Instantiate(Resources.Load<Transform>("Popup"), canvas.transform);
-        
+
         p.GetComponent<TMP_Text>().SetText(amount);
         p.GetComponent<TMP_Text>().faceColor = color;
         p.GetComponent<TMP_Text>().color = color;
 
-        p.position = cam.WorldToScreenPoint(transform.position) - new Vector3(0, -260, 0);
+        p.position = cam.WorldToScreenPoint(transform.position) - new Vector3(0, -240, 0);
     }
 
     public void SpawnPopup(string amount)
@@ -40,7 +40,7 @@ public class PopupScript : MonoBehaviour
 
         p.GetComponent<TMP_Text>().SetText(amount);
 
-        p.position = cam.WorldToScreenPoint(transform.position) - new Vector3(0, -260, 0);
+        p.position = cam.WorldToScreenPoint(transform.position) - new Vector3(0, -240, 0);
     }
 
     IEnumerator cooldown()
