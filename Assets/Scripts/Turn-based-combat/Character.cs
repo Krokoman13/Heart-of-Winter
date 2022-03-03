@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Audio;
 
 using Photon.Pun;
 
@@ -16,6 +17,9 @@ namespace HeartOfWinter.Characters
         [SerializeField] AudioClip hit;
         [SerializeField] AudioClip attack;
         AudioSource source;
+        [SerializeField] AudioMixerGroup MyMixerGroup;
+        
+
 
         private HealthBar _healthBar;
         [SerializeField] private float _health;
@@ -63,8 +67,8 @@ namespace HeartOfWinter.Characters
             {
                 _damageModifier = value;
 
-                if (value < 1) popupScript.SpawnPopup('-' + Math.Round(value * 10f).ToString() + '%', Color.magenta);
-                else if (value > 1) popupScript.SpawnPopup('+' + Math.Round((value - 1) * 10f).ToString() + '%', Color.yellow);
+                if (value < 1) popupScript.SpawnPopup('-' + Math.Round(value * 100f).ToString() + '%', Color.magenta);
+                else if (value > 1) popupScript.SpawnPopup('+' + Math.Round((value - 1) * 100f).ToString() + '%', Color.yellow);
             }
         } 
             
@@ -178,6 +182,7 @@ namespace HeartOfWinter.Characters
 
         protected void Update()
         {
+            source.outputAudioMixerGroup = MyMixerGroup;
             if (_shaking)
             {
                 Vector3 pos = transform.GetChild(0).position;

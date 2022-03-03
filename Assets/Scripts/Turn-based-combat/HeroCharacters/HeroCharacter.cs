@@ -11,7 +11,8 @@ namespace HeartOfWinter.Characters.HeroCharacters
     public class HeroCharacter : Character
     {
         public bool isMine = false;
-
+        [SerializeField] AudioClip attack2;
+        [SerializeField] AudioClip attack3;
         public Hero heroName;
 
         public void setMine()
