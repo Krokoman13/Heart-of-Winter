@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Audio;
 
 using Photon.Pun;
 
@@ -16,6 +17,9 @@ namespace HeartOfWinter.Characters
         [SerializeField] AudioClip hit;
         [SerializeField] AudioClip attack;
         AudioSource source;
+        [SerializeField] AudioMixerGroup MyMixerGroup;
+        
+
 
         private HealthBar _healthBar;
         [SerializeField] private float _health;
@@ -178,6 +182,7 @@ namespace HeartOfWinter.Characters
 
         protected void Update()
         {
+            source.outputAudioMixerGroup = MyMixerGroup;
             if (_shaking)
             {
                 Vector3 pos = transform.GetChild(0).position;
