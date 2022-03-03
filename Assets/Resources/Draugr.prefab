@@ -151,6 +151,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hit: {fileID: 8300000, guid: 4f52f88e57c447247bf5e50508c2a1bc, type: 3}
   attack: {fileID: 8300000, guid: 8a7215d6b4b74d845a7336f0d0caaa36, type: 3}
+  MyMixerGroup: {fileID: 24300002, guid: a544f840b3547dd46bfd16ef086306dc, type: 2}
   _health: 0
   maxHealth: 35
   damageModifierDuration: 0

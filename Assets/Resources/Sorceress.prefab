@@ -149,9 +149,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5990c21215e733848b9066bd45c2be52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hit: {fileID: 8300000, guid: abf3000ae8dcd3e44937ca7564eb511d, type: 3}
+  attack: {fileID: 8300000, guid: 15511a66fdd12a041b20aa07ae1a48ad, type: 3}
+  MyMixerGroup: {fileID: 24300002, guid: a544f840b3547dd46bfd16ef086306dc, type: 2}
+  _health: 0
   maxHealth: 30
-  damageModifier: 1
   damageModifierDuration: 0
   initiative: 6
   isMine: 0
+  attack2: {fileID: 8300000, guid: 6f289bab924800844a099f70f11ccd95, type: 3}
+  attack3: {fileID: 8300000, guid: 59044c0a838ddde41898972f4e6c004d, type: 3}
   heroName: 0

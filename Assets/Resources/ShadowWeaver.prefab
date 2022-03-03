@@ -67,11 +67,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f04150e171b171e4db8d0021a5e0509a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hit: {fileID: 8300000, guid: abf3000ae8dcd3e44937ca7564eb511d, type: 3}
+  attack: {fileID: 8300000, guid: 4e4ed39296fcfa54ca5ee5b73e982eb9, type: 3}
+  MyMixerGroup: {fileID: 24300002, guid: a544f840b3547dd46bfd16ef086306dc, type: 2}
+  _health: 0
   maxHealth: 35
-  damageModifier: 1
   damageModifierDuration: 0
   initiative: 8
   isMine: 0
+  attack2: {fileID: 8300000, guid: bd7c02eb630b0ca4f8a7052f52b6cfc5, type: 3}
+  attack3: {fileID: 8300000, guid: e5dd35cb4217fca4c80ffb29732698c7, type: 3}
   heroName: 2
 --- !u!1 &5307664268726932471
 GameObject:
