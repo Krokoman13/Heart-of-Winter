@@ -63,8 +63,8 @@ namespace HeartOfWinter.Characters
             {
                 _damageModifier = value;
 
-                if (value < 1) popupScript.SpawnPopup('-' + Math.Round(value * 10f).ToString() + '%', Color.magenta);
-                else if (value > 1) popupScript.SpawnPopup('+' + Math.Round((value - 1) * 10f).ToString() + '%', Color.yellow);
+                if (value < 1) popupScript.SpawnPopup('-' + Math.Round(value * 100f).ToString() + '%', Color.magenta);
+                else if (value > 1) popupScript.SpawnPopup('+' + Math.Round((value - 1) * 100f).ToString() + '%', Color.yellow);
             }
         } 
             
