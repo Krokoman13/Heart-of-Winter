@@ -254,10 +254,12 @@ namespace HeartOfWinter.Arena
                             {
                                 float mod = _shakeCalculator.AverageDiffrence();
                                 mod -= 0.2f;
-                                mod = mod / 2f;
+                                mod = mod / 1.5f;
                                 mod = 1f - mod;
 
-                                if (mod < 0f) mod = 0f;
+                                if (mod > 10) mod = 10;
+                                else if (mod < 0f) mod = 0f;
+
                                 SetShakeModifier(mod);
 
                                 Debug.Log("Modifier: " + mod);
@@ -423,9 +425,14 @@ namespace HeartOfWinter.Arena
 
         public void SelectNewMove(Move newMove)
         {
+            if (_state != states.selectMove) return;
             if (myCharacter.GetMove() != null) return;
-            //if (state != states.selectMove) return;
             if (newMove.IsOnCooldown()) return;
+
+            if (newMove == _myCurrentMove)
+            {
+                newMove = null;
+            }
 
             _myCurrentMove = newMove;
 

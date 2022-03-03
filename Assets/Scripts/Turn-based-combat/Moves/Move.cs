@@ -17,16 +17,19 @@ namespace HeartOfWinter.Moves
         float movespeed = 15f;
 
         public string iconName;
-        public string description;
+        public virtual string description
+        {
+            get { return "Move"; }
+        }
 
-        private float _power;
+        protected float _power;
         
-        protected float maxPower;
+        protected float _maxPower;
         protected float shakeModifier
         {
             get
             {
-                float powerDiffrence = maxPower - _power;
+                float powerDiffrence = _maxPower - _power;
 
                 float multiplier = 0f;
 
@@ -84,7 +87,7 @@ namespace HeartOfWinter.Moves
             caster = pCaster;
             _power = pPower;
             iconName = pIconName;
-            maxPower = pMaxpower;
+            _maxPower = pMaxpower;
         }
 
         public Move(Character pCaster, float pPower, string pIconName) : this (pCaster, pPower, pPower, pIconName)

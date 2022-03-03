@@ -12,5 +12,13 @@ namespace HeartOfWinter.Moves.Sorcceress
         {
             setCooldown(3);
         }
+
+        public override string description
+        {
+            get
+            {
+                return "Deals " + _power + "-" + _maxPower + " damage to all enemies";
+            }
+        }
     }
 }

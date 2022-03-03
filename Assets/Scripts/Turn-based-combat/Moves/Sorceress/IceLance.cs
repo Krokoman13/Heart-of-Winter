@@ -22,5 +22,13 @@ namespace HeartOfWinter.Moves.Sorcceress
                 if (target.initiative < 2) target.initiative = 2;
             }
         }
+
+        public override string description
+        {
+            get
+            {
+                return "Deals " + _power + "-" + _maxPower + " damage to one enemy, also lowers the targets initiative";
+            }
+        }
     }
 }

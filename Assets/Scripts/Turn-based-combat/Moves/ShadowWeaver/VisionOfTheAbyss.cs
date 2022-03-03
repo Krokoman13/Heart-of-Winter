@@ -14,6 +14,14 @@ namespace HeartOfWinter.Moves.ShadowWeaver
             setCooldown(4);
         }
 
+        public override string description
+        {
+            get
+            {
+                return "Deals " + _power + "-" + _maxPower + " damage to all enemies, also stuns them";
+            }
+        }
+
         protected override void execute()
         {
             foreach (Character target in targets)

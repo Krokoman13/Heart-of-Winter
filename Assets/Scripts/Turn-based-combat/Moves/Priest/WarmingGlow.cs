@@ -11,5 +11,13 @@ namespace HeartOfWinter.Moves.Priest
         public WarmingGlow(Character caster) : base(caster, 5f, 6f, "Warming Glow", 1)
         {
         }
+
+        public override string description
+        {
+            get
+            {
+                return "Heals target ally for " + _power + "-" + _maxPower + " hit points";
+            }
+        }
     }
 }

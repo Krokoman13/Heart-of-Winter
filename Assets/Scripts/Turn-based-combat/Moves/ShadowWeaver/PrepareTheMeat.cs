@@ -16,6 +16,14 @@ namespace HeartOfWinter.Moves.ShadowWeaver
             targetsNPCs = true;
         }
 
+        public override string description
+        {
+            get
+            {
+                return "Lowers attackdamge of one enemy by " + _power*100f + "%-" + _maxPower*100f + "% damage to one enemy";
+            }
+        }
+
         protected override void execute()
         {
             foreach (Character target in targets)

@@ -16,6 +16,14 @@ namespace HeartOfWinter.Moves.Sorcceress
             bonusDamage = 8;
         }
 
+        public override string description
+        {
+            get
+            {
+                return "Deals " + _power + "-" + _maxPower + " damage to one enemy, +" +bonusDamage+ " if the character is stunned.";
+            }
+        }
+
         protected override void execute()
         {
             foreach (Character target in targets)

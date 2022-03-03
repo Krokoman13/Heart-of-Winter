@@ -13,6 +13,14 @@ namespace HeartOfWinter.Moves.ShadowWeaver
         {
         }
 
+        public override string description
+        {
+            get
+            {
+                return "Deals " + _power + "-" + _maxPower + " damage to one enemy, also heals self if the character is debuffed (by Prepare the Meat).";
+            }
+        }
+
         protected override void execute()
         {
             foreach (Character target in targets)

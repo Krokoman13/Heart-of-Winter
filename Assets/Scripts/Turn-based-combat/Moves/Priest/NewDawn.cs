@@ -16,6 +16,14 @@ namespace HeartOfWinter.Moves.Priest
             targetsPCs = true;
         }
 
+        public override string description
+        {
+            get
+            {
+                return "Target ally deals " + (_power - 1f)*100f + "extra damge for 2 rounds";
+            }
+        }
+
         protected override void execute()
         {
             foreach (Character target in targets)

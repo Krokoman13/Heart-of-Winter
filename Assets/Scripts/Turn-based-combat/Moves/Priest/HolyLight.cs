@@ -13,6 +13,14 @@ namespace HeartOfWinter.Moves.Priest
             setCooldown(2);
         }
 
+        public override string description
+        {
+            get
+            {
+                return "Deals " + _power + "-" + _maxPower + " damage to one enemy, also stuns them";
+            }
+        }
+
         protected override void execute()
         {
             foreach (Character target in targets)

@@ -200,7 +200,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7190025154933246569}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3146388430158797109}
+        m_TargetAssemblyTypeName: HeartOfWinter.Arena.MoveButton, Assembly-CSharp
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &3146388430158797109
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -225,3 +237,4 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 64fc10bb7f59e244f8caea1e8434ba27, type: 3}
   - {fileID: 21300000, guid: 649fa3aa6f4bda5488c3d8ee48d862e6, type: 3}
   - {fileID: 21300000, guid: fb43f933059381b44903c903f6f90121, type: 3}
+  descriptionpannel: {fileID: 0}

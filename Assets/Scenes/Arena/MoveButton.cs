@@ -18,11 +18,19 @@ namespace HeartOfWinter.Arena
 
         [SerializeField] List<Sprite> moveSprites;
 
+        [SerializeField] RectTransform descriptionpannel;
+        Text descriptionText;
+
         // Start is called before the first frame update
         void Awake()
         {
             _myButton = GetComponent<Button>();
             _myImage = GetComponent<Image>();
+        }
+
+        private void Start()
+        {
+            descriptionText = descriptionpannel.GetChild(0).GetComponent<Text>();
         }
 
         public void SetMove(Move pMove)
@@ -62,6 +70,31 @@ namespace HeartOfWinter.Arena
                 _myImage.color = new Color(0.25f, 0.25f, 0.25f);
                 text.gameObject.SetActive(true);
             }
+        }
+
+        public void OnClick()
+        {
+            if (descriptionpannel.gameObject.activeSelf && descriptionText.text == moveDescription())
+            {
+                descriptionpannel.gameObject.SetActive(false);
+                return;
+            }
+
+            descriptionpannel.gameObject.SetActive(true);
+            descriptionText.text = moveDescription();
+        }
+
+        string moveDescription()
+        {
+            string outp = "UNKNOWN";
+
+            if (_myMove == null) return outp;
+
+            outp = _myMove.iconName + '\n';
+            outp += '\n';
+            outp += _myMove.description;
+
+            return outp;
         }
     }
 }

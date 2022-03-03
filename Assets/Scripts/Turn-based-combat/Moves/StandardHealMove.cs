@@ -25,7 +25,6 @@ namespace HeartOfWinter.Moves
                 targetsNPCs = true;
             }
 
-            description = "Heals " + power + " health to " + (amountOfTargets > 2 ? "all" : amountOfTargets.ToString()) + " allies";
             setCooldown(cooldown);
         }
 

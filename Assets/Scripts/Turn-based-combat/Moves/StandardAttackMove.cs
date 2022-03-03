@@ -25,8 +25,16 @@ namespace HeartOfWinter.Moves
                 targetsPCs = true;
             }
 
-            description = "Deals " + power + " damage to " + (amountOfTargets > 2 ? "all" : amountOfTargets.ToString()) + " enemies";
+            
             setCooldown(cooldown);
+        }
+
+        public override string description
+        {
+            get 
+            { 
+                return "Deals " + _power + "-" + _maxPower + " damage to " + (amountOfTargets > 2 ? "all enemies" : "one enemy");
+            }
         }
 
         public StandardAttackMove(Character caster, float power, string iconName, int amountOfTargets = 1, int cooldown = 0) : this(caster, power, power, iconName, amountOfTargets, cooldown)
