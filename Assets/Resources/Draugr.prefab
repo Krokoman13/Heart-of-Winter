@@ -149,7 +149,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8404ed085d985a4ba3d50a7a3e52445, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hit: {fileID: 8300000, guid: 4f52f88e57c447247bf5e50508c2a1bc, type: 3}
+  attack: {fileID: 8300000, guid: 8a7215d6b4b74d845a7336f0d0caaa36, type: 3}
+  _health: 0
   maxHealth: 35
-  damageModifier: 1
   damageModifierDuration: 0
   initiative: 3

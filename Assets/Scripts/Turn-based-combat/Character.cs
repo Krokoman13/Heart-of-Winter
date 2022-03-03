@@ -13,6 +13,10 @@ namespace HeartOfWinter.Characters
 {
     public abstract class Character : MonoBehaviourPun
     {
+        [SerializeField] AudioClip hit;
+        [SerializeField] AudioClip attack;
+        AudioSource source;
+
         private HealthBar _healthBar;
         [SerializeField] private float _health;
         public float maxHealth = 1.0f;
@@ -167,6 +171,8 @@ namespace HeartOfWinter.Characters
 
             startPos = transform.GetChild(0).localPosition;
 
+            source = gameObject.AddComponent<AudioSource>();
+
             popupScript = gameObject.AddComponent<PopupScript>();
         }
 
@@ -234,6 +240,8 @@ namespace HeartOfWinter.Characters
             {
                 popupScript.SpawnPopup(Math.Round(amount).ToString());
                 StartCoroutine(shaking(0.25f));
+                source.clip = hit;
+                source.Play();
             }
             else if (amount > 0)
             {
@@ -305,6 +313,8 @@ namespace HeartOfWinter.Characters
         {
             if (_currentMove == null || _stunned) return;
             _moving = true;
+            source.clip = attack;
+            source.Play();
         }
 
         public void AddTargetsToCurrentMove(IEnumerable<Character> targets)
