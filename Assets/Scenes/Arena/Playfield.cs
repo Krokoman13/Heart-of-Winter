@@ -132,6 +132,7 @@ namespace HeartOfWinter.Arena
 
             _state = states.selectMove;
             Destroy(_monsterSpawner);
+            shakeTimer.enabled = false;
         }
 
         private void Update()
@@ -146,6 +147,12 @@ namespace HeartOfWinter.Arena
             {
                 case states.wait:
                     arenaTimer.enabled = false;
+
+                    if (shakeTimer.enabled)
+                    {
+                        shakeTimer.StartTimer();
+                        shakeTimer.enabled = false;
+                    }
                     //shakeTimer.enabled = false;
                     return;
 
@@ -309,6 +316,12 @@ namespace HeartOfWinter.Arena
                     return;
 
                 case states.resolveMoves:
+                    if (shakeTimer.enabled)
+                    {
+                        shakeTimer.StartTimer();
+                        shakeTimer.enabled = false;
+                    }
+
                     shakePannel.gameObject.SetActive(false);
                     shakeTextBox.gameObject.SetActive(false);
 
@@ -409,7 +422,7 @@ namespace HeartOfWinter.Arena
 
         public void MarkShaking()
         {
-            if (_state != states.shaking) return;
+            //if (_state != states.shaking) return;
             _shakeCalculator.AddTimestamp();
             _shaken = true;
         }

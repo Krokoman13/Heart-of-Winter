@@ -25,7 +25,7 @@ namespace HeartOfWinter.Arena
         {
             currentTime = startTime;
             enabled = true;
-            display.text = Math.Round(currentTime, 0).ToString();
+            if (display != null) display.text = Math.Round(currentTime, 0).ToString();
         }
 
         public bool done
