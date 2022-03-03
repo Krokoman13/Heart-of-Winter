@@ -14,6 +14,8 @@ namespace HeartOfWinter.Moves
         protected Character caster;
         protected List<Character> targets;
 
+        float movespeed = 15f;
+
         public string iconName;
         public string description;
 
@@ -120,7 +122,20 @@ namespace HeartOfWinter.Moves
 
         protected virtual void step()
         {
-            ready = true;
+            if (ready) return;
+
+            Transform casterBody = caster.transform.GetChild(0);
+            SpriteRenderer bodySprite = casterBody.GetComponent<SpriteRenderer>();
+            bodySprite.sortingOrder = 10;
+
+            if (Mathf.Abs(targets[targets.Count - 1].transform.position.x - casterBody.position.x) < 0.1f)
+            {
+                ready = true;
+                return;
+            }
+
+            float newX = Vector3.MoveTowards(casterBody.position, targets[targets.Count - 1].transform.position, movespeed * Time.deltaTime).x;
+            casterBody.position = new Vector3(newX, casterBody.position.y, casterBody.position.z);
         }
 
         abstract protected void execute();

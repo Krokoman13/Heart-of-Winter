@@ -18,8 +18,8 @@ namespace HeartOfWinter.Moves.ShadowWeaver
         {
             foreach (Character target in targets)
             {
-                target.ModifyHealth(-fullPower * caster.damageModifier);
                 target.SetStunned();
+                target.ModifyHealth(-fullPower * caster.damageModifier);
             }
         }
     }

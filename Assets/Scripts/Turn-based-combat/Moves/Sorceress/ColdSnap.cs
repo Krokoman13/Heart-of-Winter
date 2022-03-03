@@ -24,8 +24,7 @@ namespace HeartOfWinter.Moves.Sorcceress
                 {
                     target.ModifyHealth(-(fullPower + bonusDamage) * caster.damageModifier);
                 }
-                
-                target.ModifyHealth(-fullPower);
+                else target.ModifyHealth(-fullPower * caster.damageModifier);
             }
         }
     }

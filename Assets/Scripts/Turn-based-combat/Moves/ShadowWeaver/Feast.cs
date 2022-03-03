@@ -18,7 +18,6 @@ namespace HeartOfWinter.Moves.ShadowWeaver
             foreach (Character target in targets)
             {
                 target.ModifyHealth(-fullPower * caster.damageModifier);
-
                 if (target.damageModifier < 1.0f) caster.ModifyHealth(4f);
             }
         }

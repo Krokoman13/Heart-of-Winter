@@ -10,8 +10,6 @@ namespace HeartOfWinter.Moves
 {
     public class StandardAttackMove : Move
     {
-        float movespeed = 15f;
-
         public StandardAttackMove(Character caster, float power, float maxPower, string iconName, int amountOfTargets = 1, int cooldown = 0) : base(caster, power, maxPower, iconName)
         {
             _amountOfTargets = amountOfTargets;
@@ -44,24 +42,6 @@ namespace HeartOfWinter.Moves
 
             //caster.transform.localPosition = startPos;
             //startPos = Vector3.zero;
-        }
-
-        protected override void step()
-        {
-            if (ready) return;
-
-            Transform casterBody = caster.transform.GetChild(0);
-            SpriteRenderer bodySprite = casterBody.GetComponent<SpriteRenderer>();
-            bodySprite.sortingOrder = 10;
-
-            if (Mathf.Abs(targets[targets.Count - 1].transform.position.x - casterBody.position.x) < 0.1f)
-            {
-                ready = true;
-                return;
-            }
-
-            float newX = Vector3.MoveTowards(casterBody.position, targets[targets.Count - 1].transform.position, movespeed * Time.deltaTime).x;
-            casterBody.position = new Vector3(newX, casterBody.position.y, casterBody.position.z);
         }
     }
 }

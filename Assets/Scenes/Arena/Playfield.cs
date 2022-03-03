@@ -158,11 +158,12 @@ namespace HeartOfWinter.Arena
 
                 case states.selectMove:
                     if (myCharacter == null) return;
-                    if (!arenaTimer.enabled && !arenaTimer.done) arenaTimer.StartTimer();
                     _shaken = false;
 
                     if (myCharacter.GetMove() != null)
                     {
+                        arenaTimer.enabled = false;
+
                         if (!PhotonNetwork.IsConnected)
                         {
                             _state = states.getMonsterMoves;
@@ -183,6 +184,8 @@ namespace HeartOfWinter.Arena
                         _state = states.getMonsterMoves;
                         return;
                     }
+
+                    if (!arenaTimer.enabled && !arenaTimer.done) arenaTimer.StartTimer();
 
                     _readyButton.gameObject.SetActive(false);
 
@@ -222,7 +225,6 @@ namespace HeartOfWinter.Arena
                 case states.getMonsterMoves:
                     if (PCs.Count > 1)
                     {
-                        arenaTimer.enabled = false;
                         SwitchState(states.shaking);
                     }
                     else SwitchState(states.resolveMoves);
@@ -249,7 +251,16 @@ namespace HeartOfWinter.Arena
 
                     if (_shaken)
                     {
-                        //shakemodText.color = Color.green;
+                        if (PhotonNetwork.IsMasterClient && shakeTimer.done)
+                        {
+                            SetShakeModifier(0f);
+
+                            Debug.Log("Modifier: " + 0);
+                            SwitchState(states.resolveMoves, 3f);
+                        }
+
+                        shakeTimer.StartTimer();
+                        shakeTimer.enabled = false;
 
                         if (PhotonNetwork.IsMasterClient)
                         {
@@ -267,26 +278,23 @@ namespace HeartOfWinter.Arena
                                 SwitchState(states.resolveMoves, 3f);
                                 return;
                             }
-
-                            if (shakeTimer.done)
-                            {
-                                SetShakeModifier(0f);
-
-                                Debug.Log("Modifier: " + 0);
-                                SwitchState(states.resolveMoves, 3f);
-                                return;
-                            }
                         }
 
-                        shakeTimer.StartTimer();
-                        shakeTimer.enabled = false;
-                        _state = states.wait;
+
                         return;
                     }
 
                     if (shakeTimer.done)
                     {
                         _shaken = true;
+
+                        if (!PhotonNetwork.IsMasterClient)
+                        {
+                            shakeTimer.StartTimer();
+                            shakeTimer.enabled = false;
+                            _state = states.wait;
+                        }
+
                         return;
                     }
 

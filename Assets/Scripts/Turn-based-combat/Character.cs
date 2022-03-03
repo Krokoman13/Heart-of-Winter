@@ -21,6 +21,8 @@ namespace HeartOfWinter.Characters
         bool _shaking = false;
         bool _floating = false;
 
+        PopupScript popupScript;
+
         public float health
         {
             get { return _health; }
@@ -48,7 +50,20 @@ namespace HeartOfWinter.Characters
             get { return health < 0.5f; }
         }
 
-        public float damageModifier = 1.0f;
+        private float _damageModifier = 1.0f;
+
+        public float damageModifier
+        {
+            get { return _damageModifier; }
+            set 
+            {
+                _damageModifier = value;
+
+                if (value < 1) popupScript.SpawnPopup('-' + Math.Round(value * 10f).ToString() + '%', Color.magenta);
+                else if (value > 1) popupScript.SpawnPopup('+' + Math.Round((value - 1) * 10f).ToString() + '%', Color.yellow);
+            }
+        } 
+            
         public int damageModifierDuration;
 
         private Vector3 startPos;
@@ -151,6 +166,8 @@ namespace HeartOfWinter.Characters
             outlineChild.SetActive(false);
 
             startPos = transform.GetChild(0).localPosition;
+
+            popupScript = gameObject.AddComponent<PopupScript>();
         }
 
         protected void Update()
@@ -215,10 +232,12 @@ namespace HeartOfWinter.Characters
 
             if (amount < 0)
             {
+                popupScript.SpawnPopup(Math.Round(amount).ToString());
                 StartCoroutine(shaking(0.25f));
             }
             else if (amount > 0)
             {
+                popupScript.SpawnPopup('+' + (Math.Round(amount)).ToString(), Color.green);
                 StartCoroutine(floating(0.25f));
             }
 
@@ -388,6 +407,7 @@ namespace HeartOfWinter.Characters
         [PunRPC]
         protected void setStunned(bool stunned)
         {
+            if (stunned) popupScript.SpawnPopup("Stunned", Color.blue);
             _stunned = stunned;
         }
 

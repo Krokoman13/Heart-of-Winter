@@ -15,11 +15,12 @@ public class ButtonManager : MonoBehaviour
 
     public void ToMainMenu()
     {
-        if (PhotonNetwork.IsConnected)
+        if (PhotonNetwork.InRoom)
         {
             StartCoroutine(disconnect());
             return;
         }
+        else if (PhotonNetwork.IsConnected) PhotonNetwork.Disconnect();
 
         SceneManager.LoadScene("Main Menu");
     }
