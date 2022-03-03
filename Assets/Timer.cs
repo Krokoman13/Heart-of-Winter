@@ -44,7 +44,7 @@ namespace HeartOfWinter.Arena
                 enabled = false;
             }
 
-            display.text = Math.Round(currentTime, 0).ToString();
+            if (display != null) display.text = Math.Round(currentTime, 0).ToString();
         }
     }
 

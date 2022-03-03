@@ -64,10 +64,15 @@ namespace HeartOfWinter.Arena
 
             diffrence /= timestamps.Count;
 
-            timestamps = new List<float>();
-            hostTimestamp = 0;
+            Clear();
 
             return diffrence;
+        }
+
+        public void Clear()
+        {
+            timestamps = new List<float>();
+            hostTimestamp = 0;
         }
     }
 }
