@@ -14,10 +14,14 @@ namespace HeartOfWinter.Characters
     public abstract class Character : MonoBehaviourPun
     {
         private HealthBar _healthBar;
-        private float _health;
+        [SerializeField] private float _health;
         public float maxHealth = 1.0f;
 
         bool _moving = false;
+        bool _shaking = false;
+        bool _floating = false;
+
+        PopupScript popupScript;
 
         public float health
         {
@@ -46,7 +50,20 @@ namespace HeartOfWinter.Characters
             get { return health < 0.5f; }
         }
 
-        public float damageModifier = 1.0f;
+        private float _damageModifier = 1.0f;
+
+        public float damageModifier
+        {
+            get { return _damageModifier; }
+            set 
+            {
+                _damageModifier = value;
+
+                if (value < 1) popupScript.SpawnPopup('-' + Math.Round(value * 10f).ToString() + '%', Color.magenta);
+                else if (value > 1) popupScript.SpawnPopup('+' + Math.Round((value - 1) * 10f).ToString() + '%', Color.yellow);
+            }
+        } 
+            
         public int damageModifierDuration;
 
         private Vector3 startPos;
@@ -149,10 +166,30 @@ namespace HeartOfWinter.Characters
             outlineChild.SetActive(false);
 
             startPos = transform.GetChild(0).localPosition;
+
+            popupScript = gameObject.AddComponent<PopupScript>();
         }
 
         protected void Update()
         {
+            if (_shaking)
+            {
+                Vector3 pos = transform.GetChild(0).position;
+                pos.x += Mathf.Sin(Time.time * 30f) * 0.005f;
+                transform.GetChild(0).position = pos;
+
+                return;
+            }
+
+            if (_floating)
+            {
+                Vector3 pos = transform.GetChild(0).position;
+                pos.y += Mathf.Abs(Mathf.Sin(Time.time * 30f)) * 0.005f;
+                transform.GetChild(0).position = pos;
+
+                return;
+            }
+
             if (_moving)
             {
                 if (_currentMove == null)
@@ -163,6 +200,8 @@ namespace HeartOfWinter.Characters
 
                 _currentMove.Step();
                 if (_currentMove.ready) _moving = false;
+
+                return;
             }
         }
 
@@ -173,13 +212,13 @@ namespace HeartOfWinter.Characters
         {
             if (!PhotonNetwork.IsConnected)
             {
-                return removeHealth(amount);
+                return modifyHealth(amount);
             }
 
             if (PhotonNetwork.IsMasterClient)
             {
-                photonView.RPC(nameof(removeHealth), RpcTarget.Others, amount);
-                return removeHealth(amount);
+                photonView.RPC(nameof(modifyHealth), RpcTarget.Others, amount);
+                return modifyHealth(amount);
             }
 
             //photonView.RPC(nameof(ModifyHealth), RpcTarget.MasterClient, amount);
@@ -187,9 +226,20 @@ namespace HeartOfWinter.Characters
         }
 
         [PunRPC]
-        protected float removeHealth(float amount)
+        protected float modifyHealth(float amount)
         {
             if (isDead) return 0f;
+
+            if (amount < 0)
+            {
+                popupScript.SpawnPopup(Math.Round(amount).ToString());
+                StartCoroutine(shaking(0.25f));
+            }
+            else if (amount > 0)
+            {
+                popupScript.SpawnPopup('+' + (Math.Round(amount)).ToString(), Color.green);
+                StartCoroutine(floating(0.25f));
+            }
 
             health = health + amount;
             return amount;
@@ -357,6 +407,7 @@ namespace HeartOfWinter.Characters
         [PunRPC]
         protected void setStunned(bool stunned)
         {
+            if (stunned) popupScript.SpawnPopup("Stunned", Color.blue);
             _stunned = stunned;
         }
 
@@ -393,5 +444,22 @@ namespace HeartOfWinter.Characters
 
             damageModifier = 1.0f;
         }
+
+        private IEnumerator shaking(float duration)
+        {
+            _shaking = true;
+            yield return new WaitForSeconds(duration);
+            _shaking = false;
+            resetBody();
+        }
+        private IEnumerator floating (float duration)
+        {
+            _floating = true;
+            yield return new WaitForSeconds(duration);
+            _floating = false;
+            resetBody();
+        }
+
+        public abstract void SelectRandomMove();
     }
 }

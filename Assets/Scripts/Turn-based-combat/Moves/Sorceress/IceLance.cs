@@ -8,7 +8,7 @@ namespace HeartOfWinter.Moves.Sorcceress
 {
     public class IceLance : StandardAttackMove
     {
-        public IceLance(Character caster, float power) : base(caster, power, "Ice Lance", 1)
+        public IceLance(Character caster) : base(caster, 7, 12, "Ice Lance", 1)
         {
         }
 
@@ -16,7 +16,7 @@ namespace HeartOfWinter.Moves.Sorcceress
         {
             foreach (Character target in targets)
             {
-                target.ModifyHealth(-power);
+                target.ModifyHealth(-fullPower);
                 target.initiative -= 2;
 
                 if (target.initiative < 2) target.initiative = 2;

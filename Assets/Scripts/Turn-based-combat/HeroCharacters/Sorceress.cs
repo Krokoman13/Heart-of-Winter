@@ -17,9 +17,9 @@ namespace HeartOfWinter.Characters.HeroCharacters
 
             knownMoves = new List<Move>()
             {
-                new IceLance(this, 7),
-                new ColdSnap(this, 3, 8),
-                new Blizzard(this, 5) 
+                new IceLance(this),
+                new ColdSnap(this),
+                new Blizzard(this) 
             };
         }
     }

@@ -17,9 +17,9 @@ namespace HeartOfWinter.Characters.HeroCharacters
 
             knownMoves = new List<Move>()
             {
-                new WarmingGlow(this, 5),
-                new HolyLight(this, 2),
-                new NewDawn(this, 1.5f)
+                new WarmingGlow(this),
+                new HolyLight(this),
+                new NewDawn(this)
             };
         }
     }

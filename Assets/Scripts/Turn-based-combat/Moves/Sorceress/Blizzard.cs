@@ -8,7 +8,7 @@ namespace HeartOfWinter.Moves.Sorcceress
 {
     public class Blizzard : StandardAttackMove
     {
-        public Blizzard(Character caster, float power) : base(caster, power, "Blizzard", 3)
+        public Blizzard(Character caster) : base(caster, 5f, 7f, "Blizzard", 3)
         {
             setCooldown(3);
         }

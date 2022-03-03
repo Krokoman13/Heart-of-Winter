@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 using Photon.Pun;
+using System;
 
 public class ButtonManager : MonoBehaviour
 {
@@ -12,11 +13,25 @@ public class ButtonManager : MonoBehaviour
         SceneManager.LoadScene(Scene);
     }
 
-    public void Disconnect()
+    public void ToMainMenu()
     {
-        if (PhotonNetwork.IsConnected)
+        if (PhotonNetwork.InRoom)
         {
-            PhotonNetwork.Disconnect();
+            StartCoroutine(disconnect());
+            return;
         }
+        else if (PhotonNetwork.IsConnected) PhotonNetwork.Disconnect();
+
+        SceneManager.LoadScene("Main Menu");
     }
-} 
+
+    private IEnumerator disconnect()
+    {
+        PhotonNetwork.LeaveRoom();
+        PhotonNetwork.Disconnect();
+
+        while (PhotonNetwork.IsConnected) yield return 0;
+
+        SceneManager.LoadScene("Main Menu");
+    }
+}

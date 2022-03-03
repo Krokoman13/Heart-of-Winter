@@ -8,7 +8,7 @@ namespace HeartOfWinter.Moves.ShadowWeaver
 {
     public class PrepareTheMeat : Move
     {
-        public PrepareTheMeat(Character caster, float power) : base(caster, power, "Prepare the Meat")
+        public PrepareTheMeat(Character caster) : base(caster, 0.5f, 0.4f, "Prepare the Meat")
         {
             setCooldown(1);
 
@@ -20,7 +20,7 @@ namespace HeartOfWinter.Moves.ShadowWeaver
         {
             foreach (Character target in targets)
             {
-                target.damageModifier = power;
+                target.damageModifier = fullPower;
                 target.damageModifierDuration = 2;
             }
         }

@@ -14,10 +14,34 @@ namespace HeartOfWinter.Moves
         protected Character caster;
         protected List<Character> targets;
 
+        float movespeed = 15f;
+
         public string iconName;
         public string description;
 
-        protected float power;
+        private float _power;
+        
+        protected float maxPower;
+        protected float shakeModifier
+        {
+            get
+            {
+                float powerDiffrence = maxPower - _power;
+
+                float multiplier = 0f;
+
+                if (caster is Characters.HeroCharacters.HeroCharacter)
+                {
+                    multiplier = ((Characters.HeroCharacters.HeroCharacter)caster).playfieldShakeModifier;
+                }
+
+                return powerDiffrence * multiplier;
+            }
+        }
+        protected float fullPower
+        {
+            get { return _power + shakeModifier; }
+        }
 
         protected int _amountOfTargets;
 
@@ -55,11 +79,17 @@ namespace HeartOfWinter.Moves
             _cooldownSpend++;
         }
 
-        public Move(Character pCaster, float pPower, string pIconName)
+        public Move(Character pCaster, float pPower, float pMaxpower, string pIconName)
         {
             caster = pCaster;
-            power = pPower;
+            _power = pPower;
             iconName = pIconName;
+            maxPower = pMaxpower;
+        }
+
+        public Move(Character pCaster, float pPower, string pIconName) : this (pCaster, pPower, pPower, pIconName)
+        {
+            
         }
 
         public void AddTarget(Character target)
@@ -92,7 +122,20 @@ namespace HeartOfWinter.Moves
 
         protected virtual void step()
         {
-            ready = true;
+            if (ready) return;
+
+            Transform casterBody = caster.transform.GetChild(0);
+            SpriteRenderer bodySprite = casterBody.GetComponent<SpriteRenderer>();
+            bodySprite.sortingOrder = 10;
+
+            if (Mathf.Abs(targets[targets.Count - 1].transform.position.x - casterBody.position.x) < 0.1f)
+            {
+                ready = true;
+                return;
+            }
+
+            float newX = Vector3.MoveTowards(casterBody.position, targets[targets.Count - 1].transform.position, movespeed * Time.deltaTime).x;
+            casterBody.position = new Vector3(newX, casterBody.position.y, casterBody.position.z);
         }
 
         abstract protected void execute();

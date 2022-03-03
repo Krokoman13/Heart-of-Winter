@@ -18,7 +18,7 @@ namespace HeartOfWinter.Moves.FrostWolf
         {
             foreach (Character target in targets)
             {
-                target.damageModifier = power;
+                target.damageModifier = fullPower;
                 target.damageModifierDuration = 1;
             }
         }

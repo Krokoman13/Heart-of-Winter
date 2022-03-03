@@ -77,6 +77,10 @@ MonoBehaviour:
   - MoveExecute
   - moveExecute
   - handleCooldown
+  - modifyHealth
+  - addTimestamp
+  - setShakeModifier
+  - setHostTimestamp
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

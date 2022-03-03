@@ -9,6 +9,8 @@ public class AccScript : MonoBehaviour
     [SerializeField] Button btn;
     [SerializeField] Text pnl;
 
+    [SerializeField] float cutoff = 4f;
+
     public float timeRemaining = 10;
 
     public bool timeRunning = false;
@@ -28,7 +30,7 @@ public class AccScript : MonoBehaviour
         {
             if (timeRemaining >= 0)
             {
-                if (acc.sqrMagnitude >= 4F)
+                if (acc.sqrMagnitude >= cutoff)
                 {
                     btn.GetComponentInChildren<Text>().text = "Shake event detected at time " + Mathf.FloorToInt(Time.time);
                     shakeInTime = true;

@@ -17,9 +17,9 @@ namespace HeartOfWinter.Characters.HeroCharacters
 
             knownMoves = new List<Move>()
             {
-                new Feast(this, 4f),
-                new PrepareTheMeat(this, 0.5f),
-                new VisionOfTheAbyss(this, 2f)
+                new Feast(this),
+                new PrepareTheMeat(this),
+                new VisionOfTheAbyss(this)
             };
         }
     }
