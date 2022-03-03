@@ -2968,6 +2968,7 @@ MonoBehaviour:
   draugrPrefab: {fileID: 5897857437488420299, guid: 1dc42a48354e5f74081d757c3e51d1e4, type: 3}
   wendigofPrefab: {fileID: 6884811505326148482, guid: 512383f705cba784a95e417e31f5ea6d, type: 3}
   frostWolfPrefab: {fileID: 3868360500272450408, guid: 697942606b2516a49b1106f055668c57, type: 3}
+  imageCycler: {fileID: 1846666849}
 --- !u!114 &1739332038
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3254,7 +3255,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee3a9fc1e1330fc488efdd50021652b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sprites: []
+  sprites:
+  - {fileID: 21300000, guid: cc5e82acff760fe4b8f84dd9d10939fc, type: 3}
+  - {fileID: 21300000, guid: f35d93d96d6e39a49bce66cb69451880, type: 3}
+  - {fileID: 21300000, guid: f35d93d96d6e39a49bce66cb69451880, type: 3}
+  - {fileID: 21300000, guid: 225bde7c22c801d4aaf5bef0e1ee6d2b, type: 3}
   spriteRenderer: {fileID: 0}
 --- !u!1 &1916805092
 GameObject:

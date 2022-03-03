@@ -18,8 +18,10 @@ namespace HeartOfWinter.Characters
         [SerializeField] AudioClip attack;
         AudioSource source;
         [SerializeField] AudioMixerGroup MyMixerGroup;
-        
 
+        [SerializeField] GameObject stunnedParticles;
+        [SerializeField] GameObject buffedparticles;
+        [SerializeField] GameObject deBuffedParticles;
 
         private HealthBar _healthBar;
         [SerializeField] private float _health;
@@ -183,6 +185,16 @@ namespace HeartOfWinter.Characters
         protected void Update()
         {
             source.outputAudioMixerGroup = MyMixerGroup;
+
+            stunnedParticles.SetActive(_stunned);
+
+            if (damageModifier != 1f)
+            {
+                deBuffedParticles.SetActive(damageModifier < 1f);
+                buffedparticles.SetActive(damageModifier > 1f);
+            }
+
+
             if (_shaking)
             {
                 Vector3 pos = transform.GetChild(0).position;
