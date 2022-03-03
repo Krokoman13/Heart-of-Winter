@@ -242,7 +242,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -458}
+  m_AnchoredPosition: {x: 0, y: -1458}
   m_SizeDelta: {x: 1704.6, y: 159.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &27763590
@@ -1223,7 +1223,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Enter text...
+  m_Text: Enter Room ID
 --- !u!222 &934810049
 CanvasRenderer:
   m_ObjectHideFlags: 0
