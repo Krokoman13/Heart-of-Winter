@@ -26,6 +26,8 @@ namespace HeartOfWinter.Arena
         [SerializeField] MonsterCharacter wendigofPrefab;
         [SerializeField] MonsterCharacter frostWolfPrefab;
 
+        [SerializeField] ImageCycler imageCycler;
+
         void Awake()
         {
             playfield = GetComponent<Playfield>();
@@ -41,6 +43,8 @@ namespace HeartOfWinter.Arena
         void spawnWave(int i)
         {
             if (i < 0) return;
+
+            imageCycler.SetImage(i);
 
             switch (i)
             {
