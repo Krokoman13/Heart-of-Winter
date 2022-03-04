@@ -24,7 +24,7 @@ namespace HeartOfWinter.Characters
         [SerializeField] GameObject deBuffedParticles;
 
         private HealthBar _healthBar;
-        [SerializeField] private float _health;
+        [SerializeField] protected float _health;
         public float maxHealth = 1.0f;
 
         bool _moving = false;
@@ -60,7 +60,7 @@ namespace HeartOfWinter.Characters
             get { return health < 0.5f; }
         }
 
-        private float _damageModifier = 1.0f;
+        [SerializeField] private float _damageModifier = 1.0f;
 
         public float damageModifier
         {
@@ -70,7 +70,7 @@ namespace HeartOfWinter.Characters
                 _damageModifier = value;
 
                 if (value < 1) popupScript.SpawnPopup('-' + Math.Round(value * 100f).ToString() + '%', Color.magenta);
-                else if (value > 1) popupScript.SpawnPopup('+' + Math.Round((value - 1) * 100f).ToString() + '%', Color.yellow);
+                else if (value > 1) popupScript.SpawnPopup('+' + Math.Round((value - 1) * 100f).ToString() + '%', Color.green);
             }
         } 
             
@@ -187,13 +187,8 @@ namespace HeartOfWinter.Characters
             source.outputAudioMixerGroup = MyMixerGroup;
 
             stunnedParticles.SetActive(_stunned);
-
-            if (damageModifier != 1f)
-            {
-                deBuffedParticles.SetActive(damageModifier < 1f);
-                buffedparticles.SetActive(damageModifier > 1f);
-            }
-
+            deBuffedParticles.SetActive(damageModifier < 1f);
+            buffedparticles.SetActive(damageModifier > 1f);
 
             if (_shaking)
             {
@@ -434,7 +429,7 @@ namespace HeartOfWinter.Characters
         [PunRPC]
         protected void setStunned(bool stunned)
         {
-            if (stunned) popupScript.SpawnPopup("Stunned", Color.blue);
+            if (stunned) popupScript.SpawnPopup("Stunned", Color.yellow);
             _stunned = stunned;
         }
 

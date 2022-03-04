@@ -116,6 +116,7 @@ namespace HeartOfWinter.Arena
             _readyButton.onClick.AddListener(() => myCharacter.SetMove(_myCurrentMove));
             _readyButton.onClick.AddListener(() => myCharacter.AddTargetsToCurrentMove(targetsForMyCharacter));
             _readyButton.onClick.AddListener(() => targetsForMyCharacter.Clear());
+            _readyButton.onClick.AddListener(() => _myCurrentMove = null);
 
             _monsterSpawner = GetComponent<MonsterSpawner>();
             _shakeCalculator = gameObject.AddComponent<ShakeCalculator>();
@@ -342,6 +343,11 @@ namespace HeartOfWinter.Arena
                     {
                         character.HandleCooldown();
                     }
+
+                    foreach (Character character in NPCs)
+                    {
+                        character.HandleCooldown();
+                    }
                     NeedsToArrange();
                     SwitchState(states.checkWinOrLose);
                     return;
@@ -533,20 +539,38 @@ namespace HeartOfWinter.Arena
 
             int i = 0;
 
-            foreach (Transform NPC in NPCParent)
+            if (NPCParent.childCount == 1)
             {
+                Transform NPC = NPCParent.GetChild(0);
                 addNPC(NPC.GetComponent<MonsterCharacter>());
-                NPC.position = NPCPos[i].position;
-                i++;
+                NPC.position = NPCPos[1].position;
+            }
+            else
+            {
+                foreach (Transform NPC in NPCParent)
+                {
+                    addNPC(NPC.GetComponent<MonsterCharacter>());
+                    NPC.position = NPCPos[i].position;
+                    i++;
+                }
             }
 
             i = 0;
 
-            foreach (Transform PC in PCParent)
+            if (PCParent.childCount == 1)
             {
+                Transform PC = PCParent.GetChild(0);
                 addPC(PC.GetComponent<HeroCharacter>());
-                PC.position = PCPos[i].position;
-                i++;
+                PC.position = PCPos[1].position;
+            }
+            else
+            {
+                foreach (Transform PC in PCParent)
+                {
+                    addPC(PC.GetComponent<HeroCharacter>());
+                    PC.position = PCPos[i].position;
+                    i++;
+                }
             }
         }
 

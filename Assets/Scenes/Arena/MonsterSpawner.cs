@@ -25,6 +25,7 @@ namespace HeartOfWinter.Arena
         [SerializeField] MonsterCharacter draugrPrefab;
         [SerializeField] MonsterCharacter wendigofPrefab;
         [SerializeField] MonsterCharacter frostWolfPrefab;
+        [SerializeField] MonsterCharacter heartOfWinter;
 
         [SerializeField] ImageCycler imageCycler;
 
@@ -64,6 +65,10 @@ namespace HeartOfWinter.Arena
                     spawn(direWolfPrefab.gameObject);
                     spawn(draugrPrefab.gameObject);
                     spawn(wendigofPrefab.gameObject);
+                    return;
+
+                case 3:
+                    spawn(heartOfWinter.gameObject);
                     return;
 
                 default:
