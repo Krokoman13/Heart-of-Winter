@@ -160,6 +160,7 @@ MonoBehaviour:
   deBuffedParticles: {fileID: 1976251131769567003}
   _health: 0
   maxHealth: 20
+  _damageModifier: 1
   damageModifierDuration: 0
   initiative: 4
 --- !u!1001 &1689366815982573181
@@ -220,6 +221,10 @@ PrefabInstance:
     - target: {fileID: 872814063366693220, guid: 124ab290905c84e4f9dc246a2df32148, type: 3}
       propertyPath: InitialModule.startSpeed.minScalar
       value: 1.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 872814063366693221, guid: 124ab290905c84e4f9dc246a2df32148, type: 3}
+      propertyPath: m_SortingOrder
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 872814063366693222, guid: 124ab290905c84e4f9dc246a2df32148, type: 3}
       propertyPath: m_Name
@@ -292,6 +297,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 872814063366693221, guid: 821ccdb51e83a4c4bba3dcfa21d3053e, type: 3}
+      propertyPath: m_SortingOrder
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 872814063366693222, guid: 821ccdb51e83a4c4bba3dcfa21d3053e, type: 3}
       propertyPath: m_Name
       value: Particle Buff
@@ -323,10 +332,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Particle Stun
       objectReference: {fileID: 0}
-    - target: {fileID: 1512271425668839280, guid: 4d6d59a898751d44da216d6339d6c044, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1512271425668839285, guid: 4d6d59a898751d44da216d6339d6c044, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -337,7 +342,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1512271425668839285, guid: 4d6d59a898751d44da216d6339d6c044, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.31
+      value: -0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1512271425668839285, guid: 4d6d59a898751d44da216d6339d6c044, type: 3}
       propertyPath: m_LocalPosition.z

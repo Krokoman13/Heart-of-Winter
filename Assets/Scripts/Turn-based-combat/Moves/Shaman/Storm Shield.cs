@@ -9,7 +9,7 @@ namespace HeartOfWinter.Moves.Shaman
 {
     public class StormShield : Move
     {
-        public StormShield(Character caster) : base(caster, 2, 5, "Storm Shield")
+        public StormShield(Character caster) : base(caster, 4f, 7f, "Storm Shield")
         {
             targetsPCs = true;
             _amountOfTargets = 1;

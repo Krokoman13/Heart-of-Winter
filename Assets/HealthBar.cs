@@ -9,10 +9,13 @@ public class HealthBar : MonoBehaviour
     [SerializeField] float value = 1.0f;
 
     [SerializeField] GameObject bar;
+    [SerializeField] SpriteRenderer shield;
     SpriteRenderer barImage;
 
     Text text;
     Camera cam;
+
+    bool shielded = false;
 
     float spriteWidth;
 
@@ -33,7 +36,7 @@ public class HealthBar : MonoBehaviour
     public void SetValue(float minHealth, float maxHealth)
     {
         barImage.color = Color.red;
-        text.text = Mathf.Round(minHealth).ToString() + '/' + maxHealth.ToString();
+        if (!shielded) text.text = Mathf.Round(minHealth).ToString() + '/' + maxHealth.ToString();
         setValue(minHealth / maxHealth);
     }
 
@@ -59,8 +62,9 @@ public class HealthBar : MonoBehaviour
 
     public void Shielded(float amount)
     {
-        text.text = "    " + amount.ToString();
-        barImage.color = new Color(0.5f, 0.5f, 0.5f, 1.0f);
+        text.text = "    " + Math.Round(amount).ToString();
+        shield.gameObject.SetActive(amount > 0.1f);
+        //barImage.color = new Color(0.5f, 0.5f, 0.5f, 1.0f);
     }
     /*
    private void OnValidate()

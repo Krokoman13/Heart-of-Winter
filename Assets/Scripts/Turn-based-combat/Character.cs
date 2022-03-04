@@ -538,6 +538,7 @@ namespace HeartOfWinter.Characters
 
             float outp = damage - _shield;
             _shield = 0f;
+            _healthBar.Shielded(_shield);
 
             return -outp;
         }

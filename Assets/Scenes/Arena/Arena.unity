@@ -680,7 +680,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: c32398a1fdea9924e93ccefe8ba97bbe, type: 3}
-    m_FontSize: 75
+    m_FontSize: 60
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -2555,7 +2555,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: c32398a1fdea9924e93ccefe8ba97bbe, type: 3}
-    m_FontSize: 75
+    m_FontSize: 60
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -3011,7 +3011,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   monsterParent: {fileID: 2015882696}
-  wave: 0
+  wave: 3
   direWolfPrefab: {fileID: 6942155217453130006, guid: 83f8d641b668db84283f321f46066f5b, type: 3}
   draugrPrefab: {fileID: 5897857437488420299, guid: 1dc42a48354e5f74081d757c3e51d1e4, type: 3}
   wendigofPrefab: {fileID: 6884811505326148482, guid: 512383f705cba784a95e417e31f5ea6d, type: 3}
@@ -3112,7 +3112,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: c32398a1fdea9924e93ccefe8ba97bbe, type: 3}
-    m_FontSize: 75
+    m_FontSize: 60
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -3287,7 +3287,7 @@ Transform:
   m_GameObject: {fileID: 1846666846}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 3, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.93, y: 0.93, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1

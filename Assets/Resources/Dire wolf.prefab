@@ -160,6 +160,7 @@ MonoBehaviour:
   deBuffedParticles: {fileID: 301057467622375995}
   _health: 0
   maxHealth: 25
+  _damageModifier: 1
   damageModifierDuration: 0
   initiative: 9
 --- !u!1001 &1211812389396854091
@@ -187,7 +188,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1512271425668839285, guid: 4d6d59a898751d44da216d6339d6c044, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.31
+      value: 0.42
       objectReference: {fileID: 0}
     - target: {fileID: 1512271425668839285, guid: 4d6d59a898751d44da216d6339d6c044, type: 3}
       propertyPath: m_LocalPosition.z

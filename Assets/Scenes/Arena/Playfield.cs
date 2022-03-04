@@ -259,10 +259,10 @@ namespace HeartOfWinter.Arena
                             {
                                 float mod = _shakeCalculator.AverageDiffrence();
                                 mod -= 0.2f;
-                                mod = mod / 1.5f;
+                                mod = mod / 1.25f;
                                 mod = 1f - mod;
 
-                                if (mod > 10) mod = 10;
+                                if (mod > 1f) mod = 1f;
                                 else if (mod < 0f) mod = 0f;
 
                                 SetShakeModifier(mod);

@@ -160,6 +160,7 @@ MonoBehaviour:
   deBuffedParticles: {fileID: 3548587952861074511}
   _health: 0
   maxHealth: 25
+  _damageModifier: 1
   damageModifierDuration: 0
   initiative: 7
   isMine: 0
