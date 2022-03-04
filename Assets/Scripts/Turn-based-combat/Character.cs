@@ -167,7 +167,7 @@ namespace HeartOfWinter.Characters
             _healthBar.SetValue(health, maxHealth);
 
             BoxCollider2D box = gameObject.AddComponent<BoxCollider2D>();
-            box.size = new Vector2(2, 4);
+            box.size = new Vector2(2.75f, 6.5f);
 
             outlineChild = new GameObject();
             outlineChild.transform.SetParent(transform);
