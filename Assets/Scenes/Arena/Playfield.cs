@@ -154,7 +154,6 @@ namespace HeartOfWinter.Arena
                     if (PhotonNetwork.IsConnected && !PhotonNetwork.IsMasterClient) return;
 
                     _monsterSpawner.SpawnNextWave();
-                    if (_monsterSpawner.done) PhotonNetwork.LoadLevel(13);
                     return;
 
                 case states.selectMove:
@@ -259,8 +258,7 @@ namespace HeartOfWinter.Arena
                             if (_shakeCalculator.timestampCount == PCs.Count)
                             {
                                 float mod = _shakeCalculator.AverageDiffrence();
-                                mod -= 0.2f;
-                                mod = mod / 1.25f;
+                                mod -= 0.1f;
                                 mod = 1f - mod;
 
                                 if (mod > 1f) mod = 1f;

@@ -45,7 +45,7 @@ namespace HeartOfWinter.Arena
         {
             if (i < 0) return;
 
-            imageCycler.SetImage(i);
+            ChangeImage(i);
 
             switch (i)
             {
@@ -73,6 +73,7 @@ namespace HeartOfWinter.Arena
 
                 default:
                     _done = true;
+                    PhotonNetwork.LoadLevel(13);
                     return;
             }
         }
@@ -93,6 +94,18 @@ namespace HeartOfWinter.Arena
 
             //MonsterCharacter monster = copyOfMonster.GetComponent<MonsterCharacter>();
             playfield.NeedsToArrange();
+        }
+
+        void ChangeImage(int i)
+        {
+            photonView.RPC(nameof(changeImage), RpcTarget.Others, i);
+            changeImage(i);
+        }
+
+        [PunRPC]
+        void changeImage(int i)
+        {
+            imageCycler.SetImage(i);
         }
     }
 }
