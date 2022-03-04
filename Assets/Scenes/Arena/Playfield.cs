@@ -154,6 +154,7 @@ namespace HeartOfWinter.Arena
                     if (PhotonNetwork.IsConnected && !PhotonNetwork.IsMasterClient) return;
 
                     _monsterSpawner.SpawnNextWave();
+                    if (_monsterSpawner.done) PhotonNetwork.LoadLevel(13);
                     return;
 
                 case states.selectMove:
