@@ -328,6 +328,22 @@ PrefabInstance:
       propertyPath: descriptionpannel
       value: 
       objectReference: {fileID: 81442951}
+    - target: {fileID: 3146388430158797109, guid: 548c8afc7f287644a835dc0ec0ceddbb, type: 3}
+      propertyPath: moveSprites.Array.size
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 3146388430158797109, guid: 548c8afc7f287644a835dc0ec0ceddbb, type: 3}
+      propertyPath: moveSprites.Array.data[9]
+      value: 
+      objectReference: {fileID: 21300000, guid: c1934358b69c53844868689b5c151ac1, type: 3}
+    - target: {fileID: 3146388430158797109, guid: 548c8afc7f287644a835dc0ec0ceddbb, type: 3}
+      propertyPath: moveSprites.Array.data[10]
+      value: 
+      objectReference: {fileID: 21300000, guid: 8b9b044bf56b6bf4585baca53606551f, type: 3}
+    - target: {fileID: 3146388430158797109, guid: 548c8afc7f287644a835dc0ec0ceddbb, type: 3}
+      propertyPath: moveSprites.Array.data[11]
+      value: 
+      objectReference: {fileID: 21300000, guid: ea208dde335eec94ab89efe3f4777bb1, type: 3}
     - target: {fileID: 3186400823958739793, guid: 548c8afc7f287644a835dc0ec0ceddbb, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 2
@@ -1432,6 +1448,22 @@ PrefabInstance:
       propertyPath: descriptionpannel
       value: 
       objectReference: {fileID: 81442951}
+    - target: {fileID: 3146388430158797109, guid: 548c8afc7f287644a835dc0ec0ceddbb, type: 3}
+      propertyPath: moveSprites.Array.size
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 3146388430158797109, guid: 548c8afc7f287644a835dc0ec0ceddbb, type: 3}
+      propertyPath: moveSprites.Array.data[9]
+      value: 
+      objectReference: {fileID: 21300000, guid: c1934358b69c53844868689b5c151ac1, type: 3}
+    - target: {fileID: 3146388430158797109, guid: 548c8afc7f287644a835dc0ec0ceddbb, type: 3}
+      propertyPath: moveSprites.Array.data[10]
+      value: 
+      objectReference: {fileID: 21300000, guid: 8b9b044bf56b6bf4585baca53606551f, type: 3}
+    - target: {fileID: 3146388430158797109, guid: 548c8afc7f287644a835dc0ec0ceddbb, type: 3}
+      propertyPath: moveSprites.Array.data[11]
+      value: 
+      objectReference: {fileID: 21300000, guid: ea208dde335eec94ab89efe3f4777bb1, type: 3}
     - target: {fileID: 3186400823958739793, guid: 548c8afc7f287644a835dc0ec0ceddbb, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 2
@@ -1684,6 +1716,22 @@ PrefabInstance:
       propertyPath: descriptionpannel
       value: 
       objectReference: {fileID: 81442951}
+    - target: {fileID: 3146388430158797109, guid: 548c8afc7f287644a835dc0ec0ceddbb, type: 3}
+      propertyPath: moveSprites.Array.size
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 3146388430158797109, guid: 548c8afc7f287644a835dc0ec0ceddbb, type: 3}
+      propertyPath: moveSprites.Array.data[9]
+      value: 
+      objectReference: {fileID: 21300000, guid: c1934358b69c53844868689b5c151ac1, type: 3}
+    - target: {fileID: 3146388430158797109, guid: 548c8afc7f287644a835dc0ec0ceddbb, type: 3}
+      propertyPath: moveSprites.Array.data[10]
+      value: 
+      objectReference: {fileID: 21300000, guid: 8b9b044bf56b6bf4585baca53606551f, type: 3}
+    - target: {fileID: 3146388430158797109, guid: 548c8afc7f287644a835dc0ec0ceddbb, type: 3}
+      propertyPath: moveSprites.Array.data[11]
+      value: 
+      objectReference: {fileID: 21300000, guid: ea208dde335eec94ab89efe3f4777bb1, type: 3}
     - target: {fileID: 3186400823958739793, guid: 548c8afc7f287644a835dc0ec0ceddbb, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 2
@@ -2963,7 +3011,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   monsterParent: {fileID: 2015882696}
-  wave: 3
+  wave: 0
   direWolfPrefab: {fileID: 6942155217453130006, guid: 83f8d641b668db84283f321f46066f5b, type: 3}
   draugrPrefab: {fileID: 5897857437488420299, guid: 1dc42a48354e5f74081d757c3e51d1e4, type: 3}
   wendigofPrefab: {fileID: 6884811505326148482, guid: 512383f705cba784a95e417e31f5ea6d, type: 3}

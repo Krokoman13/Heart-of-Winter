@@ -27,6 +27,8 @@ namespace HeartOfWinter.Characters
         [SerializeField] protected float _health;
         public float maxHealth = 1.0f;
 
+        private float _shield = 0f;
+
         bool _moving = false;
         bool _shaking = false;
         bool _floating = false;
@@ -225,7 +227,6 @@ namespace HeartOfWinter.Characters
 
         protected abstract Transform findParent();
 
-        [PunRPC]
         public float ModifyHealth(float amount)
         {
             if (!PhotonNetwork.IsConnected)
@@ -248,14 +249,21 @@ namespace HeartOfWinter.Characters
         {
             if (isDead) return 0f;
 
-            if (amount < 0)
+            if (_shield > 0f)
+            {
+                amount = applyShield(amount);
+            }
+
+            if (amount == 0f) return 0f;
+
+            if (amount < 0f)
             {
                 popupScript.SpawnPopup(Math.Round(amount).ToString());
                 StartCoroutine(shaking(0.25f));
                 source.clip = hit;
                 source.Play();
             }
-            else if (amount > 0)
+            else if (amount > 0f)
             {
                 popupScript.SpawnPopup('+' + (Math.Round(amount)).ToString(), Color.green);
                 StartCoroutine(floating(0.25f));
@@ -488,5 +496,50 @@ namespace HeartOfWinter.Characters
         }
 
         public abstract void SelectRandomMove();
+
+        public void Shield(float amount)
+        {
+
+            if (!PhotonNetwork.IsConnected)
+            {
+                shield(amount);
+                return;
+            }
+
+            if (PhotonNetwork.IsMasterClient)
+            {
+                photonView.RPC(nameof(shield), RpcTarget.Others, amount);
+                shield(amount);
+                return;
+            }
+        }
+
+        [PunRPC]
+        protected void shield(float amount)
+        {
+            if (amount < 0f) return;
+
+            _shield = amount;
+            _healthBar.Shielded(amount);
+        }
+
+        private float applyShield(float damage)
+        {
+            if (damage > 0f) return damage;
+
+            damage = -damage;
+
+            if (damage < _shield)
+            {
+                _shield -= damage;
+                _healthBar.Shielded(_shield);
+                return 0f;
+            }
+
+            float outp = damage - _shield;
+            _shield = 0f;
+
+            return -outp;
+        }
     }
 }

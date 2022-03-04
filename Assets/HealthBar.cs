@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,7 @@ public class HealthBar : MonoBehaviour
     [SerializeField] float value = 1.0f;
 
     [SerializeField] GameObject bar;
+    SpriteRenderer barImage;
 
     Text text;
     Camera cam;
@@ -24,11 +26,13 @@ public class HealthBar : MonoBehaviour
         text.font = Resources.GetBuiltinResource(typeof(Font), "Arial.ttf") as Font;
         text.transform.localScale = new Vector3(2.5f, 2.5f, 2.5f);
 
-        spriteWidth = bar.GetComponent<SpriteRenderer>().sprite.rect.width/100.0f;
+        barImage = bar.GetComponent<SpriteRenderer>();
+        spriteWidth = barImage.sprite.rect.width/100.0f;
     }
 
     public void SetValue(float minHealth, float maxHealth)
     {
+        barImage.color = Color.red;
         text.text = Mathf.Round(minHealth).ToString() + '/' + maxHealth.ToString();
         setValue(minHealth / maxHealth);
     }
@@ -52,9 +56,15 @@ public class HealthBar : MonoBehaviour
     {
         Destroy(text);
     }
+
+    public void Shielded(float amount)
+    {
+        text.text = "    " + amount.ToString();
+        barImage.color = new Color(0.5f, 0.5f, 0.5f, 1.0f);
+    }
     /*
-        private void OnValidate()
-        {
-            setValue(value);
-        }*/
+   private void OnValidate()
+   {
+       setValue(value);
+   }*/
 }

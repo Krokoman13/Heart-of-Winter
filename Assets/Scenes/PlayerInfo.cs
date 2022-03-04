@@ -18,6 +18,6 @@ namespace HeartOfWinter.PlayerInformation
             get { return "P" + ID.ToString(); }
         }
 
-        public static Hero character = Hero.Priest;
+        public static Hero character = Hero.Shaman;
     }
 }
