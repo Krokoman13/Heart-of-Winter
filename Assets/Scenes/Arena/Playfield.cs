@@ -327,7 +327,7 @@ namespace HeartOfWinter.Arena
 
                     if (_sortedOnInitiative.Count > 0)
                     {
-                        StartCoroutine(waitFor(1f));
+                        StartCoroutine(waitFor(1.5f));
                         return;
                     }
 

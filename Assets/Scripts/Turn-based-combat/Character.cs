@@ -15,7 +15,7 @@ namespace HeartOfWinter.Characters
     public abstract class Character : MonoBehaviourPun
     {
         [SerializeField] AudioClip hit;
-        [SerializeField] AudioClip attack;
+        [SerializeField] protected AudioClip attack;
         AudioSource source;
         [SerializeField] AudioMixerGroup MyMixerGroup;
 
@@ -320,12 +320,17 @@ namespace HeartOfWinter.Characters
             photonView.RPC(nameof(MoveStep), RpcTarget.MasterClient);
         }
 
+        protected virtual AudioClip attackSound
+        {
+            get { return attack; }
+        }
+
         [PunRPC]
         protected void moveStep()
         {
             if (_currentMove == null || _stunned) return;
             _moving = true;
-            source.clip = attack;
+            source.clip = attackSound;
             source.Play();
         }
 

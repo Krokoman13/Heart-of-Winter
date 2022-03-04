@@ -59,6 +59,17 @@ namespace HeartOfWinter.Characters.HeroCharacters
             AddTargetsToCurrentMove(targets);
         }
 
+        protected override AudioClip attackSound
+        {
+            get 
+            {
+                if (_currentMove == knownMoves[1]) return attack2;
+                if (_currentMove == knownMoves[2]) return attack3;
+
+                return attack;
+            }
+        }
+
         public float playfieldShakeModifier
         {
             get { return playfield.shakeModifier; }
