@@ -3011,7 +3011,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   monsterParent: {fileID: 2015882696}
-  wave: 3
+  wave: 0
   direWolfPrefab: {fileID: 6942155217453130006, guid: 83f8d641b668db84283f321f46066f5b, type: 3}
   draugrPrefab: {fileID: 5897857437488420299, guid: 1dc42a48354e5f74081d757c3e51d1e4, type: 3}
   wendigofPrefab: {fileID: 6884811505326148482, guid: 512383f705cba784a95e417e31f5ea6d, type: 3}
